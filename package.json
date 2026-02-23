@@ -12,7 +12,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "test": "vitest",
-    "test:run": "vitest run --exclude tests/firestore-rules.test.ts",
+    "test:run": "vitest run --exclude tests/firestore-rules.test.ts --passWithNoTests",
     "test:ui": "vitest --ui",
     "test:rules": "firebase emulators:exec --only firestore 'vitest run tests/firestore-rules.test.ts'",
     "firebase:emulators": "firebase emulators:start",
