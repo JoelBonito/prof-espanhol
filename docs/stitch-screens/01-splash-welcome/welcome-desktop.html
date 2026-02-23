@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Seu tutor particular</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f45925",
+                        "primary-hover": "#d14415",
+                        "background-light": "#fafaf8",
+                        "background-dark": "#221410",
+                        "warm-gray": "#8a7e78",
+                        "text-dark": "#2d2420",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.625rem", /* 10px */
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom utilities for specific mood adjustments */
+        .bg-warm-gradient {
+            background: linear-gradient(135deg, rgba(244, 89, 37, 0.03) 0%, rgba(250, 250, 248, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-dark antialiased overflow-hidden h-screen flex flex-col">
+<div class="flex flex-col lg:flex-row h-full w-full">
+<!-- Left Column: Visual Storytelling (55%) -->
+<div class="hidden lg:flex lg:w-[55%] relative h-full bg-cover bg-center overflow-hidden" data-alt="Brazilian family studying together at a wooden table with golden hour sunlight and tropical plants in the background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJ7wakiZLcs_pHFZFro22eY7p1zArZp9nHGk4gPaZT2-18LbTliyOSbneW6BF5EMmzmBLGnbM-tYPNVzyh-SSHRn5fV8hKW1SYnBdR0y94kBvyI8VeLmmi8nPgO7QHEjx1dUND_QEkxMetehrhIS-sfKLe5_FZIjWF7eBBC641n0YNouf4KZj10D9DOqIUOcarP-OcC1eP1N7uC7YbJmuIUbrkTkMlv2x4EooW3bDMsmlvfdUeHxdDPzicIb6gc9Xnx7o_ci_RO4pS');">
+<!-- Overlay for text readability if needed, though mostly visual here -->
+<div class="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent mix-blend-multiply"></div>
+<!-- Subtle Quote/Testimonial could go here, keeping it clean for now per specs -->
+<div class="absolute bottom-12 left-12 right-12 text-white/90 p-6 backdrop-blur-sm bg-black/10 rounded-xl border border-white/10 hidden xl:block">
+<p class="font-serif italic text-lg leading-relaxed">"Aprender espanhol uniu nossa família de uma forma que nunca imaginamos."</p>
+<div class="mt-3 flex items-center gap-2 text-sm font-medium">
+<span class="material-symbols-outlined text-yellow-400 text-[20px]">star</span>
+<span>Família Silva, Assunção</span>
+</div>
+</div>
+</div>
+<!-- Mobile Image (Top) -->
+<div class="lg:hidden h-64 w-full relative bg-cover bg-center" data-alt="Family gathered around tablet studying languages together" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBztM4_EbZmZZr8e-CK152gUVCYlk6WpYmZEb3JtVjdq9A7SlMQfHpefBWDHEuhqXbb8fVoOLu8hQARTucYFsjeU0C5WTlDfy4grc-CzZvHTvqvsgzKX4ARdb3DAnEUcKt1nU4aIlRGMPHRAlrEjWeFkDidl5fCFmOqS2i2Uxyr7aD5Qt5U_PXB3yHRb9aDJk505HYAudifGry21lqA2ny2xVcbl92FqYFyxlqcYukhkgQx3clpWPShf5GKpNpNcbKOqJHutyN2KVfp');">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-background-light"></div>
+</div>
+<!-- Right Column: Content & Actions (45%) -->
+<div class="flex-1 lg:w-[45%] flex flex-col relative bg-background-light dark:bg-background-dark bg-warm-gradient">
+<!-- Language Toggle (Top Right) -->
+<div class="absolute top-6 right-6 z-10">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-warm-gray/20 hover:border-primary/50 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-warm-gray text-[18px]">language</span>
+<span class="text-sm font-medium text-warm-gray">PT</span>
+<span class="material-symbols-outlined text-warm-gray text-[16px]">expand_more</span>
+</button>
+</div>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col justify-center px-8 sm:px-12 xl:px-24 py-12 max-w-2xl mx-auto w-full">
+<!-- Logo -->
+<div class="mb-8">
+<h1 class="font-serif text-5xl font-bold text-[#2d2420] dark:text-gray-100 tracking-tight">
+                        Espanhol
+                        <span class="text-primary text-6xl leading-none">.</span>
+</h1>
+</div>
+<!-- Headline / Tagline -->
+<div class="mb-12 space-y-4">
+<h2 class="text-3xl sm:text-4xl font-serif font-medium text-[#2d2420] dark:text-white leading-tight">
+                        Hola, vizinho!
+                    </h2>
+<p class="text-lg sm:text-xl text-warm-gray font-normal leading-relaxed max-w-md">
+                        Seu tutor particular de espanhol com IA, projetado para conectar culturas.
+                    </p>
+</div>
+<!-- CTA Section -->
+<div class="flex flex-col gap-6 items-start w-full">
+<button class="group relative w-full sm:w-auto min-w-[240px] h-[56px] flex items-center justify-center bg-primary hover:bg-primary-hover text-white text-[17px] font-bold tracking-wide transition-all duration-300 rounded shadow-lg shadow-primary/20 transform active:scale-[0.98]">
+<span class="mr-2">Começar</span>
+<span class="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2 text-base text-warm-gray">
+<span>Já tem conta?</span>
+<a class="font-semibold text-primary hover:text-primary-hover underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all" href="#">
+                            Entrar
+                        </a>
+</div>
+</div>
+<!-- Social Proof / Trust Indicators -->
+<div class="mt-16 pt-8 border-t border-warm-gray/10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+<div class="flex -space-x-3">
+<img alt="User avatar female smiling" class="w-10 h-10 rounded-full border-2 border-background-light" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjZmu4gdP_5F9jxCoaRMXMT1O29Hq2IemBpTBj-ngLJIa0i2JJJPJnd0_vpDaDZHLzIvdFTigbeCAzISQ2ojOURGMP5JSnrmWiG93_8fsoq56PFRBvU8can7dWWB0Sk5Q33ohmYpmQdv6EsZ-AzQmR_R8WQAH4NqAO7rpmfCum1mHrsfjpmf5mUr-zM3YZ_cBsF9tL9S7-Rq04V4Atl66mH4tMjCil2PpgLFirFD-fWyXoFtOXDYreoRk4e-3F1v-feyxlD0tMQQGl"/>
+<img alt="User avatar male smiling" class="w-10 h-10 rounded-full border-2 border-background-light" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDl2EtmbdpJgzPGHb4zCBvhUt3CL3euPIFrgoQt1MDmncCFSSUJV1Prfhsc_ifGAUGDm5sfL2VKmoVERNG9AhVWUGIfzqYrEAOegyECNiji1Ce1GtD06zTHPcmReyJPNpAZobf0XEDXG27gANGzc6TmDVyY3t2SRB_z9nXvBk3maLmEM7xga_SPgisjxUgeX3mfwND6MRq0i-BqQu27Uesn3jnwLexhhBdcmkQzWjWRKo2PgmuSSuGdmzzskd-BBYMsOoCiZ_wpSWH"/>
+<img alt="User avatar male glasses" class="w-10 h-10 rounded-full border-2 border-background-light" data-alt="User avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2ngbq7qavIFv-YaoMTfH3Lb52lyDupHP-zgxeo0DLMyLR71G3Dpe8JJToQkm0-tyZwwznFwuVoMD01k6Rf634CLuEtlgkz2KmnieEGfHFh4ck_Enof2RI_SNQNaL9AiA8v_82F912XCerOwLTZTBUub8vFdPr2zFKBuXVTWkLPVYRY_JMv7_TkveqnEhLO8If9_jj_LmkD3KgMvosvKcgb8PiIYpgJzmgLFQc4b4JMiC4qkF5yNvb1eDe8DHkaTYxnGkhGH1hyuSd"/>
+<div class="w-10 h-10 rounded-full border-2 border-background-light bg-warm-gray/10 flex items-center justify-center text-xs font-bold text-warm-gray">
+                            +2k
+                        </div>
+</div>
+<div class="text-sm text-warm-gray leading-tight">
+<p>Famílias aprendendo</p>
+<p>no Brasil e Paraguai</p>
+</div>
+</div>
+</div>
+<!-- Footer Small Print -->
+<div class="px-8 sm:px-12 xl:px-24 pb-6">
+<p class="text-xs text-warm-gray/60 font-medium">
+                    © 2023 Espanhol AI. Feito com carinho.
+                </p>
+</div>
+</div>
+</div>
+</body></html>

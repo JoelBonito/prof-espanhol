@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configurar Agenda - Espanhol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-primary/10 px-4 py-4 lg:px-8">
+<div class="max-w-7xl mx-auto flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<div>
+<h1 class="text-xl lg:text-2xl font-bold tracking-tight">Configurar Agenda</h1>
+<p class="text-sm lg:text-base text-slate-600 dark:text-slate-400">Defina pelo menos 3 blocos de 15 minutos por semana.</p>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-7xl mx-auto w-full p-4 lg:p-8 overflow-hidden">
+<!-- Weekly Grid Container -->
+<div class="flex-1 bg-white dark:bg-slate-900/50 rounded-xl border border-primary/10 shadow-sm flex flex-col overflow-hidden">
+<!-- Day Headers -->
+<div class="grid grid-cols-8 border-b border-primary/5 bg-primary/5 sticky top-0 z-10">
+<div class="p-3 text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-center border-r border-primary/5">Hora</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Seg</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Ter</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Qua</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Qui</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Sex</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200 border-r border-primary/5">Sáb</div>
+<div class="p-3 text-center font-bold text-slate-700 dark:text-slate-200">Dom</div>
+</div>
+<!-- Scrollable Slots -->
+<div class="flex-1 overflow-y-auto hide-scrollbar">
+<div class="grid grid-cols-8">
+<!-- 08:00 Row -->
+<div class="contents">
+<div class="p-2 text-xs text-slate-400 border-r border-b border-primary/5 flex items-start justify-center">08:00</div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded-lg bg-primary shadow-sm flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">check</span></div></div> <!-- Ter 08:00 -->
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+</div>
+<!-- Placeholder Rows -->
+<div class="contents">
+<div class="col-span-8 h-40 bg-slate-50/50 dark:bg-slate-800/20 border-b border-primary/5 flex items-center justify-center text-xs text-slate-300 italic">... Horários da manhã e tarde ...</div>
+</div>
+<!-- 18:00 Row -->
+<div class="contents">
+<div class="p-2 text-xs text-slate-400 border-r border-b border-primary/5 flex items-start justify-center">18:00</div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded-lg bg-primary shadow-sm flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">check</span></div></div> <!-- Seg 18:00 -->
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded-lg bg-primary shadow-sm flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">check</span></div></div> <!-- Sáb 18:00 -->
+<div class="p-1 border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+</div>
+<!-- 20:00 Row -->
+<div class="contents">
+<div class="p-2 text-xs text-slate-400 border-r border-b border-primary/5 flex items-start justify-center">20:00</div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded-lg bg-primary shadow-sm flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">check</span></div></div> <!-- Qua 20:00 -->
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+</div>
+<!-- Final Rows -->
+<div class="contents">
+<div class="p-2 text-xs text-slate-400 border-r border-b border-primary/5 flex items-start justify-center">22:00</div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-r border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+<div class="p-1 border-b border-primary/5"><div class="h-10 w-full rounded hover:bg-primary/20 transition-colors"></div></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Indicator -->
+<div class="mt-6 flex flex-col items-center gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium border border-green-200 dark:border-green-800/50">
+<span class="material-symbols-outlined text-base">check_circle</span>
+<span>Blocos definidos: 4/3 ✓ (mínimo atingido)</span>
+</div>
+<button class="w-full lg:max-w-md bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-all text-lg">
+                Confirmar Agenda
+            </button>
+</div>
+</main>
+<!-- Navigation Bar (Repurposed for mobile feel if viewed on phone) -->
+<nav class="sticky bottom-0 bg-white dark:bg-slate-900 border-t border-primary/10 flex justify-around items-center p-3 lg:hidden">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">calendar_month</span>
+<span class="text-[10px] font-medium">Agenda</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-[10px] font-medium">Aulas</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+</body></html>

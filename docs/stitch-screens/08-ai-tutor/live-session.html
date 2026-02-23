@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Tutor Live Session</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e7724b", // Terracotta
+                        "background-dark": "#1a1a2e", // Deep dark blue requested
+                        "surface-dark": "#23233b",
+                        "bubble-teal": "#1f4a4a",
+                        "bubble-gray": "#34344a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "10px",
+                        "lg": "10px",
+                        "xl": "12px",
+                        "2xl": "16px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for transcript */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Waveform animation */
+        @keyframes wave {
+            0% { height: 10%; }
+            50% { height: 100%; }
+            100% { height: 10%; }
+        }
+        .animate-wave {
+            animation: wave 1.2s ease-in-out infinite;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display h-screen w-full overflow-hidden flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="h-16 shrink-0 px-4 md:px-6 flex items-center justify-between border-b border-white/5 bg-[#1a1a2e]/95 backdrop-blur-sm z-20">
+<!-- Left: Back Button -->
+<button class="flex items-center gap-1 text-slate-300 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back_ios_new</span>
+<span class="text-sm font-medium">Sair</span>
+</button>
+<!-- Center: Title & Timer -->
+<div class="flex flex-col items-center">
+<h1 class="text-base font-bold tracking-tight">Chat com Tutor</h1>
+<div class="flex items-center gap-1.5 text-xs text-primary/90 font-mono bg-primary/10 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px] filled">timer</span>
+<span>03:45 / 30:00</span>
+</div>
+</div>
+<!-- Right: Report Flag -->
+<button class="flex items-center justify-center p-2 text-slate-400 hover:text-primary transition-colors rounded-lg hover:bg-white/5">
+<span class="material-symbols-outlined text-[24px]">flag</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+<!-- Left 60%: Avatar & Primary Interaction -->
+<section class="flex-1 md:flex-[6] relative bg-[#151525] flex flex-col justify-end overflow-hidden">
+<!-- Background Avatar Image -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center opacity-90" data-alt="Friendly female tutor sitting in a cozy modern library setting looking at the camera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjZtRiqviTYIiJ7P06feZumFVSuShlaTPMPyVMHzy9nipyvfeYtVloqNTxLyu1QXpvEZB1qqq-aeS4lu64J8Y1ycu9ZUcp33p0lETDUlDM1bzWxs0gmcmJqHudM-Jd0z0DmVky6pTU9VZQKm44cOraT4st2NyJd1VWzqN_36hMyiRcKMgdmHVn_TrhrvVEywakhbf01Kr5SSV-jVKWcn57_uIUi99usDfYvtLqlURIqWmHstDsTV3z7UHvWsc-OaJwZvwv80XoyqGv');">
+<div class="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-transparent to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/50 to-transparent"></div>
+</div>
+<!-- Status Indicator -->
+<div class="absolute top-6 left-6 z-10">
+<div class="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full shadow-lg">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+<span class="text-sm font-medium text-white drop-shadow-md">Tutor está falando...</span>
+</div>
+</div>
+<!-- Bottom Gradient Fade for transition -->
+<div class="h-32 w-full bg-gradient-to-t from-[#1a1a2e] to-transparent z-0"></div>
+</section>
+<!-- Right 40%: Tools & Context -->
+<section class="flex-1 md:flex-[4] flex flex-col border-l border-white/5 bg-[#1a1a2e] relative z-10 max-h-[50vh] md:max-h-full">
+<!-- User Preview & Context Badges -->
+<div class="p-4 flex gap-4 items-start shrink-0">
+<!-- PiP User Camera -->
+<div class="relative w-32 aspect-video bg-black rounded-lg overflow-hidden border border-white/10 shadow-lg shrink-0 group">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="User webcam preview showing a young man listening attentively" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQqok7JEsSOT-YrAczNBZAKMBOUrWDeXLPJ1-hCxCjH-FimzFvdL3-23kFC__K4WiyIJgmZW0YKBgNOCvC7NMHcz3xKrtFv9WG3_bC-zYLcSj_5ZXQ2r-_ULnDDc8c4wy2M09bB2KxKSbZqew7thqwDIZfac_lqWYgtOIwihNUp33Y33SpoqGjuFan7WLgDzED0bNllaCcK73FhIRt9cODGzzev_I6BFAOrJUuujnpfRPZh0as_qSAlBHCLz5FZLEQYULwqncy8Pj3');">
+</div>
+<div class="absolute bottom-1 right-1">
+<span class="material-symbols-outlined text-white text-[16px] drop-shadow-md">mic</span>
+</div>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+</div>
+<!-- Session Context Badges -->
+<div class="flex flex-col gap-2 flex-1 justify-center">
+<div class="inline-flex items-center gap-2 bg-surface-dark border border-white/5 px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-primary text-[18px]">medical_services</span>
+<span class="text-xs font-medium text-slate-200">Tema: Consulta médica</span>
+</div>
+<div class="inline-flex items-center gap-2 bg-surface-dark border border-white/5 px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-primary text-[18px]">school</span>
+<span class="text-xs font-medium text-slate-200">Nível: B1</span>
+</div>
+</div>
+</div>
+<!-- Transcript Feed -->
+<div class="flex-1 overflow-y-auto px-4 py-2 space-y-4 scrollbar-hide">
+<!-- Tutor Message -->
+<div class="flex flex-col items-start gap-1 max-w-[90%]">
+<span class="text-xs text-primary font-medium ml-1">Tutor</span>
+<div class="bg-bubble-teal text-slate-100 px-4 py-3 rounded-2xl rounded-tl-sm text-sm md:text-base leading-relaxed font-serif shadow-sm">
+<p>Buenos días, doctora. ¿Cómo se siente hoy?</p>
+</div>
+</div>
+<!-- Student Message -->
+<div class="flex flex-col items-end gap-1 max-w-[90%] self-end ml-auto">
+<span class="text-xs text-slate-400 font-medium mr-1">Você</span>
+<div class="bg-bubble-gray text-slate-200 px-4 py-3 rounded-2xl rounded-tr-sm text-sm md:text-base leading-relaxed font-serif shadow-sm">
+<p>Hola. Me siento bien, gracias.</p>
+</div>
+</div>
+<!-- Tutor Message 2 -->
+<div class="flex flex-col items-start gap-1 max-w-[90%]">
+<span class="text-xs text-primary font-medium ml-1">Tutor</span>
+<div class="bg-bubble-teal text-slate-100 px-4 py-3 rounded-2xl rounded-tl-sm text-sm md:text-base leading-relaxed font-serif shadow-sm">
+<p>¡Excelente! Vamos a revisar los resultados de sus exámenes de sangre.</p>
+</div>
+</div>
+<!-- Correction Card -->
+<div class="mt-4 bg-primary/10 border border-primary/30 rounded-lg p-3 flex gap-3 animate-pulse-slow">
+<div class="shrink-0 pt-0.5">
+<span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-xs font-bold text-primary uppercase tracking-wide">Correção de pronúncia</p>
+<p class="text-sm text-slate-200 font-serif">
+<span class="line-through opacity-60 decoration-primary decoration-2">"exámenes"</span>
+<span class="mx-1 text-slate-500">→</span>
+<span class="text-primary font-medium">/ek-SA-me-nes/</span>
+</p>
+<p class="text-xs text-slate-400 mt-1">Ênfase na segunda sílaba.</p>
+</div>
+</div>
+<!-- Spacer for scrolling -->
+<div class="h-4"></div>
+</div>
+<!-- Bottom Controls -->
+<div class="p-4 bg-[#1a1a2e] border-t border-white/5 relative z-20">
+<div class="flex flex-col items-center gap-4">
+<!-- Waveform Visualizer -->
+<div class="flex items-end justify-center h-8 gap-1 w-full max-w-[200px]">
+<div class="w-1.5 bg-primary/40 rounded-full animate-wave"></div>
+<div class="w-1.5 bg-primary/60 rounded-full animate-wave delay-100 h-[60%]"></div>
+<div class="w-1.5 bg-primary/80 rounded-full animate-wave delay-200 h-[80%]"></div>
+<div class="w-1.5 bg-primary rounded-full animate-wave delay-300"></div>
+<div class="w-1.5 bg-primary/80 rounded-full animate-wave delay-200 h-[70%]"></div>
+<div class="w-1.5 bg-primary/60 rounded-full animate-wave delay-100 h-[50%]"></div>
+<div class="w-1.5 bg-primary/40 rounded-full animate-wave"></div>
+</div>
+<div class="flex items-center justify-between w-full gap-4">
+<!-- Empty Spacer for balance -->
+<div class="flex-1"></div>
+<!-- Main Mic Button -->
+<button class="relative group">
+<div class="absolute inset-0 bg-primary/30 rounded-full blur-md group-hover:blur-lg transition-all duration-300"></div>
+</button><button class="relative flex items-center justify-center size-16 rounded-full bg-primary text-white shadow-xl hover:scale-105 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[32px]">mic</span>
+</button>
+<!-- End Session Button -->
+<div class="flex-1 flex justify-end">
+<button class="text-xs font-medium text-slate-500 hover:text-rose-400 uppercase tracking-wider transition-colors py-2 px-3 rounded hover:bg-white/5">
+                                Encerrar
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

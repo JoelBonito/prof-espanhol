@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sua Evolução</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f45925",
+                        "background-light": "#fafaf8",
+                        "background-dark": "#221410",
+                        "accent-success": "#047857", // Emerald/Teal tones
+                        "accent-success-light": "#d1fae5",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Newsreader", "serif"] // Forcing serif as per design request for "Lora/Newsreader" vibe
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-slate-100 flex flex-col items-center">
+<!-- Top Navigation -->
+<div class="w-full max-w-md flex items-center justify-between p-4 sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+<div class="flex-1"></div> <!-- Spacer -->
+<button class="flex items-center gap-1 text-primary font-bold text-base hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-lg">share</span>
+            Compartilhar
+        </button>
+</div>
+<!-- Main Content -->
+<main class="w-full max-w-md flex flex-col px-6 pb-24 gap-6">
+<!-- Header -->
+<div class="text-center space-y-2 mt-2">
+<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Sua Evolução em 30 Dias</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg italic">Veja como você melhorou!</p>
+</div>
+<!-- Cards Container -->
+<div class="flex flex-col gap-6 w-full">
+<!-- Before Card (Muted) -->
+<div class="relative w-full rounded-xl border border-slate-200 bg-white/50 dark:bg-white/5 p-5 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-lg font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Antes <span class="text-sm font-normal normal-case opacity-70">(23/01)</span></h2>
+<div class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-lg">
+                        A2
+                    </div>
+</div>
+<div class="space-y-4">
+<!-- Stat 1 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-medium text-slate-600 dark:text-slate-400">
+<span>Gramática</span>
+<span>65/100</span>
+</div>
+<div class="h-2.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-2.5 rounded-full bg-slate-400 dark:bg-slate-500" style="width: 65%"></div>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-medium text-slate-600 dark:text-slate-400">
+<span>Compreensão</span>
+<span>58/100</span>
+</div>
+<div class="h-2.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-2.5 rounded-full bg-slate-400 dark:bg-slate-500" style="width: 58%"></div>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-medium text-slate-600 dark:text-slate-400">
+<span>Pronúncia</span>
+<span>52/100</span>
+</div>
+<div class="h-2.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-2.5 rounded-full bg-slate-400 dark:bg-slate-500" style="width: 52%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Arrow Indicator -->
+<div class="absolute left-1/2 -translate-x-1/2 mt-[210px] sm:mt-[190px] z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md border border-slate-100 dark:bg-slate-800 dark:border-slate-700 text-slate-400">
+<span class="material-symbols-outlined">arrow_downward</span>
+</div>
+<!-- After Card (Vibrant) -->
+<div class="relative w-full rounded-xl border-2 border-primary/20 bg-white dark:bg-slate-800 p-5 shadow-lg ring-1 ring-primary/10">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent-success text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> Grande Progresso
+                </div>
+<div class="flex justify-between items-center mb-4 mt-2">
+<h2 class="text-xl font-bold text-primary dark:text-primary uppercase tracking-wider">Agora <span class="text-base font-normal normal-case text-slate-800 dark:text-slate-200">(23/02)</span></h2>
+<div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white font-bold text-xl shadow-md shadow-primary/30">
+                        B1
+                    </div>
+</div>
+<div class="space-y-5">
+<!-- Stat 1 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-bold text-slate-800 dark:text-slate-100">
+<span class="flex items-center gap-2">
+                                Gramática
+                            </span>
+<span class="text-accent-success font-bold text-sm bg-accent-success-light dark:bg-accent-success/20 px-1.5 py-0.5 rounded ml-2">+13</span>
+</div>
+<div class="relative h-3 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-teal-500 rounded-full" style="width: 78%"></div>
+</div>
+<p class="text-right text-xs text-slate-500">78/100</p>
+</div>
+<!-- Stat 2 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-bold text-slate-800 dark:text-slate-100">
+<span class="flex items-center gap-2">
+                                Compreensão
+                            </span>
+<span class="text-accent-success font-bold text-sm bg-accent-success-light dark:bg-accent-success/20 px-1.5 py-0.5 rounded ml-2">+13</span>
+</div>
+<div class="relative h-3 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-teal-500 rounded-full" style="width: 71%"></div>
+</div>
+<p class="text-right text-xs text-slate-500">71/100</p>
+</div>
+<!-- Stat 3 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-base font-bold text-slate-800 dark:text-slate-100">
+<span class="flex items-center gap-2">
+                                Pronúncia
+                            </span>
+<span class="text-accent-success font-bold text-sm bg-accent-success-light dark:bg-accent-success/20 px-1.5 py-0.5 rounded ml-2">+15</span>
+</div>
+<div class="relative h-3 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-teal-500 rounded-full" style="width: 67%"></div>
+</div>
+<p class="text-right text-xs text-slate-500">67/100</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Celebratory Message -->
+<div class="text-center py-2 animate-pulse">
+<div class="inline-flex items-center justify-center p-3 bg-gradient-to-r from-primary/10 to-orange-100 dark:from-primary/20 dark:to-orange-900/30 rounded-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary mr-2">celebration</span>
+<p class="text-primary font-bold text-lg leading-tight">Parabéns! Você subiu de A2 para B1!</p>
+</div>
+</div>
+</main>
+<!-- Bottom CTA -->
+<div class="fixed bottom-0 left-0 w-full bg-background-light dark:bg-background-dark p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center z-20">
+<button class="w-full max-w-md bg-primary hover:bg-orange-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-primary/30 transition-all active:scale-[0.98] text-lg flex items-center justify-center gap-2">
+            Voltar ao Dashboard
+        </button>
+</div>
+</body></html>

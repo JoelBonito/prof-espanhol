@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                        "card-white": "#ffffff",
+                        "success-subtle": "#e8f5e9",
+                        "error-subtle": "#ffebee",
+                        "neutral-muted": "#8a7b60"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Flashcard Exercise - Espanhol</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="flex items-center justify-between px-6 py-4 bg-background-light dark:bg-background-dark border-b border-primary/10 sticky top-0 z-10">
+<div class="flex items-center gap-2 cursor-pointer group">
+<span class="material-symbols-outlined text-primary group-hover:-translate-x-1 transition-transform">chevron_left</span>
+<span class="text-primary font-semibold text-lg">Módulo</span>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2 text-center">
+<h1 class="text-xl font-bold tracking-tight">Flashcards</h1>
+</div>
+<div class="flex items-center">
+<span class="text-neutral-muted font-medium text-sm px-3 py-1 bg-primary/10 rounded-full">Card 3/8</span>
+</div>
+</nav>
+<!-- Progress Bar (Subtle) -->
+<div class="w-full h-1 bg-primary/10">
+<div class="h-full bg-primary rounded-r-full" style="width: 37.5%;"></div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center p-6 max-w-4xl mx-auto w-full">
+<!-- Large Elevated Flashcard -->
+<div class="relative w-full aspect-[4/3] md:aspect-[16/9] max-w-2xl bg-card-white dark:bg-slate-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center p-12 text-center border border-primary/5 transition-all hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)] cursor-pointer group">
+<!-- Language Label (Top corner) -->
+<div class="absolute top-6 left-8 flex items-center gap-2 text-neutral-muted/60 uppercase tracking-widest text-[10px] font-bold">
+<span class="material-symbols-outlined text-sm">translate</span>
+                Espanhol
+            </div>
+<!-- Main Spanish Phrase -->
+<div class="flex-1 flex flex-col items-center justify-center">
+<p class="font-serif italic text-3xl md:text-5xl text-slate-900 dark:text-slate-50 leading-snug">
+                    "Ayer hablé con mi vecino."
+                </p>
+</div>
+<!-- Footer Flip Hint -->
+<div class="flex flex-col items-center gap-2 mt-4 text-neutral-muted">
+<span class="material-symbols-outlined animate-bounce">touch_app</span>
+<p class="text-sm font-medium tracking-wide">Toque para virar</p>
+</div>
+</div>
+<!-- Hint Section (Optional Context) -->
+<div class="mt-8 text-center max-w-sm">
+<p class="text-neutral-muted text-sm leading-relaxed">
+                Dica: O verbo "hablar" está no pretérito perfeito simples.
+            </p>
+</div>
+</main>
+<!-- Bottom Action Buttons Container -->
+<footer class="p-6 md:p-12 w-full max-w-2xl mx-auto">
+<div class="grid grid-cols-2 gap-4">
+<!-- Negative Action Button -->
+<button class="flex items-center justify-center gap-3 h-16 px-8 rounded-xl bg-error-subtle hover:bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 font-bold text-lg transition-colors border border-red-200 dark:border-red-900/30">
+<span class="material-symbols-outlined">sentiment_dissatisfied</span>
+<span>Não sabia</span>
+</button>
+<!-- Positive Action Button -->
+<button class="flex items-center justify-center gap-3 h-16 px-8 rounded-xl bg-success-subtle hover:bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-bold text-lg transition-colors border border-green-200 dark:border-green-900/30">
+<span class="material-symbols-outlined">sentiment_very_satisfied</span>
+<span>Sabia</span>
+</button>
+</div>
+</footer>
+<!-- Bottom Navigation Bar (App Level) -->
+<div class="border-t border-primary/5 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6 py-3 flex justify-around items-center">
+<a class="flex flex-col items-center gap-1 text-neutral-muted" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Biblioteca</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">style</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Praticar</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-neutral-muted" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Stats</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-neutral-muted" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Perfil</span>
+</a>
+</div>
+</body></html>

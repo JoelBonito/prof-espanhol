@@ -1,0 +1,177 @@
+[
+  {
+    "folder": "01-splash-welcome",
+    "file": "splash-screen.html",
+    "screen_id": "1368ed5f7b2a453c8a39c85209d2fdc7"
+  },
+  {
+    "folder": "01-splash-welcome",
+    "file": "welcome-screen.html",
+    "screen_id": "f6be0f2b52604841acf2d0cdfe668f9a"
+  },
+  {
+    "folder": "01-splash-welcome",
+    "file": "welcome-desktop.html",
+    "screen_id": "731543b7e47a44dcafbaf3d49c03e7e5"
+  },
+  {
+    "folder": "01-splash-welcome",
+    "file": "splash-landscape.html",
+    "screen_id": "5ea3b83d8bae4e3ebaf0335ebca8448a"
+  },
+  {
+    "folder": "01-splash-welcome",
+    "file": "splash-variant-1.html",
+    "screen_id": "555a2465e58d46b984ca436e371a4639"
+  },
+  {
+    "folder": "01-splash-welcome",
+    "file": "splash-variant-2.html",
+    "screen_id": "f9f738fb71224418a22c63d80b5659cf"
+  },
+  {
+    "folder": "02-auth",
+    "file": "login.html",
+    "screen_id": "01bc2af2ac1347a3adc1c6f5ed6667cc"
+  },
+  {
+    "folder": "02-auth",
+    "file": "register.html",
+    "screen_id": "75e66f5ddeb5411a937b4e1930b2acb6"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-1-mobile.html",
+    "screen_id": "11f29e7a62b34f23b45b80902b4f1f7e"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-2-mobile.html",
+    "screen_id": "6f1099e364f4488ab10416f1730a378b"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-3-mobile.html",
+    "screen_id": "bbc71565bed54d9ca8bec890de67ce5a"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-1-desktop.html",
+    "screen_id": "013ec460da98404e98b366c845643b3c"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-1-desktop-v2.html",
+    "screen_id": "49bd73204a174da3b8d1be3647fe22d3"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-2-desktop.html",
+    "screen_id": "967bfb4b04bf4e62935a6666ff13ad9c"
+  },
+  {
+    "folder": "03-onboarding",
+    "file": "step-3-desktop.html",
+    "screen_id": "bd76d2937bb54b16ad67d10b4699183f"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "grammar-question.html",
+    "screen_id": "7baf0f9fe311421b902cb20be66f8c36"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "listening-question.html",
+    "screen_id": "04cd881371dd453995f456114367968c"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "pronunciation-question.html",
+    "screen_id": "4cfeed9ba1a145d8a8bb1368d0b07e41"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "results-mobile.html",
+    "screen_id": "ca6881e7187b45fd849ac4fbb1024e27"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "results-desktop.html",
+    "screen_id": "fd62f150710645d4a9ece48dbe2b99a9"
+  },
+  {
+    "folder": "04-diagnostic",
+    "file": "results-desktop-variant.html",
+    "screen_id": "26437cf0184743c0a4aa8d77ce58b111"
+  },
+  {
+    "folder": "05-dashboard",
+    "file": "main-dashboard.html",
+    "screen_id": "75bb37673b304286b3fe54e2835112b4"
+  },
+  {
+    "folder": "05-dashboard",
+    "file": "progress-dashboard-1.html",
+    "screen_id": "820061ae98cd4a2c8b6dbe79f91e926d"
+  },
+  {
+    "folder": "05-dashboard",
+    "file": "progress-dashboard-2.html",
+    "screen_id": "9b8a9fee2cbc4ca2a30bed253cc4fe5a"
+  },
+  {
+    "folder": "06-lessons",
+    "file": "lesson-library.html",
+    "screen_id": "dc8b72f5cd60483bb31d7f49dab893c1"
+  },
+  {
+    "folder": "06-lessons",
+    "file": "lesson-theory.html",
+    "screen_id": "0ea1ddda141044c691c2308bd0cc61b9"
+  },
+  {
+    "folder": "07-exercises",
+    "file": "flashcard.html",
+    "screen_id": "1822bdb874ae43e99a9f410f10807e15"
+  },
+  {
+    "folder": "07-exercises",
+    "file": "quiz-feedback.html",
+    "screen_id": "23104f67a7cb49e38e77a05be61ffdd5"
+  },
+  {
+    "folder": "08-ai-tutor",
+    "file": "live-session.html",
+    "screen_id": "8a4557fec347477ead637eff9acbc2bd"
+  },
+  {
+    "folder": "09-agenda-tasks",
+    "file": "weekly-agenda.html",
+    "screen_id": "eed2b963405049b1adcf818c3c105cc8"
+  },
+  {
+    "folder": "09-agenda-tasks",
+    "file": "homework-list.html",
+    "screen_id": "8d1acbbeebd44b549b1a0b2ac27c03f7"
+  },
+  {
+    "folder": "09-agenda-tasks",
+    "file": "schedule-setup.html",
+    "screen_id": "324c638dbf334505b2c8f7145cdc616a"
+  },
+  {
+    "folder": "10-evolution",
+    "file": "comparison-1.html",
+    "screen_id": "ca1e98efef82405288bc915159484c39"
+  },
+  {
+    "folder": "10-evolution",
+    "file": "comparison-2.html",
+    "screen_id": "1d4f3fdfc5214704ab93c2d298bd2d58"
+  },
+  {
+    "folder": "11-settings",
+    "file": "account-settings.html",
+    "screen_id": "bdd281b28cda46678f5a520529c3c1e3"
+  }
+]

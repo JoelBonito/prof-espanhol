@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Onboarding</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#eb7047",
+              "primary-hover": "#d96540",
+              "background-light": "#fafaf8", // Warm off-white requested
+              "background-dark": "#211511",
+              "text-main": "#292524",
+              "text-body": "#57534e",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"],
+              "serif": ["Lora", "serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "0.625rem", // Approx 10px
+              "xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center font-display antialiased p-4 sm:p-8">
+<!-- Main Container -->
+<div class="relative w-full max-w-[1280px] bg-white dark:bg-[#2c2420] rounded-[20px] shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[700px] border border-[#f0efeb] dark:border-[#3d3430]">
+<!-- Left Side: Illustration (45%) -->
+<div class="relative w-full md:w-[45%] bg-[#fdfaf9] dark:bg-[#362b26] flex items-center justify-center p-12 overflow-hidden">
+<!-- Decorative circle behind -->
+<div class="absolute w-[120%] h-[80%] bg-[#f8efe9] dark:bg-[#4a3b34] rounded-full blur-3xl opacity-60 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+<div class="relative z-10 w-full max-w-sm aspect-square bg-transparent">
+<!-- Illustration placeholder -->
+<img alt="Friendly AI tutor illustration on a tablet device with warm tones" class="w-full h-full object-contain drop-shadow-xl rounded-xl" data-alt="Illustration of a friendly AI tutor character on a tablet screen, warm colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcPXM60RQcLdTnQVzcQpNhYHmotqCFW8R-psfDFSNt6yXCQ6mGd3fU8Xc0Xw9773hwTl-lp00q6xm1U3lQXD9-kMSxeHietyqYJ4F0plL53zoP3fDfbkL9EHXc8gnb0iRx-aTbLvF62ibBtZMoGv-B9LwpLmwDMjHPXZXMXpXilHpY7pnjhoTNpBUdOg5eYPMTXkRTu6EgjAN-6-hMsJoIaYExqfVWb_jFqbwcUGS4Kbkq1L9yI90KaBqd3zKDT_E6Yb-gHxzZr12E"/>
+</div>
+</div>
+<!-- Right Side: Content (55%) -->
+<div class="w-full md:w-[55%] flex flex-col relative bg-white dark:bg-[#2c2420]">
+<!-- Top Header Area -->
+<header class="flex justify-between items-center w-full px-8 py-8 md:px-12 md:py-10">
+<!-- Logo / Brand (Optional, keeping it subtle or hidden if strictly following prompt, but good for context) -->
+<div class="flex items-center gap-2 text-text-main dark:text-white opacity-0 md:opacity-100 transition-opacity">
+<!-- Icon placeholder -->
+<span class="material-symbols-outlined text-primary text-3xl">language</span>
+<span class="font-serif font-bold text-xl tracking-tight">Espanhol</span>
+</div>
+<!-- Skip Link -->
+<a class="group flex items-center gap-1 text-text-body dark:text-[#a8a29e] text-sm font-semibold hover:text-primary transition-colors" href="#">
+                    Pular
+                    <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col justify-center px-8 md:px-16 lg:px-24 pb-8">
+<div class="flex flex-col gap-6 max-w-lg">
+<!-- Heading -->
+<h1 class="text-text-main dark:text-[#f2f0ef] font-serif font-bold text-4xl md:text-5xl leading-tight tracking-tight">
+                        O que é o <br/>
+<span class="text-primary relative inline-block">
+                            Espanhol?
+                            <!-- Decorative underline -->
+<svg class="absolute w-full h-3 -bottom-1 left-0 text-primary/20" preserveaspectratio="none" viewbox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="3"></path>
+</svg>
+</span>
+</h1>
+<!-- Body Text -->
+<p class="text-text-body dark:text-[#d6d3d1] text-lg leading-relaxed font-normal">
+                        Seu tutor particular de espanhol com inteligência artificial. Ele vê, ouve e conversa com você em tempo real — sem julgamento, sem vergonha.
+                    </p>
+</div>
+</main>
+<!-- Bottom Area: Progress & CTA -->
+<footer class="flex flex-col items-center gap-8 px-8 pb-12 md:pb-16 w-full">
+<!-- Progress Dots -->
+<div aria-label="Progress step 1 of 3" class="flex gap-3">
+<div class="w-3 h-3 rounded-full bg-primary transition-all duration-300"></div>
+<div class="w-3 h-3 rounded-full bg-[#e5e5e5] dark:bg-[#44403c]"></div>
+<div class="w-3 h-3 rounded-full bg-[#e5e5e5] dark:bg-[#44403c]"></div>
+</div>
+<!-- CTA Button -->
+<button class="w-full max-w-[320px] h-14 bg-primary hover:bg-primary-hover text-white text-base font-bold rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 group">
+<span>Próximo</span>
+<span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</footer>
+</div>
+</div>
+</body></html>

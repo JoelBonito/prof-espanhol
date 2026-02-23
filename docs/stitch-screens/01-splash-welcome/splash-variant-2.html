@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol Splash Screen Variant 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d44211", // Terracotta/Deep Orange
+                        "background-light": "#f8f6f6", // Warm off-white
+                        "background-dark": "#221510", // Deep warm brown
+                        "text-primary": "#181311", // Very dark brown/black
+                        "text-secondary": "#6b5e59", // Warm gray
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom thin spinner animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner-thin {
+            width: 48px;
+            height: 48px;
+            border: 2px solid rgba(212, 66, 17, 0.1); /* faded primary */
+            border-left-color: #d44211; /* primary color */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col items-center justify-center font-display antialiased selection:bg-primary/20">
+<div class="layout-container flex h-full w-full grow flex-col relative overflow-hidden">
+<!-- Main Content Wrapper -->
+<main class="flex flex-1 flex-col items-center justify-center p-8 w-full max-w-4xl mx-auto">
+<div class="flex flex-col items-center text-center animate-fade-in">
+<!-- Logo / Brand Name -->
+<h1 class="font-serif text-5xl md:text-7xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 mb-4">
+<span class="text-primary">E</span>spanhol
+                </h1>
+<!-- Tagline -->
+<p class="text-text-secondary dark:text-gray-400 text-lg md:text-xl font-normal tracking-wide max-w-md">
+                    Tutor AI de Espanhol
+                </p>
+<!-- Spacer -->
+<div class="h-24"></div>
+<!-- Minimal Elegant Spinner -->
+<div aria-label="Loading" class="spinner-thin" role="status"></div>
+<!-- Optional Status Text (Hidden mostly but good for accessibility/context) -->
+<p class="mt-6 text-sm text-text-secondary/60 dark:text-gray-500 font-medium tracking-wider uppercase text-[10px]">
+                    Carregando
+                </p>
+</div>
+</main>
+<!-- Footer / Version info (Optional for splash, keeps it grounded) -->
+<footer class="absolute bottom-8 w-full text-center">
+<p class="text-xs text-text-secondary/40 dark:text-gray-600 font-display">v2.0.4 • AI Powered Learning</p>
+</footer>
+</div>
+</body></html>

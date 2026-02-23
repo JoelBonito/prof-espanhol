@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f05f42",
+                        "primary-dark": "#d94a2e",
+                        "background-light": "#fafaf8",
+                        "background-dark": "#221310",
+                        "warm-charcoal": "#2d2a29",
+                        "warm-gray": "#6b6665",
+                        "light-gray": "#e0dbda",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom warmth overlay for a softer feel */
+        .warm-overlay {
+            background: linear-gradient(180deg, rgba(250,250,248,0) 0%, rgba(250,250,248,1) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display antialiased selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation Area -->
+<header class="w-full px-6 pt-12 pb-4 flex justify-end z-20">
+<button class="group flex items-center gap-1 text-warm-gray dark:text-gray-300 font-medium text-sm transition-colors hover:text-primary p-2 -mr-2 rounded-lg">
+<span>Pular</span>
+<span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">chevron_right</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-between w-full max-w-md mx-auto px-6 pb-8 relative">
+<!-- Illustration Section -->
+<div class="flex-1 w-full flex items-center justify-center relative mb-6">
+<!-- Background Blob Decoration -->
+<div class="absolute w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+<div class="relative w-full aspect-[4/5] max-h-[50vh] overflow-hidden rounded-2xl bg-white shadow-xl shadow-primary/5 ring-1 ring-black/5">
+<div class="w-full h-full bg-cover bg-center" data-alt="Friendly female tutor smiling on a tablet screen, warm lighting, educational context" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANgOb--f4POvgtxWAhkLNS0N-XzQnJHEjvVw9Pe1tWHkkDqsFDt0k1ZGLjLwcppNLPZboTLJyjgoQpbdxgmRZ7M_WYzVZJN6K6EJslX-2hH0rQh_rMuPbnLmBg3Z3-JhW0D8xVGvCCNm3DY8jr6m5MhILxWcKyLJKuINlnA6eNJRIyMXlXBV6ZrlGpcHcOuxKnCgp7sNhKt70cVR47FzTHgBBeK6_tqveGCpjOEx7mESJFK42nztxxrvI6W8U7nf36QU-6R-wzaso0');"></div>
+<!-- Overlay to simulate screen reflection/depth -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay"></div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="w-full flex flex-col items-center text-center space-y-4 mb-8">
+<h1 class="text-warm-charcoal dark:text-white font-serif font-bold text-3xl md:text-4xl leading-tight tracking-tight">
+                O que é o Espanhol?
+            </h1>
+<p class="text-warm-gray dark:text-gray-400 text-base md:text-lg leading-relaxed max-w-xs mx-auto font-normal">
+                Seu tutor particular de espanhol com inteligência artificial. Ele vê, ouve e conversa com você em tempo real — sem julgamento, sem vergonha.
+            </p>
+</div>
+<!-- Bottom Actions -->
+<div class="w-full flex flex-col items-center gap-8">
+<!-- Progress Indicators -->
+<div class="flex items-center gap-3">
+<div class="h-2.5 w-8 rounded-full bg-primary transition-all duration-300"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-light-gray dark:bg-white/20"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-light-gray dark:bg-white/20"></div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full bg-primary hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 text-white font-semibold text-lg py-4 px-6 rounded-lg shadow-lg shadow-primary/25 flex items-center justify-center gap-2 group">
+<span>Próximo</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

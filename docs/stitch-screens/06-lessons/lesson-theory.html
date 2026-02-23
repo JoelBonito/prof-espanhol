@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f59f0a",
+            "background-light": "#fdfcf9",
+            "background-dark": "#221c10",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "serif": ["Lora", "serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .serif-text {
+      font-family: 'Lora', serif;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+<div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-primary">arrow_back_ios</span>
+<span class="font-display font-semibold text-sm uppercase tracking-wider">Lições</span>
+</div>
+<div class="flex flex-col items-center">
+<h1 class="font-display font-bold text-base md:text-lg">Módulo 3: Passado Simples</h1>
+</div>
+<div class="bg-primary/10 px-3 py-1 rounded-full">
+<span class="font-display font-bold text-xs text-primary uppercase tracking-widest">Bloco 2/4</span>
+</div>
+</div>
+<!-- Module Progress Bar -->
+<div class="w-full h-1.5 bg-primary/10">
+<div class="h-full bg-primary" style="width: 60%;"></div>
+</div>
+</header>
+<main class="max-w-[700px] mx-auto px-6 py-12 pb-32">
+<!-- Header Section -->
+<div class="text-center mb-10">
+<h2 class="serif-text text-4xl md:text-5xl font-bold leading-tight mb-6">Pretérito Indefinido: Verbos Regulares</h2>
+<div class="flex justify-center mb-8">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary/5 hover:bg-primary/10 border border-primary/20 rounded-full transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">volume_up</span>
+<span class="font-display font-medium text-sm text-slate-700 dark:text-slate-200">Ouvir explicação da IA</span>
+</button>
+</div>
+</div>
+<!-- Explanatory Text -->
+<div class="serif-text text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 mb-12 space-y-6">
+<p>
+        O <strong>Pretérito Indefinido</strong> (também conhecido como Pretérito Perfeito Simples) é o tempo verbal utilizado para expressar ações que ocorreram e foram finalizadas em um momento específico do passado.
+      </p>
+<p>
+        Diferente do português, onde muitas vezes usamos o pretérito perfeito composto, em espanhol este tempo é a escolha padrão para narrar eventos históricos ou acontecimentos pontuais.
+      </p>
+</div>
+<!-- Conjugation Card -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl border border-primary/10 shadow-xl shadow-primary/5 overflow-hidden mb-12">
+<div class="bg-primary/5 px-6 py-4 border-b border-primary/10 flex justify-between items-center">
+<h3 class="font-display font-bold text-primary uppercase tracking-widest text-sm">Conjugação: HABLAR (Falar)</h3>
+<span class="material-symbols-outlined text-primary/40">menu_book</span>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-2 gap-y-4 text-lg">
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Yo</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">é</strong></span>
+</div>
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Nos.</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">amos</strong></span>
+</div>
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Tú</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">aste</strong></span>
+</div>
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Vos.</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">asteis</strong></span>
+</div>
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Él/Ella</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">ó</strong></span>
+</div>
+<div class="flex items-center gap-4 py-2 border-b border-slate-100 dark:border-slate-700">
+<span class="font-display text-sm text-slate-400 w-12 italic">Ellos</span>
+<span class="serif-text">habl<strong class="text-primary font-bold underline decoration-2 underline-offset-4">aron</strong></span>
+</div>
+</div>
+</div>
+<div class="px-6 py-4 bg-primary/5 text-sm text-slate-500 dark:text-slate-400 font-display flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">info</span>
+<span>As terminações em negrito aplicam-se a todos os verbos regulares em <strong>-AR</strong>.</span>
+</div>
+</div>
+<!-- Example Sentences -->
+<div class="space-y-4 mb-12">
+<h4 class="font-display font-bold text-slate-900 dark:text-slate-100 text-lg">Exemplos Práticos:</h4>
+<div class="space-y-3">
+<div class="p-4 bg-white dark:bg-slate-800/30 rounded-lg border-l-4 border-primary shadow-sm">
+<p class="serif-text text-xl italic mb-1">"Ayer <strong>hablé</strong> con mi madre por teléfono."</p>
+<p class="font-display text-sm text-slate-500 dark:text-slate-400">Ontem falei com minha mãe por telefone.</p>
+</div>
+<div class="p-4 bg-white dark:bg-slate-800/30 rounded-lg border-l-4 border-primary/40 shadow-sm">
+<p class="serif-text text-xl italic mb-1">"Ellos <strong>hablaron</strong> español durante todo el viaje."</p>
+<p class="font-display text-sm text-slate-500 dark:text-slate-400">Eles falaram espanhol durante toda a viagem.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 p-6 flex justify-center">
+<div class="max-w-[700px] w-full">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-display font-bold text-lg py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-3 transition-transform active:scale-[0.98]">
+        Próximo: Exercício
+        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</footer>
+<!-- Background Decorative Elements -->
+<div class="fixed top-0 right-0 -z-10 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+</body></html>

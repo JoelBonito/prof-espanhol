@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diagnostic Results Desktop - Espanhol</title>
+<!-- Google Fonts: Lexend (Sans) and Lora (Serif) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Lora:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e76f5a",
+                        "primary-dark": "#c65541",
+                        "background-light": "#fafaf8",
+                        "background-dark": "#211411",
+                        "warm-charcoal": "#171211",
+                        "soft-gray": "#e5dddc",
+                        "teal-accent": "#2a9d8f",
+                        "amber-accent": "#e9c46a",
+                        "surface-white": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "card": "10px", // Specifically requested 10px radius
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles to ensure precise control over font usage */
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #fafaf8;
+        }
+        .font-lora {
+            font-family: 'Lora', serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-warm-charcoal antialiased min-h-screen flex flex-col">
+<!-- Navbar -->
+<nav class="w-full bg-surface-white border-b border-[#f4f1f0] px-6 lg:px-10 py-3 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-4 text-warm-charcoal">
+<div class="size-8 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">language</span>
+</div>
+<h2 class="text-warm-charcoal text-xl font-bold leading-tight tracking-[-0.015em] font-serif">Espanhol</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-8">
+<a class="text-warm-charcoal hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Início</a>
+<a class="text-warm-charcoal hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Lições</a>
+<a class="text-warm-charcoal hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Prática</a>
+<a class="text-warm-charcoal hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Comunidade</a>
+</div>
+<button class="flex items-center justify-center overflow-hidden rounded-[10px] h-10 px-6 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Perfil</span>
+</button>
+</div>
+<button class="md:hidden p-2 text-warm-charcoal">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow flex justify-center w-full px-6 py-12 lg:px-20 lg:py-16">
+<div class="w-full max-w-[1100px] flex flex-col lg:flex-row gap-12 lg:gap-20">
+<!-- Left Column (45%) -->
+<div class="w-full lg:w-[45%] flex flex-col justify-center items-center lg:items-start text-center lg:text-left space-y-8">
+<div>
+<h1 class="text-3xl lg:text-4xl font-bold text-warm-charcoal mb-4 font-serif">Seus Resultados</h1>
+<p class="text-gray-600 text-lg">Você completou o teste diagnóstico! Aqui está o ponto de partida da sua jornada.</p>
+</div>
+<!-- Score Badge Card -->
+<div class="w-full aspect-square max-w-[400px] bg-surface-white border border-[#eae0de] shadow-sm rounded-[10px] flex flex-col items-center justify-center p-8 relative overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+<span class="material-symbols-outlined text-6xl text-primary/20 mb-4 group-hover:scale-110 transition-transform duration-500">school</span>
+<div class="text-primary font-lora font-bold text-[120px] leading-none tracking-tighter">A2</div>
+<div class="text-2xl font-lora font-semibold text-warm-charcoal mt-2">Pré-Intermediário</div>
+<div class="mt-6 flex items-center gap-2 text-sm text-gray-500 font-medium bg-background-light px-4 py-2 rounded-full border border-gray-100">
+<span class="material-symbols-outlined text-lg text-teal-accent">check_circle</span>
+                        Nível verificado
+                    </div>
+</div>
+</div>
+<!-- Right Column (55%) -->
+<div class="w-full lg:w-[55%] flex flex-col justify-center space-y-10">
+<!-- Detailed Stats Section -->
+<div>
+<h2 class="text-2xl font-bold text-warm-charcoal mb-8 font-lora border-b border-gray-100 pb-4">Detalhes por Área</h2>
+<div class="space-y-8">
+<!-- Grammar -->
+<div class="group">
+<div class="flex justify-between items-end mb-2">
+<span class="text-lg font-medium text-warm-charcoal flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-xl">edit_note</span>
+                                    Gramática
+                                </span>
+<span class="text-teal-accent font-bold text-lg">72<span class="text-gray-400 text-sm font-normal">/100</span></span>
+</div>
+<div class="h-3 w-full bg-[#f0eded] rounded-[10px] overflow-hidden">
+<div class="h-full bg-teal-accent rounded-[10px] w-[72%] transition-all duration-1000 ease-out group-hover:brightness-110"></div>
+</div>
+</div>
+<!-- Comprehension -->
+<div class="group">
+<div class="flex justify-between items-end mb-2">
+<span class="text-lg font-medium text-warm-charcoal flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-xl">hearing</span>
+                                    Compreensão
+                                </span>
+<span class="text-teal-accent font-bold text-lg">65<span class="text-gray-400 text-sm font-normal">/100</span></span>
+</div>
+<div class="h-3 w-full bg-[#f0eded] rounded-[10px] overflow-hidden">
+<div class="h-full bg-teal-accent/90 rounded-[10px] w-[65%] transition-all duration-1000 ease-out group-hover:brightness-110"></div>
+</div>
+</div>
+<!-- Pronunciation -->
+<div class="group">
+<div class="flex justify-between items-end mb-2">
+<span class="text-lg font-medium text-warm-charcoal flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400 text-xl">record_voice_over</span>
+                                    Pronúncia
+                                </span>
+<span class="text-amber-500 font-bold text-lg">58<span class="text-gray-400 text-sm font-normal">/100</span></span>
+</div>
+<div class="h-3 w-full bg-[#f0eded] rounded-[10px] overflow-hidden">
+<div class="h-full bg-amber-accent rounded-[10px] w-[58%] transition-all duration-1000 ease-out group-hover:brightness-110"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Insight Card -->
+<div class="bg-surface-white border border-[#eae0de] p-6 rounded-[10px] shadow-sm flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+<div class="p-3 bg-primary/10 rounded-full text-primary shrink-0">
+<span class="material-symbols-outlined text-3xl">psychology_alt</span>
+</div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-warm-charcoal mb-2 font-lora">Fonemas a trabalhar</h3>
+<p class="text-gray-500 text-sm mb-3">Identificamos alguns sons que precisam de um pouco mais de atenção nas suas próximas aulas.</p>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-1.5 bg-background-light border border-gray-200 rounded-[10px] text-warm-charcoal font-serif font-bold italic text-lg shadow-sm">
+                                "rr"
+                            </span>
+<span class="px-4 py-1.5 bg-background-light border border-gray-200 rounded-[10px] text-warm-charcoal font-serif font-bold italic text-lg shadow-sm">
+                                "ll"
+                            </span>
+<span class="px-4 py-1.5 bg-background-light border border-gray-200 rounded-[10px] text-warm-charcoal font-serif font-bold italic text-lg shadow-sm">
+                                "z"
+                            </span>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<div class="pt-4">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-4 px-8 rounded-[10px] shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+<span>Configurar Minha Agenda</span>
+<span class="material-symbols-outlined">calendar_month</span>
+</button>
+<p class="text-center text-gray-400 text-sm mt-4">Personalize seu plano de estudos com base nestes resultados.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Simple -->
+<footer class="bg-surface-white py-8 border-t border-[#f4f1f0] mt-auto">
+<div class="max-w-[1100px] mx-auto px-6 lg:px-20 text-center">
+<p class="text-gray-400 text-sm">© 2024 Espanhol App. Todos os direitos reservados.</p>
+</div>
+</footer>
+</body></html>

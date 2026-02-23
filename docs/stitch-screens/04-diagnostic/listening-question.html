@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .spanish-text { font-family: 'Lora', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4">
+<!-- iPad-style container (Landscape feel on larger screens) -->
+<div class="relative flex h-full max-h-[800px] w-full max-w-[1024px] flex-col bg-white dark:bg-zinc-900 overflow-hidden shadow-2xl rounded-xl border border-zinc-200 dark:border-zinc-800">
+<!-- TopAppBar -->
+<div class="flex items-center bg-white dark:bg-zinc-900 p-6 pb-4 justify-between border-b border-zinc-100 dark:border-zinc-800">
+<div class="flex flex-col gap-1">
+<h2 class="text-zinc-900 dark:text-zinc-100 text-xl font-bold leading-tight tracking-tight">Teste Diagnóstico</h2>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-medium">Espanhol Nível A1-B2</p>
+</div>
+<div class="text-right">
+<p class="text-primary text-sm font-bold leading-normal tracking-wide uppercase">Seção 2 de 3: Compreensão Auditiva</p>
+</div>
+</div>
+<!-- Progress Section -->
+<div class="flex flex-col gap-3 p-6 bg-zinc-50/50 dark:bg-zinc-800/30">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-zinc-700 dark:text-zinc-300 text-sm font-semibold">Progresso da Seção</p>
+<p class="text-zinc-900 dark:text-zinc-100 text-sm font-bold">3 de 5 questões</p>
+</div>
+<div class="rounded-full bg-zinc-200 dark:bg-zinc-700 h-2.5 overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 60%;"></div>
+</div>
+</div>
+<!-- Main Content Area (Landscape Grid) -->
+<div class="flex-1 overflow-y-auto p-8 flex flex-col items-center">
+<div class="w-full max-w-3xl space-y-8">
+<!-- Audio Player Widget -->
+<div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-8 shadow-sm text-center">
+<span class="text-primary text-xs font-bold tracking-widest uppercase mb-2 block">Áudio 3 de 5</span>
+<h3 class="text-zinc-900 dark:text-zinc-100 text-lg font-medium mb-6">Ouça o áudio e responda:</h3>
+<div class="flex flex-col gap-6 items-center">
+<div class="flex items-center gap-6 w-full">
+<button class="flex shrink-0 items-center justify-center rounded-full size-16 bg-primary text-zinc-900 hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined !text-4xl" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+<div class="flex-1 space-y-2">
+<!-- Waveform Visualization Placeholder -->
+<div class="flex items-end justify-between h-12 gap-1 px-2">
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-1/2 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-2/3 rounded-full"></div>
+<div class="flex-1 bg-primary h-3/4 rounded-full"></div>
+<div class="flex-1 bg-primary h-full rounded-full"></div>
+<div class="flex-1 bg-primary h-4/5 rounded-full"></div>
+<div class="flex-1 bg-primary h-2/3 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-1/2 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-1/3 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-1/4 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-1/2 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-3/4 rounded-full"></div>
+<div class="flex-1 bg-zinc-200 dark:bg-zinc-700 h-2/3 rounded-full"></div>
+</div>
+<div class="flex justify-between items-center px-1">
+<p class="text-zinc-900 dark:text-zinc-100 text-sm font-bold">01:23</p>
+<p class="text-zinc-400 dark:text-zinc-500 text-xs font-medium uppercase tracking-tighter">Spanish Audio Track</p>
+</div>
+</div>
+</div>
+<button class="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors">
+<span class="material-symbols-outlined !text-lg">replay</span>
+                            Ouvir novamente
+                        </button>
+</div>
+</div>
+<!-- Question Section -->
+<div class="space-y-6">
+<h2 class="text-zinc-900 dark:text-zinc-100 text-2xl font-bold text-center spanish-text">¿O que a pessoa está pedindo?</h2>
+<!-- 2x2 Answer Grid -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center p-5 rounded-xl border-2 border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-primary/50 text-left transition-all group">
+<span class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-bold mr-4 group-hover:bg-primary/10 group-hover:text-primary">A</span>
+<span class="text-zinc-700 dark:text-zinc-200 font-medium">Direções para o hospital</span>
+</button>
+<button class="flex items-center p-5 rounded-xl border-2 border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-primary/50 text-left transition-all group">
+<span class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-bold mr-4 group-hover:bg-primary/10 group-hover:text-primary">B</span>
+<span class="text-zinc-700 dark:text-zinc-200 font-medium">O preço de um produto</span>
+</button>
+<button class="flex items-center p-5 rounded-xl border-2 border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-primary/50 text-left transition-all group">
+<span class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-bold mr-4 group-hover:bg-primary/10 group-hover:text-primary">C</span>
+<span class="text-zinc-700 dark:text-zinc-200 font-medium">Um remédio na farmácia</span>
+</button>
+<button class="flex items-center p-5 rounded-xl border-2 border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-primary/50 text-left transition-all group">
+<span class="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-bold mr-4 group-hover:bg-primary/10 group-hover:text-primary">D</span>
+<span class="text-zinc-700 dark:text-zinc-200 font-medium">Horário do ônibus</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Footer -->
+<div class="p-6 bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
+<button class="text-zinc-400 dark:text-zinc-600 font-semibold flex items-center gap-2 px-4 py-2 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors">
+<span class="material-symbols-outlined">flag</span>
+                Reportar erro
+            </button>
+<button class="bg-zinc-200 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 px-8 py-3 rounded-xl font-bold flex items-center gap-2 cursor-not-allowed" disabled="">
+                Próximo
+                <span class="material-symbols-outlined">double_arrow</span>
+</button>
+</div>
+</div>
+</body></html>

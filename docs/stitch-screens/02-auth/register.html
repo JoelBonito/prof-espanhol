@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Espanhol - Criar Conta</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="flex items-center justify-between p-4 bg-transparent">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back</span>
+</button>
+</header>
+<main class="flex-1 flex flex-col items-center px-6 pb-12">
+<!-- Logo and Tagline -->
+<div class="text-center mb-8">
+<div class="flex items-center justify-center mb-2">
+<div class="bg-primary p-2 rounded-lg mr-2">
+<span class="material-symbols-outlined text-white text-3xl">language</span>
+</div>
+<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Espanhol</h1>
+</div>
+<p class="text-slate-500 dark:text-slate-400 font-medium">Sua tutora de espanhol com IA</p>
+</div>
+<!-- Registration Card -->
+<div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+<!-- Tabs -->
+<div class="flex border-b border-slate-100 dark:border-slate-700">
+<button class="flex-1 py-4 text-sm font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                    Login
+                </button>
+<button class="flex-1 py-4 text-sm font-bold text-slate-900 dark:text-slate-100 border-b-2 border-primary">
+                    Criar Conta
+                </button>
+</div>
+<!-- Form Fields -->
+<div class="p-6 space-y-5">
+<!-- Name Field -->
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Nome completo</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-400" placeholder="Digite seu nome" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Email</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-400" placeholder="seu@email.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Senha</label>
+<div class="relative">
+<input class="w-full h-12 px-4 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-slate-400" placeholder="Crie uma senha" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Terms -->
+<p class="text-xs text-slate-500 dark:text-slate-400 text-center px-4 leading-relaxed">
+                    Ao criar uma conta, você concorda com nossos <a class="text-primary hover:underline" href="#">Termos de Uso</a> e <a class="text-primary hover:underline" href="#">Política de Privacidade</a>.
+                </p>
+<!-- Submit Button (Disabled State) -->
+<button class="w-full h-12 bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 font-bold rounded-lg cursor-not-allowed mt-4 transition-colors" disabled="">
+                    Criar Conta
+                </button>
+</div>
+</div>
+<!-- Social Register Alternative -->
+<div class="mt-8 w-full max-w-md flex flex-col items-center">
+<div class="flex items-center w-full mb-6">
+<div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+<span class="px-3 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">ou continue com</span>
+<div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+</div>
+<div class="flex gap-4 w-full">
+<button class="flex-1 h-12 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<img alt="Google Logo" class="w-5 h-5 mr-2" data-alt="Logotipo oficial colorido do Google" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgY3SH6yPoZGVydPuWhvdFjc4qjfCTYZAD89DEZhAYkiz5gmRLDaEhL5wvcDtPIKLxFWZ90sFQUjFZ4JZBERBcpHz87YTPnivIP_UorYtlbZtyHVB5nvGIgB7DU222MwFlO1zYe-p2NQ0d6INqqIC5Dy8xTkLkYksz51JcMbelN17FUAkBPlvQXCBj2wuxovTqVPa2389k3-hzQ9Vd2xGzjjTAdGAzbc0HFKJSn88xKdd8LFakdo8Bd8gbk_-Rb_JH0J12b2M-IHqq"/>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Google</span>
+</button>
+<button class="flex-1 h-12 flex items-center justify-center border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100 mr-2">ios</span>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Apple</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer decoration -->
+<div class="mt-auto h-1 w-32 bg-slate-300 dark:bg-slate-700 rounded-full self-center mb-2"></div>
+</body></html>

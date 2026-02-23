@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Quiz Exercise Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                        "success-light": "#ecfdf5",
+                        "success-border": "#10b981",
+                        "success-text": "#065f46"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .spanish-text { font-family: 'Lora', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col text-slate-900 dark:text-slate-100">
+<!-- Header Navigation -->
+<header class="flex items-center justify-between px-8 py-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+<div class="flex items-center gap-2 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+<span class="font-medium">Módulo</span>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+<h1 class="text-xl font-bold tracking-tight">Quiz</h1>
+<div class="flex items-center gap-3 mt-1">
+<div class="w-32 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[40%] rounded-full"></div>
+</div>
+<span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Questão 2/5</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area (iPad Landscape Centered) -->
+<main class="flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto w-full px-8 py-10 gap-8">
+<!-- Question Section -->
+<div class="w-full text-center space-y-6">
+<p class="text-lg font-medium text-slate-500 italic">Complete la frase:</p>
+<h2 class="spanish-text text-4xl font-bold leading-relaxed max-w-3xl mx-auto">
+                Ayer María <span class="text-success-border underline decoration-2 underline-offset-8">fue</span> al mercado y <span class="text-success-border underline decoration-2 underline-offset-8">compró</span> muchas frutas.
+            </h2>
+</div>
+<!-- 2x2 Answer Grid -->
+<div class="grid grid-cols-2 gap-4 w-full max-w-4xl mt-4">
+<!-- Option A (Correct/Selected) -->
+<div class="relative group cursor-pointer p-6 bg-white dark:bg-slate-800 border-2 border-success-border rounded-xl shadow-sm transition-all flex items-center justify-between ring-4 ring-success-border/10">
+<div class="flex items-center gap-4">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-success-border text-white font-bold">A</span>
+<p class="spanish-text text-2xl font-medium">fue / compró</p>
+</div>
+<span class="material-symbols-outlined text-success-border text-3xl font-bold">check_circle</span>
+</div>
+<!-- Option B -->
+<div class="group cursor-pointer p-6 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-primary/50 transition-all flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 font-bold group-hover:bg-primary/10 group-hover:text-primary">B</span>
+<p class="spanish-text text-2xl font-medium">va / compra</p>
+</div>
+</div>
+<!-- Option C -->
+<div class="group cursor-pointer p-6 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-primary/50 transition-all flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 font-bold group-hover:bg-primary/10 group-hover:text-primary">C</span>
+<p class="spanish-text text-2xl font-medium">fuera / compraría</p>
+</div>
+</div>
+<!-- Option D -->
+<div class="group cursor-pointer p-6 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-primary/50 transition-all flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 font-bold group-hover:bg-primary/10 group-hover:text-primary">D</span>
+<p class="spanish-text text-2xl font-medium">iba / comprando</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Feedback Card (Bottom Bar Style for iPad Landscape) -->
+<section class="bg-success-light dark:bg-emerald-950/30 border-t border-success-border/20 p-8 mt-auto">
+<div class="max-w-5xl mx-auto flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-success-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white text-3xl">celebration</span>
+</div>
+<div>
+<h3 class="text-success-text dark:text-emerald-400 text-2xl font-bold">¡Muy bien!</h3>
+<p class="text-success-text/80 dark:text-emerald-400/80 text-lg mt-1 max-w-xl">
+                        "Fue" and "compró" are the correct forms of the <strong>Indefinido</strong> for completed actions at a specific time in the past ("Ayer").
+                    </p>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-xl font-bold text-xl shadow-lg shadow-primary/20 flex items-center gap-2 transition-transform active:scale-95">
+                Próximo
+                <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Optional: Minimal Bottom Nav for context (iPad version often omits this in immersive quiz modes, but adding for component requirement) -->
+<div class="hidden">
+<div class="flex gap-2 border-t border-slate-200 bg-white px-4 pb-3 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-xs font-medium">Início</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">book</span>
+<p class="text-xs font-medium">Cursos</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">edit_square</span>
+<p class="text-xs font-medium">Prática</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-xs font-medium">Perfil</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-xs font-medium">Config</p>
+</a>
+</div>
+</div>
+</body></html>

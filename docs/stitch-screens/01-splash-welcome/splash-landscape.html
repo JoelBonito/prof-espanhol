@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - AI Tutor Splash Screen</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f45925", // Terracotta / Deep Orange
+                        "background-light": "#fafaf8", // Warm Off-White
+                        "background-dark": "#221410", // Dark warm brown
+                        "text-main": "#2d2420", // Deep warm charcoal
+                        "text-sub": "#8a7e78", // Warm Gray
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom spinner animation */
+        @keyframes gentle-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner-ring {
+            animation: gentle-spin 1.5s linear infinite;
+        }
+
+        /* Fade in entrance */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-enter {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-enter-delay {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.3s forwards;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center overflow-hidden selection:bg-primary/20">
+<!-- Main Container -->
+<main class="w-full h-screen flex flex-col items-center justify-center p-8 relative">
+<!-- Center Content -->
+<div class="flex flex-col items-center justify-center text-center space-y-2 z-10 max-w-2xl">
+<!-- Brand Logo -->
+<h1 class="font-display font-medium text-6xl md:text-8xl tracking-tight text-text-main dark:text-gray-100 animate-enter">
+                Espanhol<span class="text-primary">.</span>
+</h1>
+<!-- Tagline -->
+<p class="font-sans text-base md:text-lg font-normal text-text-sub dark:text-gray-400 tracking-wide mt-4 animate-enter-delay">
+                Tutor AI de Espanhol
+            </p>
+</div>
+<!-- Footer Loading State -->
+<div class="absolute bottom-16 flex flex-col items-center gap-4 animate-enter-delay">
+<!-- Minimal Elegant Spinner -->
+<div class="relative w-8 h-8">
+<!-- Track -->
+<div class="absolute w-full h-full rounded-full border-[1.5px] border-primary/10 dark:border-primary/20"></div>
+<!-- Spinner -->
+<div class="absolute w-full h-full rounded-full border-[1.5px] border-transparent border-t-primary spinner-ring"></div>
+</div>
+<span class="sr-only">Loading content...</span>
+</div>
+<!-- Subtle Decorative Background Elements (optional, keeping it minimal as requested) -->
+<!-- Just a very subtle gradient overlay to enhance warmth without blobs -->
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/5 pointer-events-none z-0 opacity-50"></div>
+</main>
+</body></html>

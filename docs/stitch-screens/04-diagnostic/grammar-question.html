@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen text-slate-900 dark:text-slate-100">
+<div class="flex flex-col min-h-screen max-w-5xl mx-auto px-6 py-8">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-3">
+<span class="material-icons text-primary">assignment</span>
+<h1 class="text-xl font-bold tracking-tight">Teste Diagnóstico</h1>
+</div>
+<div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                Seção 1 de 3: Gramática
+            </div>
+</header>
+<!-- Progress Indicator Section -->
+<div class="mb-10">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-semibold text-primary">Progresso do Teste</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">7/15</span>
+</div>
+<div class="w-full bg-primary/20 dark:bg-primary/10 h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-300" style="width: 47%;"></div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center justify-center">
+<div class="w-full bg-white dark:bg-slate-800/50 shadow-sm border border-slate-200 dark:border-slate-700 rounded-lg p-8 md:p-12">
+<!-- Question Header -->
+<div class="mb-8">
+<span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider rounded mb-4">
+                        Questão 7 de 15
+                    </span>
+<h2 class="text-2xl font-semibold mb-6">Complete la frase:</h2>
+<!-- Sentence Box -->
+<div class="bg-background-light dark:bg-background-dark/50 border-l-4 border-primary p-6 rounded-r-lg">
+<p class="text-xl md:text-2xl leading-relaxed italic">
+                            "Ayer nosotros <span class="inline-block border-b-2 border-primary min-w-[120px] text-center px-2 font-bold text-primary italic">_______</span> al supermercado."
+                        </p>
+</div>
+</div>
+<!-- Multiple Choice Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Option A (Selected) -->
+<button class="flex items-center p-5 rounded-lg border-2 border-primary bg-primary/5 text-left transition-all group">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold mr-4 shadow-sm">
+                            A
+                        </div>
+<span class="text-lg font-medium">fuimos</span>
+<div class="ml-auto">
+<span class="material-icons text-primary">check_circle</span>
+</div>
+</button>
+<!-- Option B -->
+<button class="flex items-center p-5 rounded-lg border-2 border-slate-200 dark:border-slate-700 hover:border-primary/50 bg-transparent text-left transition-all group">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 font-bold mr-4 group-hover:bg-primary/20 group-hover:text-primary">
+                            B
+                        </div>
+<span class="text-lg font-medium">vamos</span>
+</button>
+<!-- Option C -->
+<button class="flex items-center p-5 rounded-lg border-2 border-slate-200 dark:border-slate-700 hover:border-primary/50 bg-transparent text-left transition-all group">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 font-bold mr-4 group-hover:bg-primary/20 group-hover:text-primary">
+                            C
+                        </div>
+<span class="text-lg font-medium">iremos</span>
+</button>
+<!-- Option D -->
+<button class="flex items-center p-5 rounded-lg border-2 border-slate-200 dark:border-slate-700 hover:border-primary/50 bg-transparent text-left transition-all group">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 font-bold mr-4 group-hover:bg-primary/20 group-hover:text-primary">
+                            D
+                        </div>
+<span class="text-lg font-medium">íbamos</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Actions -->
+<footer class="mt-8 flex justify-end">
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-lg shadow-lg shadow-primary/20 transition-transform active:scale-95 text-lg">
+                Próximo
+                <span class="material-icons">double_arrow</span>
+</button>
+</footer>
+</div>
+</body></html>

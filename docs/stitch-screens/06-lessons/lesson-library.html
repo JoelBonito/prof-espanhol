@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f59f0a",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.625rem", // 10px as requested
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Espanhol - Lições</title>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            background-color: rgba(245, 159, 10, 0.1);
+            color: #f59f0a;
+        }
+        .sidebar-active .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation (iPadOS Style) -->
+<aside class="w-72 h-full bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 flex flex-col shrink-0">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary rounded-lg p-2">
+<span class="material-symbols-outlined text-white">translate</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Espanhol</h1>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-medium">Chat</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg sidebar-active transition-colors" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-medium">Lições</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-medium">Agenda</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-medium">Progresso</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-slate-200 dark:border-zinc-800">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Configurações</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-4">
+<img alt="Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="Profile picture of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNy9z915WchQ_SqetcnCDzodUCLwKq3p6yPxgkWtU5HQ1QC-4ewLv-XMPm-JPydz5t8XVogoxzev7oaz0Amp90uEOS8gSyVbeGDvpbW-H7F3rXnSbZLdtsUn1CBCJTenDUHkauYYGueUgYAwiy_WGZcDtSUZ0GaaU6naJOF8_op7cQEafzK7vJtuTuyCoOJ1Y3b5bxrblUSZENhL0eZ4mvClWNoF-_OQz8AMJkPoF3rV02MAsKSNvj7WSm_rDrECVBsMqapHZ73nFw"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Ricardo Silva</p>
+<p class="text-xs text-slate-500 dark:text-zinc-400">Estudante Premium</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-8 pt-8 pb-4">
+<div class="max-w-6xl mx-auto">
+<h2 class="text-4xl font-bold mb-6">Lições</h2>
+<!-- Filter Chips -->
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-5 py-2 bg-primary text-white rounded-full font-medium whitespace-nowrap">Todos</button>
+<button class="px-5 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-full font-medium hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors whitespace-nowrap">Gramática</button>
+<button class="px-5 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-full font-medium hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors whitespace-nowrap">Vocabulário</button>
+<button class="px-5 py-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-full font-medium hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors whitespace-nowrap">Conversação</button>
+</div>
+</div>
+</header>
+<div class="px-8 pb-12">
+<div class="max-w-6xl mx-auto">
+<!-- Module Grid (2 Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+<!-- Módulo 1 - Concluído -->
+<div class="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-sm border border-slate-100 dark:border-zinc-800 flex flex-col sm:flex-row gap-6">
+<div class="w-full sm:w-32 h-32 bg-slate-100 dark:bg-zinc-800 rounded-lg overflow-hidden shrink-0">
+<img alt="Intro" class="w-full h-full object-cover" data-alt="Introduction to Spanish colorful architecture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9vG-yH6xh5KvrqcK5Xp4Bd5yk2hyIFq-K42CWqLiCFcp6OivaJWy6WdSmzBvZgujfPLbZ0xpSq3fncop_RcnxmSZimnPZscKRhop3yuIe6YRxwsp6upiRVlNL4l9huXUu6ntBUBWYbBNzSG8rB9qOqbt7_Dc_YFZR8MbVsUSI8NuzGqjWJ5s-jEyhui4kTvVRsXHquYmFJmsktm_-4v9Wbu_tnTYlerYdHHRnDM0XtVUyIe-hIv1idHvTx_0eniIpt9LWXQpqhEYg"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold">Módulo 1: Introdução</h3>
+<span class="material-symbols-outlined text-emerald-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Conceitos básicos e saudações essenciais.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-emerald-500 font-bold text-sm bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">Concluído</span>
+<span class="text-slate-600 dark:text-zinc-300 font-medium">82/100</span>
+</div>
+</div>
+</div>
+<!-- Módulo 2 - Concluído -->
+<div class="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-sm border border-slate-100 dark:border-zinc-800 flex flex-col sm:flex-row gap-6">
+<div class="w-full sm:w-32 h-32 bg-slate-100 dark:bg-zinc-800 rounded-lg overflow-hidden shrink-0">
+<img alt="Presente" class="w-full h-full object-cover" data-alt="Clocks showing different world times" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2YhiLzrv9Vt3dQP82z2mTSgtl8oGL6JnVeRIs7ttPr3MJFbiRmQ7KnDlqFjKwO5yl8HyHzL9N5sDegIYwjwkdydtVatMNZMruTN6JppufChYtu5kqTjOTlzipuhBcG1Kyfq9uc21RFOAEFvJDy_8UkiwBRpwoKlS7fWbzJpofqUVDoQdarjVTaOyMSNFzOyZizfbumucNXOhmFaWXRy0bjhD2eqsn8IbmHcE1LKBwjw8T-mS5OwREQPlaw08G3z5xeMfhQllC2YtN"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold">Módulo 2: Presente</h3>
+<span class="material-symbols-outlined text-emerald-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Verbos regulares e vida cotidiana.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-emerald-500 font-bold text-sm bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 rounded-full">Concluído</span>
+<span class="text-slate-600 dark:text-zinc-300 font-medium">75/100</span>
+</div>
+</div>
+</div>
+<!-- Módulo 3 - Recomendado / Active -->
+<div class="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-md border-2 border-primary flex flex-col sm:flex-row gap-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary px-4 py-1 rounded-bl-lg">
+<span class="text-white text-xs font-bold uppercase tracking-wider">Recomendado</span>
+</div>
+<div class="w-full sm:w-32 h-32 bg-slate-100 dark:bg-zinc-800 rounded-lg overflow-hidden shrink-0">
+<img alt="Passado" class="w-full h-full object-cover" data-alt="Old library in Spain with classic books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1PDT5MGYnYvx9onK1fFSHMTZIz2tc2HNeLc5L6dD6WpQoGAbaeYjtjKe2Q-MvfdJiRSBQi7jnoUU3J1AhhYHGGZlkbvfNEYMfU3Vn3ebTJTXpbLXEZfn4kDF13sImParE5T8KMRWU3fSMzUCYm-CqsYpEpUVHFTNbyZtACfIWQS2eft4mad3dfSbG-jIFRYapLpcn-cU-ZMGS40MKrLJTolODeFW-cxdO2MZ3taKfPRMaoHjn7mlR1UcG_nZxyh1A0KmJ7XwYy6pg"/>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="mb-1">
+<h3 class="text-lg font-bold">Módulo 3: Passado simples</h3>
+</div>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Narrando histórias e eventos passados.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary font-bold text-sm">Próximo passo</span>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-6 rounded-lg transition-transform active:scale-95 shadow-sm">Iniciar</button>
+</div>
+</div>
+</div>
+<!-- Módulo 4 - Bloqueado -->
+<div class="bg-slate-50 dark:bg-zinc-800/50 rounded-lg p-6 border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row gap-6 opacity-60 grayscale">
+<div class="w-full sm:w-32 h-32 bg-slate-200 dark:bg-zinc-700 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">lock</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold mb-1">Módulo 4: Futuro</h3>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Planos e previsões gramaticais.</p>
+<div class="mt-auto flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-sm font-medium">Bloqueado</span>
+</div>
+</div>
+</div>
+<!-- Módulo 5 - Bloqueado -->
+<div class="bg-slate-50 dark:bg-zinc-800/50 rounded-lg p-6 border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row gap-6 opacity-60 grayscale">
+<div class="w-full sm:w-32 h-32 bg-slate-200 dark:bg-zinc-700 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">lock</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold mb-1">Módulo 5: Subjuntivo</h3>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Desejos, dúvidas e hipóteses complexas.</p>
+<div class="mt-auto flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-sm font-medium">Bloqueado</span>
+</div>
+</div>
+</div>
+<!-- Módulo 6 - Bloqueado -->
+<div class="bg-slate-50 dark:bg-zinc-800/50 rounded-lg p-6 border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row gap-6 opacity-60 grayscale">
+<div class="w-full sm:w-32 h-32 bg-slate-200 dark:bg-zinc-700 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">lock</span>
+</div>
+<div class="flex-1 flex flex-col">
+<h3 class="text-lg font-bold mb-1">Módulo 6: Literatura</h3>
+<p class="text-slate-500 dark:text-zinc-400 text-sm mb-4">Análise de clássicos da língua espanhola.</p>
+<div class="mt-auto flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-sm font-medium">Bloqueado</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

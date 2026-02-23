@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Welcome Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d44811",
+                        "primary-dark": "#b03a0d",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221510",
+                        "warm-gray": "#4a423f",
+                        "off-white": "#fafaf8",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Lora", "serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-serif {
+            font-family: 'Lora', serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-screen w-full flex-col overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Hero Image Section (Approx 55-60% height) -->
+<div class="relative flex-grow w-full h-[60%] overflow-hidden rounded-b-[2.5rem] shadow-sm z-0">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Illustration of a Brazilian family studying Spanish together at a table with tropical plants in the background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1r1aRLTmxj12AFJwlsKUKnhCix9aThP3Z51NNwUXt1qXnz1kKDcFTptKg4UXuJIn7VYXoPVpoPZxZbbJGsyj3K4D0BtDRDucxt-o3afuEiMYI6JbEbqbrS5TgExrirQD5j9NqNvEWd6LSTcx5__-vDlLS5nyPbiZnspzad5ExRKbKWVg2eG_hhhFc95jbiDFbHDlVuPd6iqEBnOR56qT09U3JXPEMo07kvwtMc5dx6Xg5SZorsvbltMrBuo3myDKHe_83tOHjGj4b");'></div>
+<!-- Gradient Overlay for smooth transition if needed, though rounded corners handle it mostly -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/5 mix-blend-multiply"></div>
+</div>
+<!-- Content Section (Approx 40-45% height) -->
+<div class="relative z-10 flex h-auto flex-col items-center justify-between px-6 pt-8 pb-10 -mt-2">
+<div class="flex flex-col items-center w-full max-w-md mx-auto space-y-2">
+<!-- Branding -->
+<h1 class="font-serif text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-2 text-center">
+                    Espanhol
+                </h1>
+<!-- Tagline -->
+<p class="font-display text-warm-gray dark:text-gray-300 text-lg font-medium text-center leading-relaxed max-w-[280px]">
+                    Seu tutor particular de espanhol com IA
+                </p>
+</div>
+<!-- Action Area -->
+<div class="w-full max-w-md mx-auto flex flex-col gap-6 mt-8">
+<!-- Primary CTA Button -->
+<button class="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 bg-primary hover:bg-primary-dark transition-all duration-300 shadow-lg shadow-primary/20 active:scale-[0.98]">
+<span class="relative z-10 font-display text-white text-[17px] font-semibold tracking-wide">Começar</span>
+<div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-white/10 transition-transform duration-300"></div>
+</button>
+<!-- Secondary Link -->
+<a class="flex items-center justify-center gap-2 text-warm-gray dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors group" href="#">
+<span class="font-display text-sm font-semibold tracking-wide">Já tenho conta? Entrar</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Bottom safe area spacer -->
+<div class="h-2"></div>
+</div>
+</div>
+</body></html>

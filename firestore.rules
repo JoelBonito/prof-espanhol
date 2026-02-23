@@ -1,0 +1,167 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // DEFAULT: deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function fieldUnchanged(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    // True if the field either doesn't exist in BOTH docs OR was not changed
+    function fieldUnchangedOrAbsent(field) {
+      return (!(field in resource.data) && !(field in request.resource.data))
+        || ((field in resource.data) && request.resource.data[field] == resource.data[field]);
+    }
+
+    // --- USERS ---
+    match /users/{userId} {
+
+      // Create: only self, with required fields
+      allow create: if isOwner(userId)
+        && request.resource.data.keys().hasAll(['name', 'email', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.email is string
+        // Critical fields must not be set by client on create
+        && (!('level' in request.resource.data) || request.resource.data.level == null)
+        && (!('levelScore' in request.resource.data) || request.resource.data.levelScore == null)
+        && (!('diagnosticCompleted' in request.resource.data) || request.resource.data.diagnosticCompleted == false);
+
+      allow read: if isOwner(userId);
+
+      // Update: only self, critical fields immutable from client
+      allow update: if isOwner(userId)
+        && fieldUnchanged('email')
+        && fieldUnchanged('createdAt')
+        && fieldUnchangedOrAbsent('level')
+        && fieldUnchangedOrAbsent('levelScore')
+        && fieldUnchangedOrAbsent('persona')
+        && fieldUnchangedOrAbsent('correctionIntensity')
+        && fieldUnchangedOrAbsent('diagnosticCompleted')
+        && fieldUnchangedOrAbsent('adapterState')
+        && fieldUnchangedOrAbsent('dailyChatCount')
+        && fieldUnchangedOrAbsent('dailyChatResetDate');
+
+      allow delete: if false;
+
+      // --- DIAGNOSTICS ---
+      // Client can create and read; critical scoring fields are protected on update
+      match /diagnostics/{docId} {
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasAll(['type', 'status', 'startedAt'])
+          && request.resource.data.type in ['initial', 'retest']
+          && request.resource.data.status == 'in_progress'
+          // Scoring fields must not be set on creation
+          && (!('overallScore' in request.resource.data) || request.resource.data.overallScore == null)
+          && (!('levelAssigned' in request.resource.data) || request.resource.data.levelAssigned == null);
+
+        // Update: client can update answers/progress, but not scoring fields
+        allow update: if isOwner(userId)
+          && fieldUnchangedOrAbsent('overallScore')
+          && fieldUnchangedOrAbsent('levelAssigned')
+          && fieldUnchangedOrAbsent('strengths')
+          && fieldUnchangedOrAbsent('weaknesses')
+          && fieldUnchangedOrAbsent('phonemesToWork')
+          && fieldUnchanged('type');
+
+        allow delete: if false;
+      }
+
+      // --- SESSIONS ---
+      match /sessions/{docId} {
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasAll(['type', 'status', 'startedAt'])
+          && request.resource.data.type in ['chat', 'lesson']
+          && request.resource.data.status == 'active';
+
+        // Client can update status/duration but not scores (set by CF)
+        allow update: if isOwner(userId)
+          && fieldUnchangedOrAbsent('overallScore')
+          && fieldUnchangedOrAbsent('grammarScore')
+          && fieldUnchangedOrAbsent('pronunciationScore')
+          && fieldUnchangedOrAbsent('vocabularyScore')
+          && fieldUnchanged('type');
+
+        allow delete: if false;
+      }
+
+      // --- LESSON PROGRESS ---
+      match /lessonProgress/{docId} {
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasAll(['moduleTitle', 'level', 'status', 'totalBlocks']);
+
+        allow update: if isOwner(userId)
+          && fieldUnchanged('moduleTitle')
+          && fieldUnchanged('level')
+          && fieldUnchanged('totalBlocks');
+
+        allow delete: if false;
+      }
+
+      // --- HOMEWORK (created only by Cloud Functions) ---
+      match /homework/{docId} {
+        allow read: if isOwner(userId);
+
+        // Client can only update status and score (completing homework)
+        allow update: if isOwner(userId)
+          && fieldUnchanged('sourceSessionId')
+          && fieldUnchanged('sourceType')
+          && fieldUnchanged('contentRef')
+          && fieldUnchanged('deadline')
+          && fieldUnchanged('createdAt');
+
+        allow create: if false;
+        allow delete: if false;
+      }
+
+      // --- ADAPTATIONS (read-only, managed by Cloud Functions) ---
+      match /adaptations/{docId} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+
+      // --- SCHEDULE LOGS ---
+      match /scheduleLogs/{docId} {
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasAll(['scheduledDate', 'scheduledTime', 'status', 'toleranceWindowMinutes']);
+
+        allow update: if isOwner(userId)
+          && fieldUnchanged('scheduledDate')
+          && fieldUnchanged('scheduledTime')
+          && fieldUnchanged('toleranceWindowMinutes');
+
+        allow delete: if false;
+      }
+
+      // --- REPORTS (immutable once created) ---
+      match /reports/{docId} {
+        allow read: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && request.resource.data.keys().hasAll(['category', 'screen', 'contentSnapshot', 'createdAt'])
+          && request.resource.data.category in ['grammar_error', 'wrong_translation', 'bad_phonetic_correction', 'other'];
+
+        allow update, delete: if false;
+      }
+    }
+  }
+}

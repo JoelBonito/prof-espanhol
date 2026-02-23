@@ -1,0 +1,1 @@
+{"version":3,"file":"appcheck.js","sourceRoot":"","sources":["../../src/middleware/appcheck.ts"],"names":[],"mappings":";;AAQA,0CAOC;AAdD,uDAAyD;AAEzD;;;;GAIG;AACH,SAAgB,eAAe,CAAC,OAAwB;IACtD,IAAI,CAAC,OAAO,CAAC,GAAG,EAAE,CAAC;QACjB,MAAM,IAAI,kBAAU,CAClB,mBAAmB,EACnB,qCAAqC,CACtC,CAAC;IACJ,CAAC;AACH,CAAC"}

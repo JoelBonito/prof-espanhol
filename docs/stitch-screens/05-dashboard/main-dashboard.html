@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Espanhol - Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "primary-light": "#fdf1eb",
+                        "background-light": "#fafaf8",
+                        "background-dark": "#221610",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2d2420",
+                        "text-main": "#181311",
+                        "text-muted": "#896f61",
+                        "accent-teal": "#0d9488",
+                        "accent-amber": "#d97706",
+                    },
+                    fontFamily: {
+                        "display": ["Lora", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "custom": "10px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-text-main dark:text-gray-100 font-body antialiased selection:bg-primary selection:text-white pb-24">
+<!-- Top Header Area -->
+<header class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-6 py-4 flex items-center justify-between border-b border-stone-200 dark:border-stone-800">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-muted dark:text-gray-400">Bom dia,</span>
+<h1 class="font-display text-3xl font-bold text-text-main dark:text-white tracking-tight">Olá, Matheus</h1>
+</div>
+<div class="flex items-center gap-3">
+<!-- Streak Badge -->
+<div class="flex items-center gap-1.5 bg-primary-light dark:bg-primary/20 px-3 py-1.5 rounded-custom border border-primary/10">
+<span class="material-symbols-outlined text-primary text-[20px] fill-1">local_fire_department</span>
+<span class="text-sm font-bold text-primary">7 dias</span>
+</div>
+<!-- Settings Button -->
+<button aria-label="Settings" class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-surface-dark border border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors">
+<span class="material-symbols-outlined text-text-muted dark:text-gray-400">settings</span>
+</button>
+</div>
+</header>
+<main class="px-4 py-6 space-y-6 max-w-lg mx-auto md:max-w-3xl">
+<!-- Status Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Level Progress Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-custom shadow-sm border border-stone-100 dark:border-stone-800">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-teal-50 dark:bg-teal-900/20 rounded-lg">
+<span class="material-symbols-outlined text-accent-teal">trending_up</span>
+</div>
+<span class="text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-gray-500">Nível atual</span>
+</div>
+<h3 class="font-display text-xl font-bold mb-1 dark:text-white">A2 Pré-intermediário</h3>
+<div class="mt-4">
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium text-text-main dark:text-gray-200">Progresso do Nível</span>
+<span class="font-bold text-accent-teal">65%</span>
+</div>
+<div class="w-full bg-stone-100 dark:bg-stone-700 rounded-full h-2.5">
+<div class="bg-accent-teal h-2.5 rounded-full transition-all duration-500" style="width: 65%"></div>
+</div>
+</div>
+</div>
+<!-- Next Session Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-custom shadow-sm border border-stone-100 dark:border-stone-800">
+<div class="flex justify-between items-start mb-3">
+<div class="p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+<span class="material-symbols-outlined text-accent-amber">schedule</span>
+</div>
+<span class="text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-gray-500">Próximo bloco</span>
+</div>
+<h3 class="font-display text-xl font-bold mb-1 dark:text-white">Hoje, 18:00</h3>
+<p class="text-sm text-text-muted dark:text-gray-400 mt-2">Conversação com Tutor IA</p>
+<button class="mt-4 text-sm font-semibold text-primary hover:text-orange-700 flex items-center gap-1 group">
+                    Ver calendário
+                    <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Primary Actions -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Voice Action -->
+<button class="relative group overflow-hidden bg-primary text-white p-6 rounded-custom shadow-md shadow-orange-200/50 dark:shadow-none hover:shadow-lg hover:shadow-orange-300/50 transition-all flex flex-col items-center justify-center gap-3 text-center min-h-[160px]">
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-[32px] fill-1">mic</span>
+</div>
+<span class="font-display font-bold text-lg leading-tight">Iniciar Conversa</span>
+</button>
+<!-- Study Action -->
+<button class="relative group overflow-hidden bg-white dark:bg-surface-dark text-text-main dark:text-white border border-stone-200 dark:border-stone-700 p-6 rounded-custom shadow-sm hover:border-primary/50 transition-all flex flex-col items-center justify-center gap-3 text-center min-h-[160px]">
+<div class="w-14 h-14 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary">menu_book</span>
+</div>
+<span class="font-display font-bold text-lg leading-tight">Estudar Lição</span>
+</button>
+</section>
+<!-- Pending Tasks -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-display text-xl font-bold text-text-main dark:text-white">Deveres pendentes <span class="text-text-muted font-normal text-lg ml-1">(2)</span></h3>
+<button class="text-sm font-medium text-text-muted hover:text-primary">Ver todos</button>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-custom shadow-sm border border-stone-100 dark:border-stone-800 divide-y divide-stone-100 dark:divide-stone-800">
+<!-- Task Item 1 -->
+<div class="p-4 flex items-center gap-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors rounded-t-custom">
+<div class="h-10 w-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-red-500">priority_high</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-base font-semibold text-text-main dark:text-white truncate">Gramática: Verbos Irregulares</h4>
+<p class="text-xs text-text-muted dark:text-gray-400">Prazo: Amanhã</p>
+</div>
+<span class="px-2.5 py-1 text-xs font-semibold bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-md">Urgente</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 text-text-muted">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<!-- Task Item 2 -->
+<div class="p-4 flex items-center gap-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors rounded-b-custom">
+<div class="h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-blue-500">edit_note</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-base font-semibold text-text-main dark:text-white truncate">Vocabulário: Viagem</h4>
+<p class="text-xs text-text-muted dark:text-gray-400">Prazo: 3 dias</p>
+</div>
+<span class="px-2.5 py-1 text-xs font-semibold bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-md">Normal</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 text-text-muted">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Notification Banner -->
+<div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-custom p-4 flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-800 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-300">history_edu</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-blue-900 dark:text-blue-100">Re-teste disponível!</p>
+<p class="text-xs text-blue-700 dark:text-blue-300">30 dias desde o seu último teste de proficiência.</p>
+</div>
+<button class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-md shadow-sm">
+                Iniciar
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full bg-white dark:bg-surface-dark border-t border-stone-200 dark:border-stone-800 px-6 pb-6 pt-3 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-end max-w-lg mx-auto md:max-w-3xl">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="h-8 flex items-center justify-center text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px] fill-1">home</span>
+</div>
+<span class="text-[10px] font-bold text-primary tracking-wide">Início</span>
+</a>
+<!-- Chat -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="h-8 flex items-center justify-center text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">chat_bubble</span>
+</div>
+<span class="text-[10px] font-medium text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors tracking-wide">Chat</span>
+</a>
+<!-- Book -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="h-8 flex items-center justify-center text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">menu_book</span>
+</div>
+<span class="text-[10px] font-medium text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors tracking-wide">Lições</span>
+</a>
+<!-- Calendar -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="h-8 flex items-center justify-center text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">calendar_month</span>
+</div>
+<span class="text-[10px] font-medium text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors tracking-wide">Agenda</span>
+</a>
+<!-- Chart -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="h-8 flex items-center justify-center text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[26px]">bar_chart</span>
+</div>
+<span class="text-[10px] font-medium text-text-muted dark:text-gray-400 group-hover:text-primary transition-colors tracking-wide">Stats</span>
+</a>
+</div>
+</nav>
+</body></html>
