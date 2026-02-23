@@ -1,7 +1,7 @@
 ---
 story: "1.4"
 epic: "Epic 1: Teste Diagnostico"
-status: pending
+status: done
 agent: backend-specialist
 tool: claude_code
 depends_on: ["1.3"]

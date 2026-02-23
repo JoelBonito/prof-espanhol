@@ -51,6 +51,7 @@ E o Dashboard e desbloqueado
 
 ## Contexto de Dependencias
 > Story 1.4: Todas as 3 secoes do diagnostico completadas; dados em diagnostics/{uid}
+> Story 1.4 (Teste de pronuncia (Gemini audio analysis)): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao
