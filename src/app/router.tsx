@@ -6,6 +6,8 @@ import { AppLayout } from '../components/layout/AppLayout';
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
 const DeviceTest = lazy(() => import('../pages/DeviceTest'));
+const OnboardingPage = lazy(() => import('../pages/OnboardingPage'));
+const DiagnosticPage = lazy(() => import('../pages/DiagnosticPage'));
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,22 @@ export const router = createBrowserRouter([
     element: (
       <Suspense fallback={<PageLoader />}>
         <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/onboarding',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <OnboardingPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/diagnostic',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <DiagnosticPage />
       </Suspense>
     ),
   },

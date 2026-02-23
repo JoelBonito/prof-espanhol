@@ -56,6 +56,7 @@ ENTAO o Dashboard reflete a mudanca via real-time listener sem refresh manual
 > Story 0.2: Firestore schema com todas as collections necessarias
 > Story 1.5: Nivel calculado e perfil disponivel
 > Story 0.4 (Design System core components): implementada
+> Story 1.5 (Calculo de nivel + perfil de fluencia): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

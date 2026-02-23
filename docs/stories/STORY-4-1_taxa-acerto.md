@@ -57,6 +57,7 @@ ENTAO calcula separadamente para: fonetica, gramatica, vocabulario (podem estar 
 ## Contexto de Dependencias
 > Story 0.2: Firestore schema com sessions/{uid} e profile disponivel
 > Story 1.5: Nivel do usuario calculado (fallback quando < 3 sessoes)
+> Story 1.5 (Calculo de nivel + perfil de fluencia): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

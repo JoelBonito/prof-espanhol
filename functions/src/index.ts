@@ -14,6 +14,12 @@ setGlobalOptions({
   maxInstances: 10,
 });
 
+// Pronunciation analysis (Story 1.4)
+export { analyzePronunciation } from "./analyzePronunciation.js";
+
+// Diagnostic result calculation (Story 1.5)
+export { calculateDiagnosticResult } from "./calculateDiagnosticResult.js";
+
 // Example: health check callable (demonstrates Zod + App Check)
 const HealthCheckSchema = z.object({
   echo: z.string().min(1).max(100).optional(),

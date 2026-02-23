@@ -66,6 +66,7 @@ E blocos passados nao-cumpridos permanecem como "missed"
 > Story 0.4: Design System components para calendario
 > Story 1.5: Nivel do usuario calculado (blocos podem sugerir tipo de atividade por nivel)
 > Story 0.4 (Design System core components): implementada
+> Story 1.5 (Calculo de nivel + perfil de fluencia): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

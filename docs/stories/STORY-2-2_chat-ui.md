@@ -65,6 +65,7 @@ ENTAO o waveform Canvas mostra atividade de audio em tempo real
 > Story 0.4: Design System components disponiveis (Modal, Button, Avatar)
 > Story 2.1: Conexao WebSocket com Gemini Live API funcionando
 > Story 0.4 (Design System core components): implementada
+> Story 1.5 (Calculo de nivel + perfil de fluencia): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

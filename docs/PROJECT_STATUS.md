@@ -1,27 +1,23 @@
 # Project Status
 
-**Atualizado:** 2026-02-23 20:20
+**Atualizado:** 2026-02-23 20:27
 **Branch:** `main`
-**Progresso:** ███░░░░░░░ 33% (10/30)
+**Progresso:** ███░░░░░░░ 37% (11/30)
 
 ## Proxima Story
-**Story 1.5:** Calculo de nivel + perfil de fluencia
+**Story 2.1:** Gemini Live API — WebSocket + token efemero
 - **Agente:** backend-specialist
 - **Ferramenta:** claude_code
-- **Modelo:** Sonnet
-- **Depende de:** Story 1.4 (done)
+- **Modelo:** Opus 4.6
+- **Depende de:** Story 0.2 (done), Story 0.5 (done)
 
 
-
-## Alerta de Modelo
-> Story 1.5 usa **Sonnet**. A proxima (Story 2.1) usa **Opus 4.6**.
-> Ao concluir esta story, troque o modelo com `/model` antes de prosseguir.
 
 ## Progresso por Epic
 | Epic | Status | Progresso |
 |------|--------|-----------|
 | Epic 0: Setup e Infraestrutura | done | 100% (6/6) |
-| Epic 1: Teste Diagnostico | in_progress | 80% (4/5) |
+| Epic 1: Teste Diagnostico | done | 100% (5/5) |
 | Epic 2: Chat Supervisionado | pending | 0% (0/4) |
 | Epic 3: Licoes e Conteudo | pending | 0% (0/4) |
 | Epic 4: Motor de Adaptacao | pending | 0% (0/3) |
@@ -30,7 +26,7 @@
 
 ## Ultimos Commits
 ```
+fec6119 feat: implementa o fluxo de onboarding e a estrutura inicial para o teste diagnóstico.
+c03a6de feat(diagnostic): implementar seção de pronúncia com Gemini — Story 1.4
 7ce91b1 security: remover valores reais do .env.example + limpar functions/lib
-6e10a40 fix(cd): adicionar --force ao firebase deploy
-f882656 fix(ci): --passWithNoTests enquanto não há testes unitários de app
 ```

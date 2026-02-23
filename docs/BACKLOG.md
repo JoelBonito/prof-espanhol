@@ -13,7 +13,7 @@
 - [x] Story 1.2: Teste de gramatica `[sonnet]`
 - [x] Story 1.3: Teste de compreensao auditiva `[sonnet]`
 - [x] Story 1.4: Teste de pronuncia (Gemini audio analysis) `[opus]`
-- [ ] Story 1.5: Calculo de nivel + perfil de fluencia `[sonnet]`
+- [x] Story 1.5: Calculo de nivel + perfil de fluencia `[sonnet]`
 
 ## Epic 2: Chat Supervisionado [P0] [OWNER: claude_code]
 - [ ] Story 2.1: Gemini Live API — WebSocket + token efemero `[opus]`

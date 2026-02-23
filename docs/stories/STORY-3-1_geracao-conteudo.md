@@ -60,6 +60,7 @@ ENTAO o cache antigo e invalidado e novo conteudo e gerado
 ## Contexto de Dependencias
 > Story 0.2: Firestore schema com collections lessons/{uid} disponivel
 > Story 1.5: Nivel do usuario calculado (necessario para personalizar conteudo)
+> Story 1.5 (Calculo de nivel + perfil de fluencia): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao
