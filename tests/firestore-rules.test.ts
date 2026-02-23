@@ -5,9 +5,13 @@ import {
   RulesTestEnvironment,
 } from "@firebase/rules-unit-testing";
 import { readFileSync } from "fs";
-import { resolve } from "path";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { describe, it, beforeAll, afterAll, beforeEach } from "vitest";
 import { setDoc, doc, getDoc, updateDoc, deleteDoc, serverTimestamp, addDoc, collection } from "firebase/firestore";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let testEnv: RulesTestEnvironment;
 const PROJECT_ID = "firestore-rules-test";
