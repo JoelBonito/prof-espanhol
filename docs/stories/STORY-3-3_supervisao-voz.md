@@ -48,6 +48,7 @@ ENTAO oferece alternativa em texto para o mesmo exercicio
 
 ## Contexto de Dependencias
 > Story 3.2: Flashcards e quizzes implementados; exercicios funcionais
+> Story 3.2 (Flashcards + quizzes interativos): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

@@ -23,7 +23,7 @@
 
 ## Epic 3: Licoes e Conteudo [P0] [OWNER: claude_code]
 - [ ] Story 3.1: Geracao de conteudo via Gemini REST + cache `[opus]`
-- [ ] Story 3.2: Flashcards + quizzes interativos `[sonnet]`
+- [x] Story 3.2: Flashcards + quizzes interativos `[sonnet]`
 - [ ] Story 3.3: Supervisao por voz da IA nas licoes `[opus]`
 - [ ] Story 3.4: Desbloqueio progressivo de modulos `[sonnet]`
 
