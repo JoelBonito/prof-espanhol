@@ -136,7 +136,7 @@ function getWordIndexByChar(starts: number[], charIndex: number): number {
 
 function getExerciseHint(exercise: LessonExercise): string {
   if (exercise.type === 'flashcard') {
-    return 'Escutá a pergunta e repetí em voz alta ajuda a fixar o vocabulário.';
+    return 'Ouça a pergunta e repita em voz alta para fixar o vocabulário.';
   }
   if (exercise.type === 'fill_blank') {
     return 'Prestá atención al contexto de la frase antes de completar el espacio.';
@@ -590,7 +590,7 @@ export default function LessonsPage() {
                   retryExercise={retryExercise}
                   onPlayHint={() => speakText(getExerciseHint(activeExercise))}
                   onShowTextHint={() =>
-                    setFeedback({ status: 'correct', message: 'Dica textual', explanation: getExerciseHint(activeExercise) })
+                    setFeedback({ status: 'incorrect', message: 'Dica textual', explanation: getExerciseHint(activeExercise) })
                   }
                   onEvaluate={evaluateAnswer}
                   onChoiceSubmit={handleChoiceSubmit}

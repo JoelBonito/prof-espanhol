@@ -52,63 +52,62 @@ export function DiagnosticResultView({ diagnosticId }: DiagnosticResultViewProps
   const [result, setResult] = useState<DiagnosticResultData | null>(null);
   const [previousResult, setPreviousResult] = useState<DiagnosticResultData | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [retryTrigger, setRetryTrigger] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
+    setState('loading');
 
     calculateFn({ diagnosticId })
       .then(async (res) => {
-        if (!cancelled) {
-          setResult(res.data);
+        if (cancelled) return;
+        setResult(res.data);
 
-          // Fetch previous diagnostic for comparison
-          try {
-            const user = auth.currentUser;
-            if (user) {
-              const diagRef = collection(db, 'users', user.uid, 'diagnostics');
-              const q = query(
-                diagRef,
-                where('status', '==', 'completed'),
-                orderBy('completedAt', 'desc'),
-                limit(2)
-              );
-              const snap = await getDocs(q);
+        // Fetch previous diagnostic for comparison
+        try {
+          const user = auth.currentUser;
+          if (user) {
+            const diagRef = collection(db, 'users', user.uid, 'diagnostics');
+            const q = query(
+              diagRef,
+              where('status', '==', 'completed'),
+              orderBy('completedAt', 'desc'),
+              limit(2),
+            );
+            const snap = await getDocs(q);
 
-              // If we have 2, the one at index 1 is the previous one
-              // (index 0 is the current one we just finished)
-              if (snap.docs.length >= 2) {
-                const prev = snap.docs[1].data();
-                setPreviousResult({
-                  overallScore: prev.overallScore,
-                  level: prev.levelAssigned,
-                  grammarScore: prev.grammarScore,
-                  listeningScore: prev.listeningScore,
-                  pronunciationScore: prev.pronunciationScore,
-                  strengths: prev.strengths || [],
-                  weaknesses: prev.weaknesses || [],
-                  phonemesToWork: prev.phonemesToWork || []
-                });
-              }
+            // index 0 = current, index 1 = previous
+            if (snap.docs.length >= 2) {
+              const prev = snap.docs[1].data();
+              setPreviousResult({
+                overallScore: prev.overallScore,
+                level: prev.levelAssigned,
+                grammarScore: prev.grammarScore,
+                listeningScore: prev.listeningScore,
+                pronunciationScore: prev.pronunciationScore,
+                strengths: prev.strengths || [],
+                weaknesses: prev.weaknesses || [],
+                phonemesToWork: prev.phonemesToWork || [],
+              });
             }
-          } catch (err) {
-            console.error('Error fetching previous diagnostic:', err);
           }
-
-          setState('result');
+        } catch (err) {
+          console.error('Error fetching previous diagnostic:', err);
         }
+
+        setState('result');
       })
       .catch((err) => {
-        if (!cancelled) {
-          console.error('calculateDiagnosticResult error:', err);
-          setErrorMsg('Não foi possível calcular o resultado. Tente novamente.');
-          setState('error');
-        }
+        if (cancelled) return;
+        console.error('calculateDiagnosticResult error:', err);
+        setErrorMsg('Não foi possível calcular o resultado. Tente novamente.');
+        setState('error');
       });
 
     return () => {
       cancelled = true;
     };
-  }, [diagnosticId]);
+  }, [diagnosticId, retryTrigger]);
 
   // ─── Loading ───────────────────────────────────────────────────────────────
   if (state === 'loading') {
@@ -133,7 +132,7 @@ export function DiagnosticResultView({ diagnosticId }: DiagnosticResultViewProps
             <Icon name="error" size={48} className="text-error" />
           </div>
           <p className="font-body text-neutral-600">{errorMsg}</p>
-          <Button onClick={() => setState('loading')}>
+          <Button onClick={() => setRetryTrigger((t) => t + 1)}>
             <Icon name="refresh" size={20} />
             Tentar novamente
           </Button>

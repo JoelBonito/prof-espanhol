@@ -100,10 +100,23 @@
 
 ## Ações Requeridas (MAJOR)
 
-1. [ ] **#1 — QuizMultipleChoice:** Reset do `selected` quando `exercise.id` muda
-2. [ ] **#2 — QuizMultipleChoice:** Remover fallback `[exercise.answer]` ou adicionar validação no gerador
-3. [ ] **#5 — QuizFillBlank:** Reset do `answer` quando `exercise.id` muda
-4. [ ] **#7 — LessonsPage:** Extrair pelo menos `useLessonSession` para reduzir tamanho do componente
+1. [x] **#1 — QuizMultipleChoice:** Reset do `selected` quando `exercise.id` muda ✅ corrigido
+2. [x] **#2 — QuizMultipleChoice:** Remover fallback `[exercise.answer]` ✅ corrigido — agora renderiza estado "Exercício indisponível"
+3. [x] **#5 — QuizFillBlank:** Reset do `answer` quando `exercise.id` muda ✅ corrigido
+4. [ ] **#7 — LessonsPage:** Extrair hooks — dívida técnica planejada (não bug funcional)
+
+## Fixes Aplicados em 2026-02-24
+
+| # | Arquivo | Mudança |
+|---|---------|---------|
+| #1 | `QuizMultipleChoice.tsx:19` | `useEffect(() => setSelected(''), [exercise.id])` |
+| #2 | `QuizMultipleChoice.tsx:23` | Removido fallback `[exercise.answer]`; guard renderiza "Exercício indisponível" |
+| #5 | `QuizFillBlank.tsx:16` | `useEffect(() => setAnswer(''), [exercise.id])` |
+| #9 | `LessonsPage.tsx:139` | Voseo → pt-BR: "Ouça a pergunta e repita em voz alta…" |
+| #10 | `LessonsPage.tsx:593` | `status: 'correct'` → `status: 'incorrect'` para dica textual (estilo âmbar, sem verde falso-positivo) |
+
+**TypeScript:** ✅ zero erros pós-fix
+**Testes:** ✅ 6/6 passando
 
 ---
 

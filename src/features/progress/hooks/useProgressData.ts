@@ -1,82 +1,143 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { auth, db } from '../../../lib/firebase';
-import { UserProgress, CEFRLevel } from '../types/progress';
+import type { UserProgress, CEFRLevel } from '../types/progress';
+
+function toIsoDate(date: Date): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function getMondayOfWeek(date: Date): Date {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function trend(current: number, previous: number): 'up' | 'down' | 'stable' {
+  if (current > previous) return 'up';
+  if (current < previous) return 'down';
+  return 'stable';
+}
 
 export function useProgressData() {
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState<UserProgress | null>(null);
-    const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<UserProgress | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            const user = auth.currentUser;
-            if (!user) {
-                setError('Usuário não autenticado');
-                setLoading(false);
-                return;
-            }
+  useEffect(() => {
+    async function fetchData() {
+      const user = auth.currentUser;
+      if (!user) {
+        setError('Usuário não autenticado');
+        setLoading(false);
+        return;
+      }
 
-            try {
-                const userRef = doc(db, 'users', user.uid);
-                await getDoc(userRef);
+      try {
+        // Latest 2 completed diagnostics from the correct subcollection
+        const diagRef = collection(db, 'users', user.uid, 'diagnostics');
+        const diagSnap = await getDocs(
+          query(
+            diagRef,
+            where('status', '==', 'completed'),
+            orderBy('completedAt', 'desc'),
+            limit(2),
+          ),
+        );
 
-                // Get Diagnostic scores as baseline
-                const diagRef = collection(db, 'diagnostics');
-                const q = query(diagRef, where('uid', '==', user.uid), orderBy('timestamp', 'desc'), limit(1));
-                const diagSnap = await getDocs(q);
-                const lastDiag = !diagSnap.empty ? diagSnap.docs[0].data() : null;
+        const latest = diagSnap.docs[0]?.data() ?? null;
+        const previous = diagSnap.docs[1]?.data() ?? null;
 
-                // Mock/Calculate progress based on history
-                // In a real app, we would aggregate sessions
-                const mockData: UserProgress = {
-                    grammar: {
-                        score: lastDiag?.grammarScore || 65,
-                        level: (lastDiag?.cefrLevel as CEFRLevel) || 'A2',
-                        trend: 'up',
-                        lastChange: 12
-                    },
-                    vocabulary: {
-                        score: (lastDiag?.vocabularyScore || 58),
-                        level: (lastDiag?.cefrLevel as CEFRLevel) || 'A2',
-                        trend: 'stable',
-                        lastChange: 3
-                    },
-                    pronunciation: {
-                        score: lastDiag?.pronunciationScore || 52,
-                        level: (lastDiag?.cefrLevel as CEFRLevel) || 'A2',
-                        trend: 'up',
-                        lastChange: 15
-                    },
-                    phonemes: [
-                        { phoneme: 'r', status: 'improved', attempts: 45, accuracy: 88 },
-                        { phoneme: 'j', status: 'improved', attempts: 30, accuracy: 82 },
-                        { phoneme: 'rr', status: 'pending', attempts: 50, accuracy: 45 },
-                        { phoneme: 'ñ', status: 'pending', attempts: 20, accuracy: 38 },
-                        { phoneme: 'z', status: 'untested', attempts: 0, accuracy: 0 },
-                    ],
-                    weeklyActivity: [
-                        { day: 'Seg', completed: 1, scheduled: 1 },
-                        { day: 'Ter', completed: 0, scheduled: 1 },
-                        { day: 'Qua', completed: 2, scheduled: 2 },
-                        { day: 'Qui', completed: 1, scheduled: 1 },
-                        { day: 'Sex', completed: 0, scheduled: 1 },
-                        { day: 'Sáb', completed: 3, scheduled: 2 },
-                        { day: 'Dom', completed: 0, scheduled: 0 },
-                    ]
-                };
+        const grammarScore: number = latest?.grammarScore ?? 0;
+        const listeningScore: number = latest?.listeningScore ?? 0;
+        const pronunciationScore: number = latest?.pronunciationScore ?? 0;
+        const level = (latest?.levelAssigned ?? 'A1') as CEFRLevel;
 
-                setData(mockData);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching progress:', err);
-                setError('Erro ao carregar dados de progresso');
-                setLoading(false);
-            }
+        const prevGrammar: number = previous?.grammarScore ?? grammarScore;
+        const prevListening: number = previous?.listeningScore ?? listeningScore;
+        const prevPronunciation: number = previous?.pronunciationScore ?? pronunciationScore;
+
+        // Weekly activity — query scheduleLogs for current Mon–Sun window
+        const monday = getMondayOfWeek(new Date());
+        const nextMonday = new Date(monday);
+        nextMonday.setDate(monday.getDate() + 7);
+
+        const logsSnap = await getDocs(
+          query(
+            collection(db, 'users', user.uid, 'scheduleLogs'),
+            where('scheduledDate', '>=', toIsoDate(monday)),
+            where('scheduledDate', '<', toIsoDate(nextMonday)),
+          ),
+        );
+
+        const DAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const weekMap: Record<string, { completed: number; scheduled: number }> = {};
+        for (const logDoc of logsSnap.docs) {
+          const log = logDoc.data();
+          const dateStr = typeof log.scheduledDate === 'string' ? log.scheduledDate : null;
+          if (!dateStr) continue;
+          const [y, m, d] = dateStr.split('-').map(Number);
+          const dayLabel = DAY_NAMES[new Date(y, m - 1, d).getDay()];
+          if (!weekMap[dayLabel]) weekMap[dayLabel] = { completed: 0, scheduled: 0 };
+          weekMap[dayLabel].scheduled++;
+          if (log.status === 'completed') weekMap[dayLabel].completed++;
         }
 
-        fetchData();
-    }, []);
+        const WEEK_ORDER = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+        const weeklyActivity = WEEK_ORDER.map((day) => ({
+          day,
+          completed: weekMap[day]?.completed ?? 0,
+          scheduled: weekMap[day]?.scheduled ?? 0,
+        }));
 
-    return { data, loading, error };
+        // Phonemes from latest diagnostic
+        const rawPhonemes: unknown[] = Array.isArray(latest?.phonemesToWork)
+          ? (latest.phonemesToWork as unknown[])
+          : [];
+        const phonemes = rawPhonemes
+          .filter((p): p is string => typeof p === 'string')
+          .map((phoneme) => ({
+            phoneme,
+            status: 'pending' as const,
+            attempts: 0,
+            accuracy: 0,
+          }));
+
+        setData({
+          grammar: {
+            score: grammarScore,
+            level,
+            trend: trend(grammarScore, prevGrammar),
+            lastChange: grammarScore - prevGrammar,
+          },
+          vocabulary: {
+            score: listeningScore,
+            level,
+            trend: trend(listeningScore, prevListening),
+            lastChange: listeningScore - prevListening,
+          },
+          pronunciation: {
+            score: pronunciationScore,
+            level,
+            trend: trend(pronunciationScore, prevPronunciation),
+            lastChange: pronunciationScore - prevPronunciation,
+          },
+          phonemes,
+          weeklyActivity,
+        });
+      } catch (err) {
+        console.error('Error fetching progress:', err);
+        setError('Erro ao carregar dados de progresso');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  return { data, loading, error };
 }

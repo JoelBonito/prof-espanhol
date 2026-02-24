@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { Badge } from '../../../components/ui/Badge';
 import type { LessonExercise } from '../types';
@@ -16,13 +16,25 @@ export function QuizMultipleChoice({
 }: QuizMultipleChoiceProps) {
   const [selected, setSelected] = useState('');
 
-  const options = useMemo(() => {
-    if (!exercise.options || exercise.options.length === 0) {
-      return [exercise.answer];
-    }
+  useEffect(() => {
+    setSelected('');
+  }, [exercise.id]);
 
-    return exercise.options;
-  }, [exercise.answer, exercise.options]);
+  const options = useMemo(() => {
+    return exercise.options ?? [];
+  }, [exercise.options]);
+
+  if (options.length === 0) {
+    return (
+      <div className="space-y-4">
+        <Badge variant="info">multiple_choice</Badge>
+        <p id={`question-${exercise.id}`} className="font-display text-xl text-neutral-900">{exercise.question}</p>
+        <p className="font-body text-sm text-warning">
+          Exercício indisponível no momento. Tente outro módulo.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

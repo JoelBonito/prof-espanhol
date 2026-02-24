@@ -13,6 +13,9 @@ export default function DiagnosticPage() {
   const { grammarCompleted, listeningCompleted, pronunciationCompleted, diagnosticId } =
     useDiagnosticStore();
 
+  // Each section persists its own results to Firestore and advances the store.
+  // onComplete is required by the component API but page-level navigation
+  // is driven by the store flags above — the result object is not needed here.
   if (!grammarCompleted) {
     return <GrammarSection onComplete={(_result: GrammarResult) => void 0} />;
   }

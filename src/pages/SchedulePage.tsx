@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+  writeBatch,
+} from 'firebase/firestore';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -127,37 +138,65 @@ async function markPastMissedSlots(uid: string, blocks: WeeklyBlock[]) {
   const logsRef = collection(db, 'users', uid, 'scheduleLogs');
   const now = new Date();
 
+  // Build all candidate missed-slot entries first
+  interface SlotCandidate {
+    id: string;
+    scheduledDate: string;
+    scheduledTime: string;
+    type: string;
+    durationMinutes: number;
+  }
+
+  const candidates: SlotCandidate[] = [];
   for (const block of blocks) {
     const weekday = DAYS.find((d) => d.key === block.day)?.weekday ?? 1;
-
     for (let offset = -7; offset <= 0; offset += 1) {
       const date = nextDateForWeekday(now, weekday, offset);
       const [hours, minutes] = block.time.split(':').map(Number);
       date.setHours(hours, minutes, 0, 0);
-
       const slotEndsAt = new Date(date.getTime() + block.durationMinutes * 60 * 1000);
       if (slotEndsAt >= now) continue;
-
       const scheduledDate = toIsoDate(date);
-      const logId = `${scheduledDate}_${block.time}`;
-      const logRef = doc(logsRef, logId);
-      const snap = await getDoc(logRef);
-
-      if (snap.exists()) continue;
-
-      await setDoc(logRef, {
+      candidates.push({
+        id: `${scheduledDate}_${block.time}`,
         scheduledDate,
         scheduledTime: block.time,
-        status: 'missed',
-        sessionId: null,
-        completedAt: null,
-        toleranceWindowMinutes: TOLERANCE_MINUTES,
         type: block.type,
         durationMinutes: block.durationMinutes,
-        updatedAt: serverTimestamp(),
       });
     }
   }
+
+  if (candidates.length === 0) return;
+
+  // Bulk-read existing docs using documentId() in query (max 30 per chunk)
+  const existingIds = new Set<string>();
+  const CHUNK = 30;
+  for (let i = 0; i < candidates.length; i += CHUNK) {
+    const ids = candidates.slice(i, i + CHUNK).map((c) => c.id);
+    const snap = await getDocs(query(logsRef, where(documentId(), 'in', ids)));
+    snap.forEach((d) => existingIds.add(d.id));
+  }
+
+  // Write only new entries via writeBatch
+  const toCreate = candidates.filter((c) => !existingIds.has(c.id));
+  if (toCreate.length === 0) return;
+
+  const batch = writeBatch(db);
+  for (const candidate of toCreate) {
+    batch.set(doc(logsRef, candidate.id), {
+      scheduledDate: candidate.scheduledDate,
+      scheduledTime: candidate.scheduledTime,
+      status: 'missed',
+      sessionId: null,
+      completedAt: null,
+      toleranceWindowMinutes: TOLERANCE_MINUTES,
+      type: candidate.type,
+      durationMinutes: candidate.durationMinutes,
+      updatedAt: serverTimestamp(),
+    });
+  }
+  await batch.commit();
 }
 
 export default function SchedulePage() {

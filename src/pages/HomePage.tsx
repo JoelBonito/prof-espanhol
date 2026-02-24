@@ -5,10 +5,10 @@ import { Button } from '../components/ui/Button';
 import { Icon } from '../components/ui/Icon';
 import { formatDistanceToNow, differenceInDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { auth } from '../lib/firebase';
+import { auth, db } from '../lib/firebase';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -112,42 +112,17 @@ export default function HomePage() {
 
       <div className="px-4 md:px-0">
         <Card className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-display text-xl font-bold text-neutral-900">Atividades de Hoje</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-display text-xl font-bold text-neutral-900">Deveres</h3>
             <Button variant="ghost" size="sm" onClick={() => navigate('/homework')}>Ver tudo</Button>
           </div>
-          <div className="space-y-3">
-            <ActivityItem icon="assignment" title="Quiz de Verbos" time="10 min" status="pending" />
-            <ActivityItem icon="hearing" title="Escuta Ativa: Podcast" time="15 min" status="done" />
-          </div>
+          <p className="text-sm text-neutral-500">
+            Acesse a aba de deveres para ver seus exercícios de reforço e revisões pendentes.
+          </p>
         </Card>
       </div>
     </div>
   );
 }
 
-function ActivityItem({ icon, title, time, status }: { icon: string, title: string, time: string, status: 'pending' | 'done' }) {
-  return (
-    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-neutral-50 transition-colors">
-      <div className="flex items-center gap-4">
-        <div className={cn("p-2 rounded-lg", status === 'done' ? "bg-success-light text-success" : "bg-neutral-100 text-neutral-400")}>
-          <Icon name={icon} size={20} />
-        </div>
-        <div>
-          <p className={cn("text-sm font-bold", status === 'done' ? "text-neutral-400 line-through" : "text-neutral-900")}>{title}</p>
-          <p className="text-[10px] text-neutral-400 font-medium">{time}</p>
-        </div>
-      </div>
-      {status === 'done' ? (
-        <Icon name="check_circle" size={20} className="text-success" />
-      ) : (
-        <div className="w-5 h-5 rounded-full border-2 border-neutral-200" />
-      )}
-    </div>
-  );
-}
-
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ');
-}
 

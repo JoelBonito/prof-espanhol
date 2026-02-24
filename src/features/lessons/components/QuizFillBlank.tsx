@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Badge } from '../../../components/ui/Badge';
@@ -12,6 +12,10 @@ interface QuizFillBlankProps {
 
 export function QuizFillBlank({ exercise, disabled = false, onSubmit }: QuizFillBlankProps) {
   const [answer, setAnswer] = useState('');
+
+  useEffect(() => {
+    setAnswer('');
+  }, [exercise.id]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -88,39 +88,61 @@ export default function ProgressPage() {
       </header>
 
       {/* Monday Report Banner */}
-      {isMon && (
-        <div className="bg-info-light border border-info/10 rounded-lg p-5 flex items-start gap-4 shadow-sm relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-info/5 rounded-bl-full -mr-8 -mt-8 rotate-12 transition-transform group-hover:scale-110" />
-          <div className="bg-white p-2 rounded-lg shadow-sm text-info relative z-10">
-            <span className="material-symbols-outlined text-2xl">auto_awesome</span>
+      {isMon && (() => {
+        const totalCompleted = data.weeklyActivity.reduce((sum, d) => sum + d.completed, 0);
+        const pronChange = data.pronunciation.lastChange;
+        return totalCompleted > 0 ? (
+          <div className="bg-info-light border border-info/10 rounded-lg p-5 flex items-start gap-4 shadow-sm relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-info/5 rounded-bl-full -mr-8 -mt-8 rotate-12 transition-transform group-hover:scale-110" />
+            <div className="bg-white p-2 rounded-lg shadow-sm text-info relative z-10">
+              <span className="material-symbols-outlined text-2xl">auto_awesome</span>
+            </div>
+            <div className="relative z-10">
+              <h4 className="font-display text-lg font-bold text-info-text mb-1">Relatório Semanal Disponível</h4>
+              <p className="text-sm text-info-text/80 leading-relaxed">
+                Você completou{' '}
+                <span className="font-bold underline">{totalCompleted} {totalCompleted === 1 ? 'sessão' : 'sessões'}</span>{' '}
+                esta semana
+                {pronChange !== 0 && (
+                  <> e seu maior avanço foi em{' '}
+                    <span className="font-bold">
+                      Pronúncia ({pronChange > 0 ? '+' : ''}{pronChange}pts)
+                    </span>
+                  </>
+                )}
+                . Bom trabalho!
+              </p>
+            </div>
           </div>
-          <div className="relative z-10">
-            <h4 className="font-display text-lg font-bold text-info-text mb-1">Relatório Semanal Disponível</h4>
-            <p className="text-sm text-info-text/80 leading-relaxed">
-              Você completou <span className="font-bold underline">8 sessões</span> na semana passada e seu maior avanço foi em
-              <span className="font-bold"> Pronúncia (+15%)</span>. Bom trabalho!
-            </p>
-          </div>
-        </div>
-      )}
+        ) : null;
+      })()}
 
       {/* Main Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Weekly Evolution */}
         <Card className="p-6">
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <h2 className="text-lg font-bold text-neutral-900">Evolução Semanal</h2>
-              <p className="text-xs text-neutral-500 mt-1">Sessões agendadas vs completadas</p>
-            </div>
-            <div className="text-right">
-              <span className="font-display text-3xl font-bold text-neutral-900 block">12</span>
-              <div className="text-success text-xs font-bold flex items-center justify-end">
-                <span className="material-symbols-outlined text-sm">trending_up</span>
-                <span>+20%</span>
+          {(() => {
+            const totalCompleted = data.weeklyActivity.reduce((sum, d) => sum + d.completed, 0);
+            const totalScheduled = data.weeklyActivity.reduce((sum, d) => sum + d.scheduled, 0);
+            const pct = totalScheduled > 0 ? Math.round((totalCompleted / totalScheduled) * 100) : 0;
+            return (
+              <div className="flex justify-between items-start mb-8">
+                <div>
+                  <h2 className="text-lg font-bold text-neutral-900">Evolução Semanal</h2>
+                  <p className="text-xs text-neutral-500 mt-1">Sessões agendadas vs completadas</p>
+                </div>
+                <div className="text-right">
+                  <span className="font-display text-3xl font-bold text-neutral-900 block">{totalCompleted}</span>
+                  {totalScheduled > 0 && (
+                    <div className={`text-xs font-bold flex items-center justify-end ${pct >= 50 ? 'text-success' : 'text-warning'}`}>
+                      <span className="material-symbols-outlined text-sm">{pct >= 50 ? 'trending_up' : 'trending_down'}</span>
+                      <span>{pct}% concluído</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
+            );
+          })()}
           <WeeklyEvolutionChart data={data.weeklyActivity} />
         </Card>
 
