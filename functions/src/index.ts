@@ -19,6 +19,9 @@ export { analyzePronunciation } from "./analyzePronunciation.js";
 
 // Diagnostic result calculation (Story 1.5)
 export { calculateDiagnosticResult } from "./calculateDiagnosticResult.js";
+export { generateLesson } from "./generateLesson.js";
+export { completeLessonModule } from "./completeLessonModule.js";
+export { resetAdapterOnDiagnosticCompleted } from "./runScheduleAdapter.js";
 
 // Example: health check callable (demonstrates Zod + App Check)
 const HealthCheckSchema = z.object({

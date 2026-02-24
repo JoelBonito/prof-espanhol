@@ -24,6 +24,14 @@ service cloud.firestore {
         || ((field in resource.data) && request.resource.data[field] == resource.data[field]);
     }
 
+    function validScore(score) {
+      return score is number && score >= 0 && score <= 100;
+    }
+
+    function validOptionalScore() {
+      return !('score' in request.resource.data) || validScore(request.resource.data.score);
+    }
+
     // --- USERS ---
     match /users/{userId} {
 
@@ -105,12 +113,16 @@ service cloud.firestore {
         allow read: if isOwner(userId);
 
         allow create: if isOwner(userId)
-          && request.resource.data.keys().hasAll(['moduleTitle', 'level', 'status', 'totalBlocks']);
+          && request.resource.data.keys().hasAll(['moduleTitle', 'level', 'status', 'totalBlocks'])
+          && validOptionalScore()
+          && (!('unlocked' in request.resource.data) || request.resource.data.unlocked == false);
 
         allow update: if isOwner(userId)
           && fieldUnchanged('moduleTitle')
           && fieldUnchanged('level')
-          && fieldUnchanged('totalBlocks');
+          && fieldUnchanged('totalBlocks')
+          && fieldUnchangedOrAbsent('unlocked')
+          && validOptionalScore();
 
         allow delete: if false;
       }

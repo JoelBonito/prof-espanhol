@@ -1,21 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Icon } from '../components/ui/Icon';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { sanitizeHtml } from '../lib/utils';
 import { generateLesson } from '../features/lessons/api/generateLesson';
-import { FlashCard } from '../features/lessons/components/FlashCard';
-import { QuizFillBlank } from '../features/lessons/components/QuizFillBlank';
-import { QuizMultipleChoice } from '../features/lessons/components/QuizMultipleChoice';
+import { CompletedStageCard } from '../features/lessons/components/CompletedStageCard';
+import { ExerciseStageCard } from '../features/lessons/components/ExerciseStageCard';
+import { LessonSummaryCard } from '../features/lessons/components/LessonSummaryCard';
+import { ModuleListCard } from '../features/lessons/components/ModuleListCard';
+import { ReadingStageCard } from '../features/lessons/components/ReadingStageCard';
 import { useLessonVoice } from '../features/lessons/hooks/useLessonVoice';
 import { getModulesByLevel, type LessonModule } from '../features/lessons/lib/moduleCatalog';
 import {
   loadModuleProgress,
   loadUserLevel,
   saveLessonProgress,
-  unlockModule,
   type ExerciseResultRecord,
   type ModuleProgressState,
 } from '../features/lessons/persistence';
@@ -27,6 +26,7 @@ interface ExerciseAttemptState {
   attempts: number;
   completed: boolean;
   score: number;
+  userAnswer?: string;
 }
 
 interface ReadingTimeline {
@@ -350,7 +350,7 @@ export default function LessonsPage() {
     return getExerciseKey(currentBlock.id, activeExercise.id);
   }
 
-  function evaluateAnswer(correct: boolean) {
+  function evaluateAnswer(correct: boolean, answer?: string) {
     if (!activeExercise || !currentBlock) return;
 
     const currentKey = getCurrentExerciseKey();
@@ -361,7 +361,7 @@ export default function LessonsPage() {
 
     setAttemptsByExercise((prev) => ({
       ...prev,
-      [currentKey]: { attempts, completed, score },
+      [currentKey]: { attempts, completed, score, userAnswer: answer },
     }));
 
     if (correct) {
@@ -388,7 +388,7 @@ export default function LessonsPage() {
   function handleChoiceSubmit(answer: string) {
     if (!activeExercise) return;
     const correct = normalizeAnswer(answer) === normalizeAnswer(activeExercise.answer);
-    evaluateAnswer(correct);
+    evaluateAnswer(correct, answer);
   }
 
   function moveToNextExercise() {
@@ -430,17 +430,21 @@ export default function LessonsPage() {
           type: exercise?.type ?? 'unknown',
           score: value.score,
           attempts: value.attempts,
+          userAnswer: value.userAnswer,
         };
       });
-
-    const total = resultEntries.reduce((acc, item) => acc + item.score, 0);
-    const finalScore = resultEntries.length > 0 ? Math.round(total / resultEntries.length) : 0;
 
     setSavingProgress(true);
     setSavingError(null);
 
     try {
-      await saveLessonProgress({ lesson, finalScore, exerciseResults: resultEntries });
+      const nextModule = modules.find((module) => module.prerequisiteId === selectedModule.id);
+      const persisted = await saveLessonProgress({
+        lesson,
+        exerciseResults: resultEntries,
+        nextModule,
+      });
+      const finalScore = persisted.finalScore;
 
       const currentProgress: ModuleProgressState = {
         unlocked: true,
@@ -454,9 +458,7 @@ export default function LessonsPage() {
       }));
 
       if (finalScore >= 60) {
-        const nextModule = modules.find((module) => module.prerequisiteId === selectedModule.id);
         if (nextModule) {
-          await unlockModule(nextModule.id, nextModule.title, nextModule.level);
           setModuleProgress((prev) => ({
             ...prev,
             [nextModule.id]: {
@@ -512,61 +514,23 @@ export default function LessonsPage() {
   return (
     <div className="min-h-dvh bg-neutral-50 px-4 md:px-6 py-6">
       <div className="max-w-5xl mx-auto grid gap-4 lg:grid-cols-[320px_1fr]">
-        <Card className="p-4 md:p-5 h-fit lg:sticky lg:top-4">
-          <div className="mb-3">
-            <h2 className="font-display text-xl font-semibold text-neutral-900">Módulos {userLevel}</h2>
-            <p className="font-body text-sm text-neutral-600">Desbloqueio progressivo por score mínimo de 60.</p>
-          </div>
-
-          <div className="space-y-2">
-            {modules.map((module) => {
-              const progress = moduleProgress[module.id];
-              const locked = !progress?.unlocked;
-              const selected = selectedModuleId === module.id;
-
-              return (
-                <button
-                  key={module.id}
-                  type="button"
-                  onClick={() => handleSelectModule(module)}
-                  className={[
-                    'w-full text-left rounded-xl border p-3 transition-all',
-                    selected ? 'border-primary-500 bg-primary-50' : 'border-neutral-200 bg-white hover:border-neutral-300',
-                    locked ? 'opacity-75' : '',
-                  ].join(' ')}
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-body text-sm font-semibold text-neutral-800">{module.order}. {module.title}</p>
-                    <Icon name={locked ? 'lock' : 'lock_open'} size={20} className={locked ? 'text-neutral-400' : 'text-success'} />
-                  </div>
-                  <div className="mt-2">
-                    <ProgressBar value={progress?.score ?? 0} color={progress?.status === 'completed' ? 'success' : 'primary'} className="h-1" />
-                  </div>
-                  <p className="mt-1 text-xs text-neutral-500">
-                    {progress?.status === 'completed'
-                      ? `Concluído (${progress.score ?? 0}/100)`
-                      : locked
-                        ? 'Bloqueado'
-                        : progress?.score
-                          ? `Último score: ${progress.score}/100`
-                          : 'Disponível'}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
-
-          {blockedMessage && (
-            <p className="mt-3 text-sm text-warning font-medium">{blockedMessage}</p>
-          )}
-        </Card>
+        <ModuleListCard
+          userLevel={userLevel}
+          modules={modules}
+          moduleProgress={moduleProgress}
+          selectedModuleId={selectedModuleId}
+          blockedMessage={blockedMessage}
+          onSelectModule={handleSelectModule}
+        />
 
         <div className="space-y-4">
-          {unlockMessage && (
-            <Card className="p-4 border border-success/20 bg-success-light animate-pulse">
-              <p className="font-body text-sm font-semibold text-success">{unlockMessage}</p>
-            </Card>
-          )}
+          <div aria-live="polite" aria-atomic="true">
+            {unlockMessage && (
+              <Card className="p-4 border border-success/20 bg-success-light animate-pulse">
+                <p className="font-body text-sm font-semibold text-success">{unlockMessage}</p>
+              </Card>
+            )}
+          </div>
 
           {error && (
             <Card className="p-6 text-center">
@@ -587,122 +551,63 @@ export default function LessonsPage() {
 
           {!loadingLesson && lesson && currentBlock && (
             <>
-              <Card className="p-5 md:p-6">
-                <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <Badge variant="info">{lesson.level}</Badge>
-                  <Badge variant={lesson.cache.hit ? 'completed' : 'pending'}>{lesson.cache.hit ? 'Cache' : 'Gemini'}</Badge>
-                  <Badge variant={audioUnavailable ? 'pending' : 'completed'}>
-                    {audioUnavailable ? 'Áudio em fallback texto' : speaking ? 'IA lendo bloco' : 'Áudio disponível'}
-                  </Badge>
-                </div>
-                <h1 className="font-display text-2xl text-neutral-900 font-bold">{lesson.title}</h1>
-                <p className="font-body text-neutral-500 text-sm mt-1">{lesson.topic}</p>
-
-                <div className="mt-4">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-semibold text-primary-500">Progresso do módulo</span>
-                    <span className="text-xs font-bold text-neutral-700">{Math.round(moduleProgressPercent)}%</span>
-                  </div>
-                  <ProgressBar value={moduleProgressPercent} color="primary" className="h-2" />
-                </div>
-              </Card>
+              <LessonSummaryCard
+                lesson={lesson}
+                audioUnavailable={audioUnavailable}
+                speaking={speaking}
+                moduleProgressPercent={moduleProgressPercent}
+              />
 
               {stage === 'reading' && (
-                <Card className="p-5 md:p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-display text-lg font-semibold text-neutral-900">Bloco {blockIndex + 1}: {currentBlock.title}</h2>
-                    <span className="text-xs text-neutral-500">{currentBlock.durationMinutes} min</span>
-                  </div>
-
-                  <div className="prose prose-neutral max-w-none prose-p:font-body prose-li:font-body" dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentBlock.contentHtml) }} />
-
-                  {readingTimeline.words.length > 0 && (
-                    <div className="mt-4 rounded-xl border border-neutral-200 bg-white p-4">
-                      <p className="font-body text-xs uppercase tracking-wide text-neutral-500 mb-2">Acompanhamento da leitura</p>
-                      <p className="font-body text-sm leading-7 text-neutral-700">
-                        {readingTimeline.words.map((word, index) => (
-                          <span key={`${word}-${index}`} className={activeWordIndex === index ? 'px-0.5 rounded bg-primary-100 text-primary-700' : 'px-0.5'}>{word} </span>
-                        ))}
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    <Button variant="secondary" onClick={() => speakText(readingTimeline.text, true)} disabled={audioUnavailable || !readingTimeline.text}>
-                      <Icon name="volume_up" size={20} />
-                      Ouvir bloco
-                    </Button>
-                    <Button onClick={() => { stop(); setStage('exercises'); setExerciseIndex(0); setRetryExercise(null); setFeedback(null); }}>
-                      Iniciar exercícios do bloco
-                      <Icon name="arrow_forward" size={20} />
-                    </Button>
-                  </div>
-                </Card>
+                <ReadingStageCard
+                  blockIndex={blockIndex}
+                  currentBlock={currentBlock}
+                  readingWords={readingTimeline.words}
+                  activeWordIndex={activeWordIndex}
+                  readingText={readingTimeline.text}
+                  audioUnavailable={audioUnavailable}
+                  selectedModuleId={selectedModuleId}
+                  onSpeakBlock={() => speakText(readingTimeline.text, true)}
+                  onStartExercises={() => {
+                    stop();
+                    setStage('exercises');
+                    setExerciseIndex(0);
+                    setRetryExercise(null);
+                    setFeedback(null);
+                  }}
+                />
               )}
 
               {stage === 'exercises' && activeExercise && (
-                <Card className="p-5 md:p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-display text-lg font-semibold text-neutral-900">Exercício {exerciseIndex + 1} de {exercisesForBlock.length}</h2>
-                    <span className="text-xs text-neutral-500">Bloco {blockIndex + 1}</span>
-                  </div>
-
-                  {audioUnavailable && (
-                    <div className="mb-4 rounded-xl border border-warning/30 bg-warning-light p-3">
-                      <p className="font-body text-sm text-neutral-700">Áudio indisponível. Alternativa textual ativada automaticamente.</p>
-                    </div>
-                  )}
-
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    <Button variant="secondary" onClick={() => speakText(getExerciseHint(activeExercise))} disabled={audioUnavailable}>
-                      <Icon name="record_voice_over" size={20} />
-                      Ouvir dica
-                    </Button>
-                    <Button variant="ghost" onClick={() => setFeedback({ status: 'correct', message: 'Dica textual', explanation: getExerciseHint(activeExercise) })}>
-                      Ver dica em texto
-                    </Button>
-                  </div>
-
-                  {activeExercise.type === 'flashcard' && <FlashCard exercise={activeExercise} onEvaluate={evaluateAnswer} />}
-                  {activeExercise.type === 'multiple_choice' && <QuizMultipleChoice exercise={activeExercise} onSubmit={handleChoiceSubmit} />}
-                  {activeExercise.type === 'fill_blank' && <QuizFillBlank exercise={activeExercise} onSubmit={handleChoiceSubmit} />}
-
-                  {feedback && (
-                    <div className={feedback.status === 'correct' ? 'mt-5 rounded-xl border border-success/20 bg-success-light p-4' : 'mt-5 rounded-xl border border-warning/30 bg-warning-light p-4'}>
-                      <p className="font-body text-sm font-semibold text-neutral-900">{feedback.message}</p>
-                      <p className="font-body text-sm text-neutral-700 mt-1">{feedback.explanation}</p>
-
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        <Button variant="secondary" onClick={() => speakText(`${feedback.message}. ${feedback.explanation}`)} disabled={audioUnavailable}>
-                          <Icon name="volume_up" size={20} />
-                          Ouvir explicação
-                        </Button>
-                        {feedback.status === 'incorrect' && !retryExercise && (
-                          <Button variant="secondary" onClick={() => setRetryExercise(createRetryExercise(activeExercise))}>Tentar exercício similar</Button>
-                        )}
-                        <Button onClick={moveToNextExercise}>Continuar</Button>
-                      </div>
-                    </div>
-                  )}
-                </Card>
+                <ExerciseStageCard
+                  exerciseIndex={exerciseIndex}
+                  exercisesForBlockLength={exercisesForBlock.length}
+                  blockIndex={blockIndex}
+                  activeExercise={activeExercise}
+                  audioUnavailable={audioUnavailable}
+                  selectedModuleId={selectedModuleId}
+                  feedback={feedback}
+                  retryExercise={retryExercise}
+                  onPlayHint={() => speakText(getExerciseHint(activeExercise))}
+                  onShowTextHint={() =>
+                    setFeedback({ status: 'correct', message: 'Dica textual', explanation: getExerciseHint(activeExercise) })
+                  }
+                  onEvaluate={evaluateAnswer}
+                  onChoiceSubmit={handleChoiceSubmit}
+                  onSpeakFeedback={() => speakText(`${feedback?.message ?? ''}. ${feedback?.explanation ?? ''}`)}
+                  onRetrySimilar={() => setRetryExercise(createRetryExercise(activeExercise))}
+                  onContinue={moveToNextExercise}
+                />
               )}
 
               {stage === 'completed' && (
-                <Card className="p-5 md:p-6" status={finishedScores.finalScore >= 60 ? 'success' : 'warning'}>
-                  <h2 className="font-display text-2xl text-neutral-900 font-bold mb-2">Módulo concluído</h2>
-                  <p className="font-body text-neutral-700">Score final: {finishedScores.finalScore}/100</p>
-                  <p className="font-body text-neutral-600 text-sm mt-1">Exercícios para revisão no Schedule Adapter: {finishedScores.weakCount}</p>
-
-                  {savingProgress && <p className="font-body text-sm text-neutral-500 mt-3">Salvando progresso…</p>}
-                  {savingError && <p className="font-body text-sm text-error mt-3">{savingError}</p>}
-
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    <Button onClick={() => selectedModule && void loadLesson(selectedModule)}>
-                      Refazer módulo
-                      <Icon name="replay" size={20} />
-                    </Button>
-                  </div>
-                </Card>
+                <CompletedStageCard
+                  finalScore={finishedScores.finalScore}
+                  weakCount={finishedScores.weakCount}
+                  savingProgress={savingProgress}
+                  savingError={savingError}
+                  onRetryModule={() => selectedModule && void loadLesson(selectedModule)}
+                />
               )}
             </>
           )}

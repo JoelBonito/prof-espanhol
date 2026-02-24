@@ -1,6 +1,9 @@
 import { isMonday, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { useNavigate } from 'react-router';
 import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+import { Icon } from '../components/ui/Icon';
 import { useProgressData } from '../features/progress/hooks/useProgressData';
 import { WeeklyEvolutionChart } from '../features/progress/components/WeeklyEvolutionChart';
 import { AreaScoreCard } from '../features/progress/components/AreaScoreCard';
@@ -12,6 +15,7 @@ import { auth, db } from '../lib/firebase';
 import type { AdapterHistoryEntry } from '../features/progress/types/adaptation';
 
 export default function ProgressPage() {
+  const navigate = useNavigate();
   const { data, loading, error } = useProgressData();
   const [adaptationEntries, setAdaptationEntries] = useState<AdapterHistoryEntry[]>([]);
   const isMon = isMonday(new Date());
@@ -67,11 +71,19 @@ export default function ProgressPage() {
             Última atualização: {format(new Date(), "dd 'de' MMMM, HH:mm", { locale: ptBR })}
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-card border border-neutral-100">
-          <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-xs">
-            A2
+
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-card border border-neutral-100">
+            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-xs">
+              {data.grammar.level}
+            </div>
+            <span className="text-sm font-semibold text-neutral-700">Explorador</span>
           </div>
-          <span className="text-sm font-semibold text-neutral-700">Explorador</span>
+
+          <Button variant="secondary" size="sm" onClick={() => navigate('/diagnostic')}>
+            <Icon name="refresh" size={18} />
+            Refazer Diagnóstico
+          </Button>
         </div>
       </header>
 

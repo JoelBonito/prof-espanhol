@@ -8,6 +8,7 @@ import { Card } from '../components/ui/Card';
 import { EmptyState } from '../components/ui/EmptyState';
 import { auth, db } from '../lib/firebase';
 import { completeHomework } from '../features/homework/api/completeHomework';
+import { ReportFeedbackButton } from '../features/feedback/components/ReportFeedbackButton';
 
 type HomeworkStatus = 'pending' | 'completed' | 'overdue' | 'mastered';
 type HomeworkInterval = '1h' | '1d' | '3d' | '7d' | '30d';
@@ -72,10 +73,10 @@ function parseHomework(raw: unknown, id: string): HomeworkItem | null {
     nextReviewAt,
     interval:
       value.interval === '1h' ||
-      value.interval === '1d' ||
-      value.interval === '3d' ||
-      value.interval === '7d' ||
-      value.interval === '30d'
+        value.interval === '1d' ||
+        value.interval === '3d' ||
+        value.interval === '7d' ||
+        value.interval === '30d'
         ? value.interval
         : '1h',
     repetitionCount: typeof value.repetitionCount === 'number' ? value.repetitionCount : 0,
@@ -196,11 +197,19 @@ export default function HomeworkPage() {
                 </h2>
                 <p className="text-xs text-neutral-600 mt-1">{item.contentRef}</p>
               </div>
-              <Badge
-                variant={item.isReviewDue ? 'info' : item.status === 'overdue' ? 'overdue' : 'pending'}
-              >
-                {item.isReviewDue ? `Review ${item.interval}` : item.status === 'overdue' ? 'Vencido' : 'Pendente'}
-              </Badge>
+              <div className="flex flex-col items-end gap-2">
+                <Badge
+                  variant={item.isReviewDue ? 'info' : item.status === 'overdue' ? 'overdue' : 'pending'}
+                >
+                  {item.isReviewDue ? `Review ${item.interval}` : item.status === 'overdue' ? 'Vencido' : 'Pendente'}
+                </Badge>
+                <ReportFeedbackButton
+                  screen="Homework"
+                  content={`Source: ${item.sourceType}, Ref: ${item.contentRef}`}
+                  sessionId={item.id}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+              </div>
             </div>
 
             <p className="text-sm text-neutral-700">

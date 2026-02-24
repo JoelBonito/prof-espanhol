@@ -9,8 +9,7 @@ const {
   collectionMock,
   getDocMock,
   getDocsMock,
-  setDocMock,
-  serverTimestampMock,
+  completeLessonModuleMock,
 } = vi.hoisted(() => ({
   mockAuth: {
     currentUser: null as { uid: string } | null,
@@ -20,8 +19,7 @@ const {
   collectionMock: vi.fn((_db: unknown, ...segments: string[]) => segments.join('/')),
   getDocMock: vi.fn(),
   getDocsMock: vi.fn(),
-  setDocMock: vi.fn(),
-  serverTimestampMock: vi.fn(() => '__server_timestamp__'),
+  completeLessonModuleMock: vi.fn(),
 }));
 
 vi.mock('../../lib/firebase', () => ({
@@ -39,15 +37,16 @@ vi.mock('firebase/firestore', () => ({
   doc: docMock,
   getDoc: getDocMock,
   getDocs: getDocsMock,
-  setDoc: setDocMock,
-  serverTimestamp: serverTimestampMock,
+}));
+
+vi.mock('../api/completeLessonModule', () => ({
+  completeLessonModule: completeLessonModuleMock,
 }));
 
 import {
   loadModuleProgress,
   loadUserLevel,
   saveLessonProgress,
-  unlockModule,
 } from '../persistence';
 
 function buildDocsSnapshot(records: Array<{ id: string; data: Record<string, unknown> }>) {
@@ -96,8 +95,7 @@ describe('lesson persistence', () => {
     collectionMock.mockReset();
     getDocMock.mockReset();
     getDocsMock.mockReset();
-    setDocMock.mockReset();
-    serverTimestampMock.mockClear();
+    completeLessonModuleMock.mockReset();
   });
 
   it('returns A1 when user is not authenticated', async () => {
@@ -140,66 +138,50 @@ describe('lesson persistence', () => {
     expect(progress['a1-3']).toEqual({ unlocked: false, status: 'locked', score: null });
   });
 
-  it('writes unlock payload to lessonProgress with merge', async () => {
-    mockAuth.currentUser = { uid: 'u-1' };
-
-    await unlockModule('a1-2', 'M2', 'A1');
-
-    expect(docMock).toHaveBeenCalledWith(mockDb, 'users', 'u-1', 'lessonProgress', 'a1-2');
-    expect(setDocMock).toHaveBeenCalledTimes(1);
-    expect(setDocMock).toHaveBeenCalledWith(
-      'users/u-1/lessonProgress/a1-2',
-      expect.objectContaining({
-        moduleTitle: 'M2',
-        level: 'A1',
-        status: 'available',
-        unlocked: true,
-        updatedAt: '__server_timestamp__',
-      }),
-      { merge: true },
-    );
-  });
-
   it('throws when saving lesson progress without authenticated user', async () => {
     await expect(
       saveLessonProgress({
         lesson: lessonFixture,
-        finalScore: 80,
         exerciseResults: [],
       }),
     ).rejects.toThrow('User must be authenticated');
   });
 
-  it('saves score, weak exercises and review schedule', async () => {
+  it('delegates lesson completion to callable function', async () => {
     mockAuth.currentUser = { uid: 'u-1' };
-    getDocMock.mockResolvedValue({
-      data: () => ({
-        reviewSchedule: [{ exerciseId: 'ex-1', step: 1 }],
-      }),
+    completeLessonModuleMock.mockResolvedValue({
+      ok: true,
+      finalScore: 72,
+      unlockedNextModule: true,
+      unlockedModuleId: 'a1-2',
     });
 
     await saveLessonProgress({
       lesson: lessonFixture,
-      finalScore: 72,
       exerciseResults: [
         { exerciseId: 'ex-1', type: 'flashcard', score: 65, attempts: 2 },
-        { exerciseId: 'ex-2', type: 'fill_blank', score: 40, attempts: 2 },
-        { exerciseId: 'ex-3', type: 'multiple_choice', score: 100, attempts: 1 },
+        { exerciseId: 'ex-2', type: 'fill_blank', score: 40, attempts: 2, userAnswer: 'respuesta errada' },
+        { exerciseId: 'ex-3', type: 'multiple_choice', score: 100, attempts: 1, userAnswer: 'respuesta certa' },
       ],
+      nextModule: modules[1],
     });
 
-    expect(setDocMock).toHaveBeenCalledTimes(1);
-    const [, payload, options] = setDocMock.mock.calls[0] as [string, Record<string, unknown>, { merge: boolean }];
-
-    expect(options).toEqual({ merge: true });
-    expect(payload.score).toBe(72);
-    expect(payload.status).toBe('completed');
-    expect(payload.weakExercises).toEqual(['ex-1', 'ex-2']);
-    expect(payload.exerciseResults).toHaveLength(3);
-
-    const reviewSchedule = payload.reviewSchedule as Array<{ exerciseId: string; step: number }>;
-    expect(reviewSchedule).toHaveLength(2);
-    expect(reviewSchedule.find((item) => item.exerciseId === 'ex-1')?.step).toBe(2);
-    expect(reviewSchedule.find((item) => item.exerciseId === 'ex-2')?.step).toBe(0);
+    expect(completeLessonModuleMock).toHaveBeenCalledTimes(1);
+    expect(completeLessonModuleMock).toHaveBeenCalledWith({
+      moduleId: 'a1-1',
+      moduleTitle: 'Saudações',
+      level: 'A1',
+      totalBlocks: 2,
+      exerciseResults: [
+        { exerciseId: 'ex-1', attempts: 2, answer: undefined },
+        { exerciseId: 'ex-2', attempts: 2, answer: 'respuesta errada' },
+        { exerciseId: 'ex-3', attempts: 1, answer: 'respuesta certa' },
+      ],
+      nextModule: {
+        id: 'a1-2',
+        title: 'M2',
+        level: 'A1',
+      },
+    });
   });
 });

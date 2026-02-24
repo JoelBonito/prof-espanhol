@@ -3,7 +3,7 @@ import { cn } from '../../lib/utils';
 
 export interface IconProps extends ComponentProps<'span'> {
   name: string;
-  size?: 20 | 24 | 48;
+  size?: number;
   fill?: boolean;
   weight?: number;
 }

@@ -27,9 +27,13 @@ export function QuizMultipleChoice({
   return (
     <div className="space-y-4">
       <Badge variant="info">multiple_choice</Badge>
-      <p className="font-display text-xl text-neutral-900">{exercise.question}</p>
+      <p id={`question-${exercise.id}`} className="font-display text-xl text-neutral-900">{exercise.question}</p>
 
-      <div className="space-y-2">
+      <div
+        className="space-y-2"
+        role="radiogroup"
+        aria-labelledby={`question-${exercise.id}`}
+      >
         {options.map((option) => {
           const active = selected === option;
 
@@ -39,6 +43,8 @@ export function QuizMultipleChoice({
               type="button"
               onClick={() => setSelected(option)}
               disabled={disabled}
+              role="radio"
+              aria-checked={active}
               className={[
                 'w-full text-left rounded-xl border p-4 transition-colors font-body',
                 active

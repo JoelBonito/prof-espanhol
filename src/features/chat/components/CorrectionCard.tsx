@@ -1,6 +1,8 @@
 import { Icon } from '../../../components/ui/Icon';
 import { cn } from '../../../lib/utils';
 import type { PhonemeCorrectionEvent } from '../../../stores/chatStore';
+import { useChatStore } from '../../../stores/chatStore';
+import { ReportFeedbackButton } from '../../feedback/components/ReportFeedbackButton';
 
 const MAX_ATTEMPTS = 3;
 
@@ -11,12 +13,13 @@ interface CorrectionCardProps {
 export function CorrectionCard({ correction }: CorrectionCardProps) {
   const { accepted, attempt, score } = correction;
   const maxedOut = attempt >= MAX_ATTEMPTS && !accepted;
+  const sessionId = useChatStore((s) => s.sessionId);
 
   return (
     <div className="flex justify-start">
       <div
         className={cn(
-          'max-w-[85%] rounded-lg px-4 py-3 border',
+          'max-w-[85%] rounded-lg px-4 py-3 border relative group',
           accepted
             ? 'bg-success/10 border-success/30'
             : maxedOut
@@ -24,6 +27,12 @@ export function CorrectionCard({ correction }: CorrectionCardProps) {
               : 'bg-primary-500/10 border-primary-500/30',
         )}
       >
+        <ReportFeedbackButton
+          screen="Chat/Correction"
+          content={`Heard: ${correction.heard}, Expected: ${correction.expected}, Score: ${score}%`}
+          sessionId={sessionId || undefined}
+          className="absolute -right-8 top-0 opacity-0 group-hover:opacity-100 transition-opacity"
+        />
         {/* Header: icon + label + attempt badge */}
         <div className="flex items-center gap-2 mb-2">
           <Icon

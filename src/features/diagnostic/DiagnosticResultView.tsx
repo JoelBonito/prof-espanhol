@@ -5,6 +5,10 @@ import { Icon } from '../../components/ui/Icon';
 import { ProgressBar, type ProgressBarProps } from '../../components/ui/ProgressBar';
 import { functions, httpsCallable } from '../../lib/functions';
 import { cn } from '../../lib/utils';
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db, auth } from '../../lib/firebase';
+import { EvolutionComparisonView } from './EvolutionComparisonView';
+import { ReportFeedbackButton } from '../feedback/components/ReportFeedbackButton';
 
 interface DiagnosticResultData {
   overallScore: number;
@@ -46,15 +50,50 @@ export function DiagnosticResultView({ diagnosticId }: DiagnosticResultViewProps
   const navigate = useNavigate();
   const [state, setState] = useState<'loading' | 'result' | 'error'>('loading');
   const [result, setResult] = useState<DiagnosticResultData | null>(null);
+  const [previousResult, setPreviousResult] = useState<DiagnosticResultData | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     let cancelled = false;
 
     calculateFn({ diagnosticId })
-      .then((res) => {
+      .then(async (res) => {
         if (!cancelled) {
           setResult(res.data);
+
+          // Fetch previous diagnostic for comparison
+          try {
+            const user = auth.currentUser;
+            if (user) {
+              const diagRef = collection(db, 'users', user.uid, 'diagnostics');
+              const q = query(
+                diagRef,
+                where('status', '==', 'completed'),
+                orderBy('completedAt', 'desc'),
+                limit(2)
+              );
+              const snap = await getDocs(q);
+
+              // If we have 2, the one at index 1 is the previous one
+              // (index 0 is the current one we just finished)
+              if (snap.docs.length >= 2) {
+                const prev = snap.docs[1].data();
+                setPreviousResult({
+                  overallScore: prev.overallScore,
+                  level: prev.levelAssigned,
+                  grammarScore: prev.grammarScore,
+                  listeningScore: prev.listeningScore,
+                  pronunciationScore: prev.pronunciationScore,
+                  strengths: prev.strengths || [],
+                  weaknesses: prev.weaknesses || [],
+                  phonemesToWork: prev.phonemesToWork || []
+                });
+              }
+            }
+          } catch (err) {
+            console.error('Error fetching previous diagnostic:', err);
+          }
+
           setState('result');
         }
       })
@@ -108,13 +147,22 @@ export function DiagnosticResultView({ diagnosticId }: DiagnosticResultViewProps
   const levelColor = LEVEL_COLORS[r.level] ?? 'bg-primary-500';
   const levelDesc = LEVEL_DESCRIPTIONS[r.level] ?? '';
 
+  if (previousResult) {
+    return <EvolutionComparisonView current={r} previous={previousResult} />;
+  }
+
   return (
     <div className="min-h-dvh bg-neutral-50 flex flex-col">
       {/* Header */}
-      <header className="px-6 pt-10 pb-2 text-center">
+      <header className="px-6 pt-10 pb-2 text-center relative">
         <h1 className="font-display text-neutral-900 text-xl font-bold">
           Resultado do Diagnóstico
         </h1>
+        <ReportFeedbackButton
+          screen="DiagnosticResult"
+          content={`Level: ${r.level}, Strengths: ${r.strengths.join()}, Weaknesses: ${r.weaknesses.join()}`}
+          className="absolute right-4 top-10"
+        />
       </header>
 
       <main className="flex-1 px-6 pb-4 flex flex-col gap-4 max-w-2xl w-full mx-auto pt-4">

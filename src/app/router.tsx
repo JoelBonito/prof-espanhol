@@ -8,6 +8,11 @@ const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
 const DeviceTest = lazy(() => import('../pages/DeviceTest'));
 const OnboardingPage = lazy(() => import('../pages/OnboardingPage'));
 const DiagnosticPage = lazy(() => import('../pages/DiagnosticPage'));
+const LessonsPage = lazy(() => import('../pages/LessonsPage'));
+const HomeworkPage = lazy(() => import('../pages/HomeworkPage'));
+const SchedulePage = lazy(() => import('../pages/SchedulePage'));
+const ProgressPage = lazy(() => import('../pages/ProgressPage'));
+const ChatPage = lazy(() => import('../pages/ChatPage'));
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +21,56 @@ export const router = createBrowserRouter([
       <AppLayout>
         <Suspense fallback={<PageLoader />}>
           <HomePage />
+        </Suspense>
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/lessons',
+    element: (
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <LessonsPage />
+        </Suspense>
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/homework',
+    element: (
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <HomeworkPage />
+        </Suspense>
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/schedule',
+    element: (
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <SchedulePage />
+        </Suspense>
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/progress',
+    element: (
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <ProgressPage />
+        </Suspense>
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/chat',
+    element: (
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <ChatPage />
         </Suspense>
       </AppLayout>
     ),

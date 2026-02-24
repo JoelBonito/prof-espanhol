@@ -3,29 +3,25 @@ import {
   doc,
   getDoc,
   getDocs,
-  serverTimestamp,
-  setDoc,
 } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
+import { completeLessonModule } from './api/completeLessonModule';
+import type { CompleteLessonModuleResult } from './api/completeLessonModule';
 import type { LessonContent } from './types';
 import type { LessonModule } from './lib/moduleCatalog';
-import { buildReviewSchedule, type ReviewScheduleItem } from './lib/spacedRepetition';
 
 export interface ExerciseResultRecord {
   exerciseId: string;
   type: string;
   score: number;
   attempts: number;
+  userAnswer?: string;
 }
 
 interface SaveLessonProgressInput {
   lesson: LessonContent;
-  finalScore: number;
   exerciseResults: ExerciseResultRecord[];
-}
-
-interface ExistingProgressData {
-  reviewSchedule?: Array<{ exerciseId?: string; step?: number }>;
+  nextModule?: LessonModule;
 }
 
 export interface ModuleProgressState {
@@ -91,66 +87,32 @@ export async function loadModuleProgress(
   }, {});
 }
 
-export async function unlockModule(moduleId: string, moduleTitle: string, level: string): Promise<void> {
-  const uid = auth.currentUser?.uid;
-  if (!uid) return;
-
-  const lessonRef = doc(db, 'users', uid, 'lessonProgress', moduleId);
-  await setDoc(
-    lessonRef,
-    {
-      moduleTitle,
-      level,
-      status: 'available',
-      unlocked: true,
-      updatedAt: serverTimestamp(),
-    },
-    { merge: true },
-  );
-}
-
 export async function saveLessonProgress({
   lesson,
-  finalScore,
   exerciseResults,
-}: SaveLessonProgressInput): Promise<void> {
+  nextModule,
+}: SaveLessonProgressInput): Promise<CompleteLessonModuleResult> {
   const uid = auth.currentUser?.uid;
   if (!uid) {
     throw new Error('User must be authenticated to save lesson progress.');
   }
 
-  const lessonRef = doc(db, 'users', uid, 'lessonProgress', lesson.moduleId);
-  const snap = await getDoc(lessonRef);
-  const existing = (snap.data() ?? {}) as ExistingProgressData;
-
-  const previousSteps = (existing.reviewSchedule ?? []).reduce<Record<string, number>>((acc, item) => {
-    if (item.exerciseId && typeof item.step === 'number') {
-      acc[item.exerciseId] = item.step;
-    }
-    return acc;
-  }, {});
-
-  const weakExerciseIds = exerciseResults
-    .filter((item) => item.score < 70)
-    .map((item) => item.exerciseId);
-
-  const reviewSchedule: ReviewScheduleItem[] = buildReviewSchedule(weakExerciseIds, previousSteps);
-
-  await setDoc(
-    lessonRef,
-    {
-      moduleTitle: lesson.title,
-      level: lesson.level,
-      status: 'completed',
-      totalBlocks: lesson.blocks.length,
-      currentBlock: lesson.blocks.length,
-      score: finalScore,
-      exerciseResults,
-      weakExercises: weakExerciseIds,
-      reviewSchedule,
-      completedAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    },
-    { merge: true },
-  );
+  return completeLessonModule({
+    moduleId: lesson.moduleId,
+    moduleTitle: lesson.title,
+    level: lesson.level,
+    totalBlocks: lesson.blocks.length,
+    exerciseResults: exerciseResults.map((item) => ({
+      exerciseId: item.exerciseId,
+      attempts: item.attempts,
+      answer: item.userAnswer,
+    })),
+    nextModule: nextModule
+      ? {
+          id: nextModule.id,
+          title: nextModule.title,
+          level: nextModule.level,
+        }
+      : undefined,
+  });
 }

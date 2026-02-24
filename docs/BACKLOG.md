@@ -16,33 +16,33 @@
 - [x] Story 1.5: Calculo de nivel + perfil de fluencia `[sonnet]`
 
 ## Epic 2: Chat Supervisionado [P0] [OWNER: claude_code]
-- [ ] Story 2.1: Gemini Live API — WebSocket + token efemero `[opus]`
-- [ ] Story 2.2: Chat UI — dark mode full-screen + video + legendas `[opus]`
-- [ ] Story 2.3: Correcao fonetica em tempo real `[opus]`
-- [ ] Story 2.4: Resumo de sessao `[sonnet]`
+- [x] Story 2.1: Gemini Live API — WebSocket + token efemero `[opus]`
+- [x] Story 2.2: Chat UI — dark mode full-screen + video + legendas `[opus]`
+- [x] Story 2.3: Correcao fonetica em tempo real `[opus]`
+- [x] Story 2.4: Resumo de sessao `[sonnet]`
 
 ## Epic 3: Licoes e Conteudo [P0] [OWNER: claude_code]
-- [ ] Story 3.1: Geracao de conteudo via Gemini REST + cache `[opus]`
+- [x] Story 3.1: Geracao de conteudo via Gemini REST + cache `[opus]`
 - [x] Story 3.2: Flashcards + quizzes interativos `[sonnet]`
-- [ ] Story 3.3: Supervisao por voz da IA nas licoes `[opus]`
-- [ ] Story 3.4: Desbloqueio progressivo de modulos `[sonnet]`
+- [x] Story 3.3: Supervisao por voz da IA nas licoes `[opus]`
+- [x] Story 3.4: Desbloqueio progressivo de modulos `[sonnet]`
 
 ## Epic 4: Motor de Adaptacao [P0] [OWNER: claude_code]
-- [ ] Story 4.1: Calculo de taxa de acerto `[sonnet]`
-- [ ] Story 4.2: Regras de ajuste de dificuldade `[sonnet]`
-- [ ] Story 4.3: Historico de ajustes `[sonnet]`
+- [x] Story 4.1: Calculo de taxa de acerto `[sonnet]`
+- [x] Story 4.2: Regras de ajuste de dificuldade `[sonnet]`
+- [x] Story 4.3: Historico de ajustes `[sonnet]`
 
 ## Epic 5: Agenda e Disciplina [P0] [OWNER: claude_code]
-- [ ] Story 5.1: Calendario semanal + tolerancia 75min `[sonnet]`
-- [ ] Story 5.2: Notificacoes Web Push `[sonnet]`
-- [ ] Story 5.3: Deveres com prazo + geracao automatica `[sonnet]`
-- [ ] Story 5.4: Curva de esquecimento (SM-2) `[sonnet]`
+- [x] Story 5.1: Calendario semanal + tolerancia 75min `[sonnet]`
+- [x] Story 5.2: Notificacoes Web Push `[sonnet]`
+- [x] Story 5.3: Deveres com prazo + geracao automatica `[sonnet]`
+- [x] Story 5.4: Curva de esquecimento (SM-2) `[sonnet]`
 
 ## Epic 6: Dashboard e Analytics [P1] [OWNER: claude_code]
 - [x] Story 6.1: Dashboard principal `[sonnet]`
 - [x] Story 6.2: Meu Progresso `[sonnet]`
-- [ ] Story 6.3: Re-teste diagnostico `[sonnet]`
-- [ ] Story 6.4: Botao de feedback `[sonnet]`
+- [x] Story 6.3: Re-teste diagnostico `[sonnet]`
+- [x] Story 6.4: Botao de feedback `[sonnet]`
 
 ---
 
