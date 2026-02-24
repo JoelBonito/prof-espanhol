@@ -8,6 +8,7 @@ import { useDiagnosticStore } from '../../stores/diagnosticStore';
 import { grammarQuestions } from './data/grammarQuestions';
 import type { GrammarQuestion, GrammarResult, QuestionAnswer } from './types';
 import { cn } from '../../lib/utils';
+import { createDiagnosticSessionPayloadByType } from './persistence';
 
 const TOTAL = grammarQuestions.length; // 15
 const TIMER_SECONDS = 60;
@@ -19,6 +20,7 @@ interface GrammarSectionProps {
 export function GrammarSection({ onComplete }: GrammarSectionProps) {
   const {
     diagnosticId,
+    diagnosticType,
     grammarIndex,
     grammarAnswers,
     grammarTimes,
@@ -33,6 +35,9 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
   const [timerLeft, setTimerLeft] = useState(TIMER_SECONDS);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState(false);
+  const [sessionReady, setSessionReady] = useState<boolean>(Boolean(diagnosticId));
+  const [sessionError, setSessionError] = useState<string | null>(null);
+  const [sessionAttempt, setSessionAttempt] = useState(0);
 
   const questionStartRef = useRef<number>(Date.now());
 
@@ -42,23 +47,29 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
 
   // Init diagnostic doc in Firestore (only once per session)
   useEffect(() => {
-    if (diagnosticId) return;
+    if (diagnosticId) {
+      setSessionReady(true);
+      setSessionError(null);
+      return;
+    }
     const uid = auth.currentUser?.uid;
     if (!uid) return;
+    setSessionReady(false);
+    setSessionError(null);
 
-    addDoc(collection(db, 'users', uid, 'diagnostics'), {
-      status: 'in_progress',
-      startedAt: serverTimestamp(),
-      grammarScore: null,
-      listeningScore: null,
-      pronunciationScore: null,
-      overallScore: null,
-    })
-      .then((ref) => setDiagnosticId(ref.id))
+    addDoc(
+      collection(db, 'users', uid, 'diagnostics'),
+      createDiagnosticSessionPayloadByType(serverTimestamp(), diagnosticType),
+    )
+      .then((ref) => {
+        setDiagnosticId(ref.id);
+        setSessionReady(true);
+      })
       .catch(() => {
-        // Non-fatal: proceed without Firestore; local state persists
+        setSessionError('Não foi possível iniciar o diagnóstico. Tente novamente.');
+        setSessionReady(false);
       });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [diagnosticId, diagnosticType, sessionAttempt, setDiagnosticId]);
 
   // Reset local answer state + timer on question change
   useEffect(() => {
@@ -92,6 +103,12 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
   }
 
   async function handleNext() {
+    const docId = useDiagnosticStore.getState().diagnosticId;
+    if (!docId || !sessionReady) {
+      setSessionError('Não foi possível iniciar o diagnóstico. Tente novamente.');
+      return;
+    }
+
     const answer = getAnswer();
     if (!answer) return;
     const timeMs = Date.now() - questionStartRef.current;
@@ -130,7 +147,6 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
 
     // Persist to Firestore (best-effort)
     const uid = auth.currentUser?.uid;
-    const docId = useDiagnosticStore.getState().diagnosticId;
     if (uid && docId) {
       setSaving(true);
       try {
@@ -243,6 +259,15 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
             Resultado salvo apenas localmente (sem conexão com servidor).
           </p>
         )}
+        {sessionError && (
+          <div className="text-center space-y-2">
+            <p className="text-sm text-error">{sessionError}</p>
+            <Button size="sm" variant="secondary" onClick={() => setSessionAttempt((value) => value + 1)}>
+              <Icon name="refresh" size={18} />
+              Tentar novamente
+            </Button>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
@@ -250,7 +275,7 @@ export function GrammarSection({ onComplete }: GrammarSectionProps) {
         <Button
           size="lg"
           className="w-full"
-          disabled={!hasAnswer || saving}
+          disabled={!hasAnswer || saving || !sessionReady}
           isLoading={saving}
           onClick={handleNext}
         >

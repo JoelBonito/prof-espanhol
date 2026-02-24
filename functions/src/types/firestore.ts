@@ -6,6 +6,11 @@ export interface UserProfile {
   email: string;
   level: SpanishLevel | null;
   levelScore: number | null;
+  grammarScore: number | null;
+  listeningScore: number | null;
+  speakingScore: number | null;
+  weakPhonemes: string[];
+  diagnosticDate: Timestamp | null;
   persona: Persona | null;
   correctionIntensity: CorrectionIntensity | null;
   streakCurrent: number;

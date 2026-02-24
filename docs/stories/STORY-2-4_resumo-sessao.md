@@ -1,7 +1,7 @@
 ---
 story: "2.4"
 epic: "Epic 2: Chat Supervisionado"
-status: pending
+status: done
 agent: backend-specialist
 tool: claude_code
 depends_on: ["2.3"]

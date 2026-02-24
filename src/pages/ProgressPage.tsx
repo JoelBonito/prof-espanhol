@@ -80,7 +80,7 @@ export default function ProgressPage() {
             <span className="text-sm font-semibold text-neutral-700">Explorador</span>
           </div>
 
-          <Button variant="secondary" size="sm" onClick={() => navigate('/diagnostic')}>
+          <Button variant="secondary" size="sm" onClick={() => navigate('/diagnostic?type=retest&restart=1')}>
             <Icon name="refresh" size={18} />
             Refazer Diagnóstico
           </Button>
@@ -180,4 +180,3 @@ export default function ProgressPage() {
     </div>
   );
 }
-

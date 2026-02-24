@@ -39,19 +39,13 @@ export function Sidebar() {
 
       {/* Separator + Settings */}
       <div className="border-t border-neutral-200 w-10 my-2" />
-      <Link
-        to="/settings"
-        className={cn(
-          'flex items-center justify-center p-3 rounded-[10px] transition-colors min-w-[44px] min-h-[44px]',
-          pathname.startsWith('/settings')
-            ? 'bg-primary-50 text-primary-500'
-            : 'text-neutral-400 hover:text-neutral-600 hover:bg-neutral-50'
-        )}
-        aria-label="Configurações"
-        aria-current={pathname.startsWith('/settings') ? 'page' : undefined}
+      <span
+        className="flex items-center justify-center p-3 rounded-[10px] min-w-[44px] min-h-[44px] text-neutral-300 cursor-not-allowed"
+        aria-label="Configurações (em breve)"
+        aria-disabled="true"
       >
-        <Icon name="settings" size={24} fill={pathname.startsWith('/settings')} />
-      </Link>
+        <Icon name="settings" size={24} fill={false} />
+      </span>
     </aside>
   );
 }

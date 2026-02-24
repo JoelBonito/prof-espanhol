@@ -22,7 +22,7 @@ export default function OnboardingPage() {
 
   function finish() {
     completeOnboarding();
-    navigate('/diagnostic');
+    navigate('/diagnostic?type=initial&restart=1');
   }
 
   return (

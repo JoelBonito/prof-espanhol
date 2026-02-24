@@ -1,7 +1,7 @@
 ---
 story: "5.4"
 epic: "Epic 5: Agenda e Disciplina"
-status: pending
+status: done
 agent: backend-specialist
 tool: claude_code
 depends_on: ["5.3"]

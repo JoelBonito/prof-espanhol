@@ -1,7 +1,7 @@
 ---
 story: "4.1"
 epic: "Epic 4: Motor de Adaptacao"
-status: pending
+status: done
 agent: backend-specialist
 tool: claude_code
 depends_on: ["0.2", "1.5"]

@@ -1,7 +1,7 @@
 ---
 story: "3.3"
 epic: "Epic 3: Licoes e Conteudo"
-status: pending
+status: done
 agent: backend-specialist
 tool: claude_code
 depends_on: ["3.2"]

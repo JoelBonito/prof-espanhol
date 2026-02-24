@@ -4,6 +4,7 @@ import {
   buildListeningPayload,
   buildPronunciationPayload,
   createDiagnosticSessionPayload,
+  createDiagnosticSessionPayloadByType,
 } from '../persistence';
 import { grammarQuestions } from '../data/grammarQuestions';
 
@@ -20,6 +21,12 @@ describe('diagnostic persistence payloads', () => {
       pronunciationScore: null,
       overallScore: null,
     });
+  });
+
+  it('builds retest diagnostic payload when requested', () => {
+    const payload = createDiagnosticSessionPayloadByType('ts', 'retest');
+    expect(payload.type).toBe('retest');
+    expect(payload.status).toBe('in_progress');
   });
 
   it('builds section payloads for grammar and listening', () => {

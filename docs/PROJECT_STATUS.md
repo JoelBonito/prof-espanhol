@@ -1,6 +1,6 @@
 # Project Status
 
-**Atualizado:** 2026-02-24 07:49
+**Atualizado:** 2026-02-24 09:34
 **Branch:** `main`
 **Progresso:** ██████████ 100% (30/30)
 
@@ -22,7 +22,7 @@ Projeto 100% finalizado!
 
 ## Ultimos Commits
 ```
+25d58bc chore: final review report and lint fix
+0115b5e feat: Implementa re-teste diagnóstico, botão de feedback, novas etapas de lição e validação de score em regras do Firestore.
 bf6959a feat: Implementa funcionalidades completas de chat com IA, lições interativas, acompanhamento de progresso e gerenciamento de tarefas.
-ceaf996 temp: salvando progresso da story 3.1 para restaurar stashes anteriores
-97d988d feat(diagnostic): calcular nível CEFR e tela de resultado — Story 1.5
 ```

@@ -5,6 +5,7 @@ import type { PronunciationItemResult } from '../features/diagnostic/types';
 interface DiagnosticState {
   // Session
   diagnosticId: string | null;
+  diagnosticType: 'initial' | 'retest';
 
   // Grammar section
   grammarIndex: number;
@@ -27,6 +28,7 @@ interface DiagnosticState {
 
   // Actions
   setDiagnosticId: (id: string) => void;
+  setDiagnosticType: (type: 'initial' | 'retest') => void;
 
   recordGrammarAnswer: (questionId: string, answer: string, timeMs: number) => void;
   advanceGrammar: () => void;
@@ -47,6 +49,7 @@ export const useDiagnosticStore = create<DiagnosticState>()(
   persist(
     (set) => ({
       diagnosticId: null,
+      diagnosticType: 'initial',
 
       grammarIndex: 0,
       grammarAnswers: {},
@@ -65,6 +68,7 @@ export const useDiagnosticStore = create<DiagnosticState>()(
       pronunciationCompleted: false,
 
       setDiagnosticId: (id) => set({ diagnosticId: id }),
+      setDiagnosticType: (type) => set({ diagnosticType: type }),
 
       recordGrammarAnswer: (questionId, answer, timeMs) =>
         set((s) => ({
@@ -99,6 +103,7 @@ export const useDiagnosticStore = create<DiagnosticState>()(
       reset: () =>
         set({
           diagnosticId: null,
+          diagnosticType: 'initial',
           grammarIndex: 0,
           grammarAnswers: {},
           grammarTimes: {},

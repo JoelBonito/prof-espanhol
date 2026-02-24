@@ -108,6 +108,11 @@ export const calculateDiagnosticResult = onCall(
       {
         level: levelAssigned,
         levelScore: overallScore,
+        grammarScore,
+        listeningScore,
+        speakingScore: pronunciationScore,
+        weakPhonemes: phonemesToWork,
+        diagnosticDate: completedAt,
         diagnosticCompleted: true,
         lastDiagnosticDate: completedAt,
         updatedAt: completedAt,

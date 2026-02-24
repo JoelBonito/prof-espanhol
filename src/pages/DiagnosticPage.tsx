@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { useDiagnosticStore } from '../stores/diagnosticStore';
 import { GrammarSection } from '../features/diagnostic/GrammarSection';
 import { ListeningSection } from '../features/diagnostic/ListeningSection';
@@ -10,8 +12,24 @@ import type {
 } from '../features/diagnostic/types';
 
 export default function DiagnosticPage() {
-  const { grammarCompleted, listeningCompleted, pronunciationCompleted, diagnosticId } =
+  const [searchParams] = useSearchParams();
+  const {
+    grammarCompleted,
+    listeningCompleted,
+    pronunciationCompleted,
+    diagnosticId,
+    reset,
+    setDiagnosticType,
+  } =
     useDiagnosticStore();
+  const requestedType = searchParams.get('type');
+  const shouldRestart = searchParams.get('restart') === '1';
+
+  useEffect(() => {
+    const nextType = requestedType === 'retest' ? 'retest' : 'initial';
+    if (shouldRestart) reset();
+    setDiagnosticType(nextType);
+  }, [requestedType, reset, setDiagnosticType, shouldRestart]);
 
   // Each section persists its own results to Firestore and advances the store.
   // onComplete is required by the component API but page-level navigation

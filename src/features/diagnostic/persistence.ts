@@ -4,8 +4,15 @@ import type { ListeningAnswer, PronunciationItemResult, QuestionAnswer } from '.
 const TOTAL_GRAMMAR_QUESTIONS = grammarQuestions.length;
 
 export function createDiagnosticSessionPayload(startedAt: unknown) {
+  return createDiagnosticSessionPayloadByType(startedAt, 'initial');
+}
+
+export function createDiagnosticSessionPayloadByType(
+  startedAt: unknown,
+  diagnosticType: 'initial' | 'retest',
+) {
   return {
-    type: 'initial' as const,
+    type: diagnosticType,
     status: 'in_progress' as const,
     startedAt,
     grammarScore: null,

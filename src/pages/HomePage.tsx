@@ -73,7 +73,7 @@ export default function HomePage() {
             </div>
             <Button
               className="bg-white text-primary-600 hover:bg-neutral-50 shadow-md font-bold whitespace-nowrap"
-              onClick={() => navigate('/diagnostic')}
+              onClick={() => navigate('/diagnostic?type=retest&restart=1')}
             >
               Começar Re-teste
             </Button>
@@ -124,5 +124,4 @@ export default function HomePage() {
     </div>
   );
 }
-
 
