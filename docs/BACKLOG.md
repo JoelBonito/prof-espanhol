@@ -39,8 +39,8 @@
 - [ ] Story 5.4: Curva de esquecimento (SM-2) `[sonnet]`
 
 ## Epic 6: Dashboard e Analytics [P1] [OWNER: claude_code]
-- [ ] Story 6.1: Dashboard principal `[sonnet]`
-- [ ] Story 6.2: Meu Progresso `[sonnet]`
+- [x] Story 6.1: Dashboard principal `[sonnet]`
+- [x] Story 6.2: Meu Progresso `[sonnet]`
 - [ ] Story 6.3: Re-teste diagnostico `[sonnet]`
 - [ ] Story 6.4: Botao de feedback `[sonnet]`
 

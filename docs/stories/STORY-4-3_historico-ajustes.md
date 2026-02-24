@@ -43,6 +43,7 @@ ENTAO exibe mensagem "Complete mais sessoes para o sistema comecar a se adaptar 
 ## Contexto de Dependencias
 > Story 4.2: Regras de ajuste geram historico em adapterHistory[]
 > Story 6.2: Tela "Meu Progresso" implementada (esta story adiciona a secao de Adaptacao)
+> Story 6.2 (Meu Progresso): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

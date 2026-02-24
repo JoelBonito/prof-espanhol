@@ -1,7 +1,7 @@
 ---
 story: "6.2"
 epic: "Epic 6: Dashboard e Analytics"
-status: pending
+status: done
 agent: frontend-specialist
 tool: claude_code
 depends_on: ["6.1"]

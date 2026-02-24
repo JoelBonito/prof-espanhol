@@ -61,6 +61,7 @@ ENTAO ve botao "Refazer diagnostico" disponivel (RN05: pode antecipar manualment
 ## Contexto de Dependencias
 > Story 6.2: Tela "Meu Progresso" implementada (re-teste e acessivel daqui)
 > Story 1.5: Fluxo de diagnostico + calculo de nivel reutilizavel
+> Story 6.2 (Meu Progresso): implementada
 
 ## Agent Workspace
 > Notas do agente durante implementacao

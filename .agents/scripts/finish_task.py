@@ -23,7 +23,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from lock_manager import LockManager
 from platform_compat import get_agent_source, find_backlog, find_story_file, parse_story_frontmatter
-from recovery import git_checkpoint, git_rollback
 from shard_epic import update_story_status, inject_dependency_context, extract_agent_workspace
 
 
@@ -206,17 +205,11 @@ def main():
             print(f"   Execute: python3 .agents/scripts/shard_epic.py generate --story {clean_id}")
             sys.exit(1)
 
-    # Git checkpoint
-    checkpoint_label = f"finish-task-{task_id}"
-    had_changes = git_checkpoint(checkpoint_label)
-
     # Step 1: Mark [x] in backlog
     success, message = mark_task_complete(backlog_file, task_id, force)
 
     if not success:
         print(f"{message}")
-        if had_changes:
-            git_rollback(checkpoint_label)
         sys.exit(1)
 
     print(f"Backlog: {message}")
