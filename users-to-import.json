@@ -1,0 +1,25 @@
+{
+    "users": [
+        {
+            "localId": "user_renata_001",
+            "email": "renata@profespanhol.com",
+            "displayName": "Renata",
+            "passwordHash": "YWRtaW4xMjM=",
+            "salt": "c2FsdA=="
+        },
+        {
+            "localId": "user_matheus_001",
+            "email": "matheus@profespanhol.com",
+            "displayName": "Matheus",
+            "passwordHash": "YWRtaW4xMjM=",
+            "salt": "c2FsdA=="
+        },
+        {
+            "localId": "user_joel_001",
+            "email": "joel@profespanhol.com",
+            "displayName": "Joel",
+            "passwordHash": "YWRtaW4xMjM=",
+            "salt": "c2FsdA=="
+        }
+    ]
+}

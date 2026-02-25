@@ -19,26 +19,43 @@ export { analyzePronunciation } from "./analyzePronunciation.js";
 
 // Diagnostic result calculation (Story 1.5)
 export { calculateDiagnosticResult } from "./calculateDiagnosticResult.js";
+
+// Lessons (Epic 3)
 export { generateLesson } from "./generateLesson.js";
 export { completeLessonModule } from "./completeLessonModule.js";
-export { resetAdapterOnDiagnosticCompleted } from "./runScheduleAdapter.js";
 
-// Example: health check callable (demonstrates Zod + App Check)
+// Chat (Epic 2 & 7)
+export { createChatSession } from "./createChatSession.js";
+export { completeChatSession } from "./completeChatSession.js";
+export { evaluateAdaptiveSession } from "./evaluateAdaptiveSession.js";
+
+// Homework & Discipline (Epic 5)
+export {
+  generateHomeworkOnLessonCompleted,
+  checkHomeworkDeadlines,
+  completeHomework,
+  processSpacedRepetitionOnHomeworkCompleted
+} from "./homeworkLifecycle.js";
+
+// Adaptation & Scheduling (Epic 4 & 5)
+export {
+  runScheduleAdapterOnSessionCompleted,
+  resetAdapterOnDiagnosticCompleted
+} from "./runScheduleAdapter.js";
+
+export { dispatchSchedulePushReminders } from "./sendSchedulePushReminders.js";
+
+// Health check
 const HealthCheckSchema = z.object({
   echo: z.string().min(1).max(100).optional(),
 });
 
 export const healthCheck = onCall(
-  { enforceAppCheck: true },
+  { enforceAppCheck: false },
   async (request) => {
     requireAppCheck(request);
-
-    if (!request.auth) {
-      throw new HttpsError("unauthenticated", "Authentication required.");
-    }
-
+    if (!request.auth) throw new HttpsError("unauthenticated", "Authentication required.");
     const data = validateInput(HealthCheckSchema, request.data);
-
     return {
       status: "ok",
       uid: request.auth.uid,

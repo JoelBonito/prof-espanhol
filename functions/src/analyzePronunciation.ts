@@ -20,7 +20,7 @@ const GeminiResponseSchema = z.object({
 
 export const analyzePronunciation = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     secrets: [geminiApiKey],
     timeoutSeconds: 30,
     memory: "512MiB",

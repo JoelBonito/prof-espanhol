@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { BoardData } from '../features/chat/lib/boardParser';
 
 export type ChatStatus =
   | 'idle'
@@ -45,6 +46,9 @@ interface ChatState {
   // Phoneme attempt tracking (G-UX-10: max 3 per phoneme)
   phonemeAttempts: Record<string, number>;
 
+  // Virtual board
+  board: BoardData | null;
+
   // Media
   isMuted: boolean;
   isRecording: boolean;
@@ -62,6 +66,8 @@ interface ChatState {
   setElapsedMs: (ms: number) => void;
   toggleMute: () => void;
   setRecording: (recording: boolean) => void;
+  setBoardFromMarker: (data: BoardData) => void;
+  clearBoard: () => void;
   endSession: () => void;
   reset: () => void;
 }
@@ -78,6 +84,7 @@ export const useChatStore = create<ChatState>()((set, get) => ({
   messages: [],
   corrections: [],
   phonemeAttempts: {},
+  board: null,
 
   isMuted: false,
   isRecording: false,
@@ -95,6 +102,7 @@ export const useChatStore = create<ChatState>()((set, get) => ({
       messages: [],
       corrections: [],
       phonemeAttempts: {},
+      board: null,
       dailySessionCount: s.dailySessionCount + 1,
     })),
 
@@ -126,6 +134,10 @@ export const useChatStore = create<ChatState>()((set, get) => ({
 
   setRecording: (recording) => set({ isRecording: recording }),
 
+  setBoardFromMarker: (data) => set({ board: data }),
+
+  clearBoard: () => set({ board: null }),
+
   endSession: () =>
     set({
       status: 'ended',
@@ -143,6 +155,7 @@ export const useChatStore = create<ChatState>()((set, get) => ({
       messages: [],
       corrections: [],
       phonemeAttempts: {},
+      board: null,
       isMuted: false,
       isRecording: false,
     }),

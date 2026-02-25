@@ -10,6 +10,9 @@ export type ConnectionStatus =
 export interface GeminiLiveCallbacks {
   onStatusChange: (status: ConnectionStatus) => void;
   onTextResponse: (text: string) => void;
+  onTranscription: (text: string) => void;
+  onInputTranscription: (text: string) => void;
+  onStructuredText: (text: string) => void;
   onAudioResponse: (audioData: string, mimeType: string) => void;
   onTurnComplete: () => void;
   onError: (error: string) => void;
@@ -27,6 +30,8 @@ export class GeminiLiveManager {
   private latencyTimer: ReturnType<typeof setTimeout> | null = null;
   private sessionStartTime = 0;
   private _isConnected = false;
+  private outputTranscriptBuffer = '';
+  private inputTranscriptBuffer = '';
 
   constructor(callbacks: GeminiLiveCallbacks, model: string) {
     this.callbacks = callbacks;
@@ -37,17 +42,18 @@ export class GeminiLiveManager {
     return this._isConnected;
   }
 
-  async connect(token: string, systemPrompt: string): Promise<void> {
+  async connect(token: string): Promise<void> {
     this.callbacks.onStatusChange('connecting');
 
     try {
-      const ai = new GoogleGenAI({ apiKey: token });
+      const ai = new GoogleGenAI({ apiKey: token, httpOptions: { apiVersion: 'v1alpha' } });
 
       this.session = await ai.live.connect({
         model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
-          systemInstruction: { parts: [{ text: systemPrompt }] },
+          outputAudioTranscription: {},
+          inputAudioTranscription: {},
         },
         callbacks: {
           onopen: () => {
@@ -60,27 +66,42 @@ export class GeminiLiveManager {
           },
           onerror: (error: ErrorEvent) => {
             console.error('Gemini Live error:', error);
+            this._isConnected = false;
             this.callbacks.onError(error.message ?? 'WebSocket error');
             this.callbacks.onStatusChange('error');
           },
           onclose: (event: CloseEvent) => {
             this._isConnected = false;
             this.clearLatencyTimer();
+            this.session = null;
 
-            // Code 1000 = normal close; anything else may be token expiry
             if (event.code !== 1000) {
               this.callbacks.onTokenExpired();
+              this.callbacks.onStatusChange('disconnected');
+              return;
             }
+
             this.callbacks.onStatusChange('disconnected');
           },
         },
       });
+
+      // ai.live.connect can resolve before the websocket is fully open.
+      // Wait briefly for onopen to avoid starting audio capture on a dead socket.
+      const waitUntil = Date.now() + 8000;
+      while (!this._isConnected && Date.now() < waitUntil) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      if (!this._isConnected) {
+        throw new Error('Gemini Live connection timeout.');
+      }
     } catch (err) {
       this._isConnected = false;
       const msg = err instanceof Error ? err.message : 'Connection failed';
       console.error('Gemini Live connect error:', err);
       this.callbacks.onError(msg);
       this.callbacks.onStatusChange('error');
+      throw err;
     }
   }
 
@@ -99,12 +120,19 @@ export class GeminiLiveManager {
     this.lastSendTime = Date.now();
     this.startLatencyTimer();
 
-    this.session.sendRealtimeInput({
-      audio: {
-        data: base64Data,
-        mimeType: 'audio/pcm;rate=16000',
-      },
-    });
+    try {
+      this.session.sendRealtimeInput({
+        audio: {
+          data: base64Data,
+          mimeType: 'audio/pcm;rate=16000',
+        },
+      });
+    } catch (err) {
+      this._isConnected = false;
+      const msg = err instanceof Error ? err.message : 'Failed to send audio';
+      this.callbacks.onError(msg);
+      this.callbacks.onStatusChange('error');
+    }
   }
 
   /**
@@ -116,14 +144,23 @@ export class GeminiLiveManager {
     this.lastSendTime = Date.now();
     this.startLatencyTimer();
 
-    this.session.sendClientContent({
-      turns: text,
-      turnComplete: true,
-    });
+    try {
+      this.session.sendClientContent({
+        turns: text,
+        turnComplete: true,
+      });
+    } catch (err) {
+      this._isConnected = false;
+      const msg = err instanceof Error ? err.message : 'Failed to send text';
+      this.callbacks.onError(msg);
+      this.callbacks.onStatusChange('error');
+    }
   }
 
   disconnect(): void {
     this.clearLatencyTimer();
+    this.outputTranscriptBuffer = '';
+    this.inputTranscriptBuffer = '';
     this._isConnected = false;
 
     if (this.session) {
@@ -143,28 +180,58 @@ export class GeminiLiveManager {
   private handleMessage(message: LiveServerMessage): void {
     this.clearLatencyTimer();
 
-    // Text response
-    if (message.text) {
-      this.callbacks.onTextResponse(message.text);
+    const sc = message.serverContent;
+
+    // Output transcription → accumulate, emit on finished
+    if (sc?.outputTranscription?.text) {
+      this.outputTranscriptBuffer += sc.outputTranscription.text;
+      if (sc.outputTranscription.finished) {
+        this.callbacks.onTranscription(this.outputTranscriptBuffer);
+        this.outputTranscriptBuffer = '';
+      }
     }
 
-    // Audio response
-    if (message.serverContent?.modelTurn?.parts) {
-      for (const part of message.serverContent.modelTurn.parts) {
+    // Input transcription → accumulate, emit on finished
+    if (sc?.inputTranscription?.text) {
+      this.inputTranscriptBuffer += sc.inputTranscription.text;
+      if (sc.inputTranscription.finished) {
+        this.callbacks.onInputTranscription(this.inputTranscriptBuffer);
+        this.inputTranscriptBuffer = '';
+      }
+    }
+
+    // Model turn parts
+    if (sc?.modelTurn?.parts) {
+      for (const part of sc.modelTurn.parts) {
+        // Audio playback
         if (part.inlineData?.data) {
           this.callbacks.onAudioResponse(
             part.inlineData.data,
             part.inlineData.mimeType ?? 'audio/pcm;rate=24000',
           );
         }
+        // Structured text (markers like BOARD_JSON, CORRECTION_JSON) — NOT subtitles
         if (part.text) {
-          this.callbacks.onTextResponse(part.text);
+          this.callbacks.onStructuredText(part.text);
         }
       }
     }
 
-    // Turn complete
-    if (message.serverContent?.turnComplete) {
+    // Text-only fallback (non-audio mode)
+    if (message.text) {
+      this.callbacks.onTextResponse(message.text);
+    }
+
+    // Turn complete — flush any remaining transcription buffers
+    if (sc?.turnComplete) {
+      if (this.outputTranscriptBuffer) {
+        this.callbacks.onTranscription(this.outputTranscriptBuffer);
+        this.outputTranscriptBuffer = '';
+      }
+      if (this.inputTranscriptBuffer) {
+        this.callbacks.onInputTranscription(this.inputTranscriptBuffer);
+        this.inputTranscriptBuffer = '';
+      }
       this.callbacks.onTurnComplete();
     }
 

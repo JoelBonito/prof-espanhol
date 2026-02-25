@@ -45,7 +45,7 @@ function deriveWeaknesses(
 
 export const calculateDiagnosticResult = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     timeoutSeconds: 30,
   },
   async (request) => {

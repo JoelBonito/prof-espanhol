@@ -8,9 +8,9 @@ import { requireAppCheck } from "./middleware/appcheck.js";
 
 const geminiApiKey = defineSecret("GEMINI_API_KEY");
 
-const LIVE_MODEL = "gemini-2.5-flash-native-audio-preview";
+const LIVE_MODEL = process.env.GEMINI_LIVE_MODEL ?? "gemini-2.5-flash-native-audio-preview-12-2025";
 const TOKEN_TTL_MINUTES = 35;
-const MAX_DAILY_SESSIONS = 3; // RN11
+const MAX_DAILY_SESSIONS = parseInt(process.env.DAILY_SESSION_LIMIT ?? "50", 10); // RN11
 
 const InputSchema = z.object({
   timezone: z.string().default("America/Asuncion"),
@@ -18,7 +18,7 @@ const InputSchema = z.object({
 
 export const createChatSession = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     secrets: [geminiApiKey],
     timeoutSeconds: 15,
   },
@@ -48,7 +48,10 @@ export const createChatSession = onCall(
     const dailyCount: number = profile.dailyChatCount ?? 0;
     const resetDate: string = profile.dailyChatResetDate ?? "";
 
-    if (resetDate === today && dailyCount >= MAX_DAILY_SESSIONS) {
+    const isEmulator = process.env.FUNCTIONS_EMULATOR === "true";
+    const isAdmin = uid === "S8Tdzl12dAf6RqMFCQKnBgw9J0Z2"; // Bypass para desenvolvedor
+
+    if (!isEmulator && !isAdmin && resetDate === today && dailyCount >= MAX_DAILY_SESSIONS) {
       throw new HttpsError(
         "resource-exhausted",
         `Limite de ${MAX_DAILY_SESSIONS} sessões diárias atingido. Tente novamente amanhã.`,
@@ -63,8 +66,8 @@ export const createChatSession = onCall(
     const userName: string = profile.name ?? "Estudante";
     const priorityHomework: string[] = Array.isArray(profile.homeworkPriorityQueue)
       ? (profile.homeworkPriorityQueue as unknown[]).filter(
-          (item): item is string => typeof item === "string",
-        )
+        (item): item is string => typeof item === "string",
+      )
       : [];
 
     const systemPrompt = buildSystemPrompt({
@@ -83,7 +86,7 @@ export const createChatSession = onCall(
       throw new HttpsError("internal", "Gemini API key not configured.");
     }
 
-    const client = new GoogleGenAI({ apiKey });
+    const client = new GoogleGenAI({ apiKey, httpOptions: { apiVersion: "v1alpha" } });
 
     const expireTime = new Date(
       Date.now() + TOKEN_TTL_MINUTES * 60 * 1000,
@@ -93,16 +96,18 @@ export const createChatSession = onCall(
     try {
       const token = await client.authTokens.create({
         config: {
-          uses: 1,
+          uses: 3,
           expireTime,
           liveConnectConstraints: {
             model: LIVE_MODEL,
             config: {
               temperature: 0.7,
               responseModalities: [Modality.AUDIO],
+              systemInstruction: systemPrompt,
+              outputAudioTranscription: {},
+              inputAudioTranscription: {},
             },
           },
-          httpOptions: { apiVersion: "v1alpha" },
         },
       });
       tokenName = token.name ?? "";
@@ -235,7 +240,7 @@ ${phonemeSection}
 ${homeworkPrioritySection}
 
 REGLAS DE INTERACCIÓN:
-1. Habla SOLO en español (correcciones de pronunciación pueden incluir explicación breve en portugués brasileño)
+1. Habla en español paraguayo por defecto. Si el estudiante pide traducción, explicación gramatical o metacomando, responde brevemente en portugués brasileño y vuelve al español.
 2. Inicia con un saludo cálido y propone un tema apropiado al nivel
 3. Turnos cortos (2-3 frases máximo) para dar espacio al estudiante
 4. Si el estudiante no responde en 5 segundos, anímalo con una pregunta simple
@@ -265,5 +270,23 @@ FONEMAS CRÍTICOS PARA BRASILEÑOS:
 - "ll" (yeísmo paraguayo vs. "lh" brasileño)
 - "j" (fricativa velar vs. aspirada brasileña)
 - "z/c+e,i" (seseo paraguayo — NO "th" de España)
-- "d" intervocálica (relajada/elidida vs. oclusiva brasileña)`;
+- "d" intervocálica (relajada/elidida vs. oclusiva brasileña)
+
+CONTRATO DE IDIOMA (OBLIGATORIO):
+- SIEMPRE habla en español paraguayo por defecto.
+- NUNCA escribas ni hables en inglés bajo ninguna circunstancia.
+- Solo cambia a portugués brasileño cuando el estudiante EXPLÍCITAMENTE pida ayuda, traducción o explicación gramatical.
+- Cuando cambies a portugués, hazlo brevemente y vuelve al español inmediatamente.
+- Las leyendas/subtítulos siempre deben reflejar el idioma que estás hablando.
+
+MARCADOR DE QUADRO VIRTUAL (para aulas estructuradas):
+Cuando conduzcas una lección estructurada con texto de lectura, emite un marcador JSON en tu canal de texto (no hablado) para que el cliente actualice el quadro virtual:
+[BOARD_JSON:{"lessonTitle":"...","text":"...","state":"presentation","level":"A1","sectionIndex":1,"sectionTotal":5}]
+
+Estados válidos: presentation, tutor_reading, student_reading, analyzing, correcting, request_translation, student_translating, correcting_translation, next_section, completed.
+
+Reglas del marcador:
+- Emite UN marcador por turno cuando cambies de sección o fase.
+- El marcador va en el canal de texto, NO lo digas en voz alta.
+- El texto hablado para el alumno es independiente del marcador.`;
 }

@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router';
 import { lazy, Suspense } from 'react';
 import { PageLoader } from '../components/ui/PageLoader';
 import { AppLayout } from '../components/layout/AppLayout';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
@@ -13,15 +14,18 @@ const HomeworkPage = lazy(() => import('../pages/HomeworkPage'));
 const SchedulePage = lazy(() => import('../pages/SchedulePage'));
 const ProgressPage = lazy(() => import('../pages/ProgressPage'));
 const ChatPage = lazy(() => import('../pages/ChatPage'));
+const SessionSummaryPage = lazy(() => import('../pages/SessionSummaryPage'));
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <HomePage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <HomePage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
     ),
   },
@@ -29,9 +33,11 @@ export const router = createBrowserRouter([
     path: '/lessons',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <LessonsPage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <LessonsPage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
     ),
   },
@@ -39,9 +45,11 @@ export const router = createBrowserRouter([
     path: '/homework',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <HomeworkPage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <HomeworkPage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
     ),
   },
@@ -49,9 +57,11 @@ export const router = createBrowserRouter([
     path: '/schedule',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <SchedulePage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <SchedulePage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
     ),
   },
@@ -59,9 +69,11 @@ export const router = createBrowserRouter([
     path: '/progress',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <ProgressPage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <ProgressPage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
     ),
   },
@@ -69,10 +81,22 @@ export const router = createBrowserRouter([
     path: '/chat',
     element: (
       <AppLayout>
-        <Suspense fallback={<PageLoader />}>
-          <ChatPage />
-        </Suspense>
+        <ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <ChatPage />
+          </Suspense>
+        </ProtectedRoute>
       </AppLayout>
+    ),
+  },
+  {
+    path: '/session-summary',
+    element: (
+      <ProtectedRoute>
+        <Suspense fallback={<PageLoader />}>
+          <SessionSummaryPage />
+        </Suspense>
+      </ProtectedRoute>
     ),
   },
   {

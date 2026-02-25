@@ -137,7 +137,7 @@ export const checkHomeworkDeadlines = onSchedule(
 
 export const completeHomework = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     timeoutSeconds: 15,
   },
   async (request) => {

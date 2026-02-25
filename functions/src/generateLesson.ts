@@ -106,7 +106,7 @@ async function enforceLessonRateLimit(
 
 export const generateLesson = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     secrets: [geminiApiKey],
     timeoutSeconds: 30,
     memory: "512MiB",

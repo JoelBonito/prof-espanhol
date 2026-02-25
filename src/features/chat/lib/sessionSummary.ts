@@ -1,5 +1,28 @@
 import type { PhonemeCorrectionEvent } from '../../../stores/chatStore';
 
+export interface AdaptiveEvaluationData {
+  estimatedLevel: 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
+  confidence: number;
+  dimensions: {
+    pronunciation: number;
+    fluency: number;
+    comprehension: number;
+    grammar: number;
+    vocabulary: number;
+  };
+  strengths: string[];
+  priorityFocus: string[];
+  nextLesson: {
+    phase: 'listening' | 'reading' | 'pronunciation' | 'translation' | 'conversation';
+    instructionPtBr: string;
+    promptEsPy: string;
+  };
+  languageContract: {
+    tutorSpeech: 'es-PY';
+    metaInstructions: 'pt-BR';
+  };
+}
+
 export interface SessionSummaryData {
   sessionId: string;
   durationMs: number;
@@ -8,6 +31,17 @@ export interface SessionSummaryData {
   overallScore: number;
   totalCorrections: number;
   messageCount: number;
+  adaptiveEvaluation?: AdaptiveEvaluationData;
+}
+
+interface StoredSessionSummaryPayload {
+  durationMs?: number | null;
+  phonemesCorrected?: string[] | null;
+  phonemesPending?: string[] | null;
+  overallScore?: number | null;
+  totalCorrections?: number | null;
+  messageCount?: number | null;
+  adaptiveEvaluation?: AdaptiveEvaluationData;
 }
 
 /**
@@ -47,6 +81,36 @@ export function buildSessionSummary(params: {
     overallScore,
     totalCorrections: corrections.length,
     messageCount,
+  };
+}
+
+export function hydrateSessionSummary(
+  sessionId: string,
+  payload: StoredSessionSummaryPayload,
+  fallback?: SessionSummaryData | null,
+): SessionSummaryData {
+  const previous = fallback ?? {
+    sessionId,
+    durationMs: 0,
+    phonemesCorrect: [],
+    phonemesPending: [],
+    overallScore: 0,
+    totalCorrections: 0,
+    messageCount: 0,
+  };
+
+  return {
+    sessionId,
+    durationMs: typeof payload.durationMs === 'number' ? payload.durationMs : previous.durationMs,
+    phonemesCorrect: Array.isArray(payload.phonemesCorrected) ? payload.phonemesCorrected : previous.phonemesCorrect,
+    phonemesPending: Array.isArray(payload.phonemesPending) ? payload.phonemesPending : previous.phonemesPending,
+    overallScore: typeof payload.overallScore === 'number' ? payload.overallScore : previous.overallScore,
+    totalCorrections:
+      typeof payload.totalCorrections === 'number'
+        ? payload.totalCorrections
+        : previous.totalCorrections,
+    messageCount: typeof payload.messageCount === 'number' ? payload.messageCount : previous.messageCount,
+    adaptiveEvaluation: payload.adaptiveEvaluation ?? previous.adaptiveEvaluation,
   };
 }
 

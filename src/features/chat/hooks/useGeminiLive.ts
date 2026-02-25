@@ -7,6 +7,7 @@ import {
   type GeminiLiveCallbacks,
 } from '../lib/geminiLive';
 import { parseCorrectionMarkers } from '../lib/correctionParser';
+import { parseBoardMarkers } from '../lib/boardParser';
 
 interface CreateChatSessionResult {
   sessionId: string;
@@ -41,6 +42,7 @@ export function useGeminiLive() {
     const addMsg = useChatStore.getState().addMessage;
     const addCorrection = useChatStore.getState().addCorrection;
     const setStatus = useChatStore.getState().setStatus;
+    const setBoard = useChatStore.getState().setBoardFromMarker;
     type ChatStatus = ReturnType<typeof useChatStore.getState>['status'];
 
     return {
@@ -81,6 +83,55 @@ export function useGeminiLive() {
         }
       },
 
+      onTranscription: (text: string) => {
+        const now = Date.now();
+        addMsg({
+          id: `tutor-transcript-${now}`,
+          role: 'tutor',
+          text,
+          timestamp: now,
+        });
+      },
+
+      onInputTranscription: (text: string) => {
+        const now = Date.now();
+        addMsg({
+          id: `user-transcript-${now}`,
+          role: 'user',
+          text,
+          timestamp: now,
+        });
+      },
+
+      onStructuredText: (text: string) => {
+        // Extract board markers first
+        const { board, cleanText: afterBoard } = parseBoardMarkers(text);
+        if (board) {
+          setBoard(board);
+        }
+
+        // Then extract correction markers from remaining text
+        const { cleanText, corrections } = parseCorrectionMarkers(afterBoard);
+        const now = Date.now();
+
+        for (const c of corrections) {
+          addCorrection({
+            phoneme: c.phoneme,
+            expected: c.expected,
+            heard: c.heard,
+            score: c.score,
+            timestamp: now,
+          });
+        }
+
+        // Remaining text after marker extraction is internal model reasoning
+        // (not spoken content). Subtitles come from outputTranscription channel.
+        // Discard in production; log in dev for debugging only.
+        if (cleanText && import.meta.env.DEV) {
+          console.debug('[structured-text]', cleanText);
+        }
+      },
+
       onAudioResponse: (audioData: string, mimeType: string) => {
         audioHandlerRef.current?.(audioData, mimeType);
       },
@@ -93,7 +144,14 @@ export function useGeminiLive() {
         if (error === 'latency_exceeded') {
           // Fallback to text mode (latency > 3s)
           setStatus('fallback_text');
+          return;
         }
+        const normalized = error.toLowerCase();
+        if (normalized.includes('closing') || normalized.includes('closed state')) {
+          setStatus('expired');
+          return;
+        }
+        setStatus('error');
       },
 
       onTokenExpired: () => {
@@ -126,9 +184,8 @@ export function useGeminiLive() {
 
       useChatStore.getState().startSession(sessionId, sessionToken, systemPrompt);
 
-      await manager.connect(sessionToken, systemPrompt);
+      await manager.connect(sessionToken);
     } catch (err) {
-      console.error('Chat session creation failed:', err);
       useChatStore.getState().setStatus('error');
       throw err;
     }
@@ -158,7 +215,7 @@ export function useGeminiLive() {
 
       useChatStore.getState().updateToken(sessionToken);
 
-      await manager.connect(sessionToken, systemPrompt);
+      await manager.connect(sessionToken);
     } catch (err) {
       console.error('Reconnection failed:', err);
       useChatStore.getState().setStatus('error');

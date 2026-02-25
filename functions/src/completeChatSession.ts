@@ -19,7 +19,7 @@ const CompleteChatSessionSchema = z.object({
 
 export const completeChatSession = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     timeoutSeconds: 15,
   },
   async (request) => {

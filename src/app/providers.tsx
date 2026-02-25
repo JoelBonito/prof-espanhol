@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
+import { AuthProvider } from './providers/AuthProvider';
 
 interface AppProvidersProps {
   children: ReactNode;
 }
 
-// Additional providers (AuthProvider, etc.) will be added as their stories are implemented
 export function AppProviders({ children }: AppProvidersProps) {
-  return <>{children}</>;
+  return <AuthProvider>{children}</AuthProvider>;
 }

@@ -99,152 +99,152 @@ export async function completeLessonModuleHandler(
   request: CallableRequest<unknown>,
   deps?: { db?: Pick<Firestore, "doc" | "batch"> },
 ) {
-    requireAppCheck(request);
+  requireAppCheck(request);
 
-    if (!request.auth) {
-      throw new HttpsError("unauthenticated", "Authentication required.");
-    }
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Authentication required.");
+  }
 
-    const uid = request.auth.uid;
-    const input = validateInput(InputSchema, request.data ?? {});
-    const db = deps?.db ?? getFirestore();
-    const lessonRef = db.doc(`users/${uid}/lessonProgress/${input.moduleId}`);
-    const cacheRef = db.doc(`lessons/${uid}/cache/${input.moduleId}`);
+  const uid = request.auth.uid;
+  const input = validateInput(InputSchema, request.data ?? {});
+  const db = deps?.db ?? getFirestore();
+  const lessonRef = db.doc(`users/${uid}/lessonProgress/${input.moduleId}`);
+  const cacheRef = db.doc(`lessons/${uid}/cache/${input.moduleId}`);
 
-    const [lessonSnap, cacheSnap] = await Promise.all([lessonRef.get(), cacheRef.get()]);
-    const existing = (lessonSnap.data() ?? {}) as {
-      reviewSchedule?: Array<{ exerciseId?: string; step?: number }>;
-    };
-    const cacheData = (cacheSnap.data() ?? {}) as CachedLessonData;
-    const lessonExercises = cacheData.lesson?.exercises ?? [];
-    const exerciseById = new Map(
-      lessonExercises
-        .filter(
-          (item): item is { id: string; type: string; answer: string } =>
-            typeof item.id === "string" &&
-            typeof item.type === "string" &&
-            typeof item.answer === "string",
-        )
-        .map((item) => [item.id, item] as const),
+  const [lessonSnap, cacheSnap] = await Promise.all([lessonRef.get(), cacheRef.get()]);
+  const existing = (lessonSnap.data() ?? {}) as {
+    reviewSchedule?: Array<{ exerciseId?: string; step?: number }>;
+  };
+  const cacheData = (cacheSnap.data() ?? {}) as CachedLessonData;
+  const lessonExercises = cacheData.lesson?.exercises ?? [];
+  const exerciseById = new Map(
+    lessonExercises
+      .filter(
+        (item): item is { id: string; type: string; answer: string } =>
+          typeof item.id === "string" &&
+          typeof item.type === "string" &&
+          typeof item.answer === "string",
+      )
+      .map((item) => [item.id, item] as const),
+  );
+
+  if (exerciseById.size === 0) {
+    throw new HttpsError(
+      "failed-precondition",
+      "Lesson cache not found or invalid. Generate lesson first.",
     );
+  }
 
-    if (exerciseById.size === 0) {
+  const previousSteps = (existing.reviewSchedule ?? []).reduce<Record<string, number>>(
+    (acc, item) => {
+      if (item.exerciseId && typeof item.step === "number") {
+        acc[normalizeExerciseId(item.exerciseId)] = item.step;
+      }
+      return acc;
+    },
+    {},
+  );
+
+  const normalizedResults = input.exerciseResults.map((item) => {
+    const canonicalExerciseId = normalizeExerciseId(item.exerciseId);
+    const canonicalExercise = exerciseById.get(canonicalExerciseId);
+    if (!canonicalExercise) {
       throw new HttpsError(
-        "failed-precondition",
-        "Lesson cache not found or invalid. Generate lesson first.",
+        "invalid-argument",
+        `Exercise does not belong to lesson: ${item.exerciseId}`,
       );
     }
 
-    const previousSteps = (existing.reviewSchedule ?? []).reduce<Record<string, number>>(
-      (acc, item) => {
-        if (item.exerciseId && typeof item.step === "number") {
-          acc[normalizeExerciseId(item.exerciseId)] = item.step;
-        }
-        return acc;
-      },
-      {},
-    );
+    const isObjectiveExercise =
+      canonicalExercise.type === "multiple_choice" ||
+      canonicalExercise.type === "fill_blank";
+    const normalizedSubmitted = normalizeAnswer(item.answer ?? "");
+    const normalizedExpected = normalizeAnswer(canonicalExercise.answer);
+    const correct = isObjectiveExercise
+      ? normalizedSubmitted.length > 0 && normalizedSubmitted === normalizedExpected
+      : null;
+    const score =
+      correct === null ? null : scoreByAttempts(item.attempts, correct);
 
-    const normalizedResults = input.exerciseResults.map((item) => {
-      const canonicalExerciseId = normalizeExerciseId(item.exerciseId);
-      const canonicalExercise = exerciseById.get(canonicalExerciseId);
-      if (!canonicalExercise) {
-        throw new HttpsError(
-          "invalid-argument",
-          `Exercise does not belong to lesson: ${item.exerciseId}`,
-        );
-      }
+    return {
+      exerciseId: item.exerciseId,
+      canonicalExerciseId,
+      type: canonicalExercise.type,
+      attempts: item.attempts,
+      answer: item.answer ?? null,
+      correct,
+      score,
+      isObjectiveExercise,
+    };
+  });
 
-      const isObjectiveExercise =
-        canonicalExercise.type === "multiple_choice" ||
-        canonicalExercise.type === "fill_blank";
-      const normalizedSubmitted = normalizeAnswer(item.answer ?? "");
-      const normalizedExpected = normalizeAnswer(canonicalExercise.answer);
-      const correct = isObjectiveExercise
-        ? normalizedSubmitted.length > 0 && normalizedSubmitted === normalizedExpected
-        : null;
-      const score =
-        correct === null ? null : scoreByAttempts(item.attempts, correct);
+  const scoreByExercise = normalizedResults.reduce<Record<string, number>>((acc, item) => {
+    if (!item.isObjectiveExercise || item.score === null) return acc;
+    const prev = acc[item.canonicalExerciseId];
+    acc[item.canonicalExerciseId] = typeof prev === "number" ? Math.max(prev, item.score) : item.score;
+    return acc;
+  }, {});
 
-      return {
-        exerciseId: item.exerciseId,
-        canonicalExerciseId,
-        type: canonicalExercise.type,
-        attempts: item.attempts,
-        answer: item.answer ?? null,
-        correct,
-        score,
-        isObjectiveExercise,
-      };
-    });
+  const canonicalScores = Object.values(scoreByExercise);
+  const finalScore =
+    canonicalScores.length > 0
+      ? Math.round(canonicalScores.reduce((sum, score) => sum + score, 0) / canonicalScores.length)
+      : 0;
+  const weakExerciseIds = Object.entries(scoreByExercise)
+    .filter(([, score]) => score < 70)
+    .map(([exerciseId]) => exerciseId);
+  const reviewSchedule = buildReviewSchedule(weakExerciseIds, previousSteps);
+  const shouldUnlockNext =
+    finalScore >= 60 &&
+    !!input.nextModule &&
+    canUnlockNext(input.moduleId, input.nextModule.id);
 
-    const scoreByExercise = normalizedResults.reduce<Record<string, number>>((acc, item) => {
-      if (!item.isObjectiveExercise || item.score === null) return acc;
-      const prev = acc[item.canonicalExerciseId];
-      acc[item.canonicalExerciseId] = typeof prev === "number" ? Math.max(prev, item.score) : item.score;
-      return acc;
-    }, {});
+  const batch = db.batch();
+  batch.set(
+    lessonRef,
+    {
+      moduleTitle: input.moduleTitle,
+      level: input.level,
+      status: "completed",
+      totalBlocks: input.totalBlocks,
+      currentBlock: input.totalBlocks,
+      score: finalScore,
+      exerciseResults: normalizedResults,
+      weakExercises: weakExerciseIds,
+      reviewSchedule,
+      completedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    },
+    { merge: true },
+  );
 
-    const canonicalScores = Object.values(scoreByExercise);
-    const finalScore =
-      canonicalScores.length > 0
-        ? Math.round(canonicalScores.reduce((sum, score) => sum + score, 0) / canonicalScores.length)
-        : 0;
-    const weakExerciseIds = Object.entries(scoreByExercise)
-      .filter(([, score]) => score < 70)
-      .map(([exerciseId]) => exerciseId);
-    const reviewSchedule = buildReviewSchedule(weakExerciseIds, previousSteps);
-    const shouldUnlockNext =
-      finalScore >= 60 &&
-      !!input.nextModule &&
-      canUnlockNext(input.moduleId, input.nextModule.id);
-
-    const batch = db.batch();
+  if (shouldUnlockNext && input.nextModule) {
+    const nextRef = db.doc(`users/${uid}/lessonProgress/${input.nextModule.id}`);
     batch.set(
-      lessonRef,
+      nextRef,
       {
-        moduleTitle: input.moduleTitle,
-        level: input.level,
-        status: "completed",
-        totalBlocks: input.totalBlocks,
-        currentBlock: input.totalBlocks,
-        score: finalScore,
-        exerciseResults: normalizedResults,
-        weakExercises: weakExerciseIds,
-        reviewSchedule,
-        completedAt: FieldValue.serverTimestamp(),
+        status: "available",
+        unlocked: true,
         updatedAt: FieldValue.serverTimestamp(),
       },
       { merge: true },
     );
+  }
 
-    if (shouldUnlockNext && input.nextModule) {
-      const nextRef = db.doc(`users/${uid}/lessonProgress/${input.nextModule.id}`);
-      batch.set(
-        nextRef,
-        {
-          status: "available",
-          unlocked: true,
-          updatedAt: FieldValue.serverTimestamp(),
-        },
-        { merge: true },
-      );
-    }
+  await batch.commit();
 
-    await batch.commit();
-
-    return {
-      ok: true,
-      finalScore,
-      unlockedNextModule: shouldUnlockNext,
-      unlockedModuleId: shouldUnlockNext ? input.nextModule?.id : null,
-    };
+  return {
+    ok: true,
+    finalScore,
+    unlockedNextModule: shouldUnlockNext,
+    unlockedModuleId: shouldUnlockNext ? input.nextModule?.id : null,
+  };
 }
 
 export const completeLessonModule = onCall(
   {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
     timeoutSeconds: 15,
   },
-  completeLessonModuleHandler,
+  (request) => completeLessonModuleHandler(request),
 );
