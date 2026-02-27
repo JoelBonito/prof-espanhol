@@ -33,6 +33,11 @@ export function preloadRoute(path: string): void {
   });
 }
 
+// ChatPage (310KB) is deferred — preloaded on hover via preloadRoute('/chat') in HomePage
+const DEFERRED_ROUTES = new Set(['/chat']);
+
 export function preloadMainRoutes(): void {
-  Object.keys(routeImporters).forEach((path) => preloadRoute(path));
+  Object.keys(routeImporters)
+    .filter((path) => !DEFERRED_ROUTES.has(path))
+    .forEach((path) => preloadRoute(path));
 }

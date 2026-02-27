@@ -6,9 +6,10 @@ import { Badge } from '../components/ui/Badge';
 import { Icon } from '../components/ui/Icon';
 import { formatDistanceToNow, differenceInDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { auth, db } from '../lib/firebase';
+import { auth } from '../lib/firebase';
+import { getCachedUserDoc } from '../lib/userCache';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { preloadRoute } from '../app/routePreload';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -17,12 +18,15 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchUser() {
-      const user = auth.currentUser;
-      if (!user) return;
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      const date = snap.data()?.lastDiagnosticDate;
+      if (!auth.currentUser) return;
+      const data = await getCachedUserDoc();
+      const date = data.lastDiagnosticDate;
       if (date) {
-        setLastDiagnosticDate(date.toDate ? date.toDate() : new Date(date));
+        setLastDiagnosticDate(
+          typeof date === 'object' && 'toDate' in (date as object)
+            ? (date as { toDate: () => Date }).toDate()
+            : new Date(date as string),
+        );
       }
     }
     fetchUser();
@@ -109,6 +113,8 @@ export default function HomePage() {
             variant="premium"
             className="w-full p-6 lg:p-10 flex flex-col items-center justify-center text-center group cursor-pointer border-primary-500/20 hover:border-primary-500/40 transition-all duration-500"
             onClick={() => navigate('/chat')}
+            onMouseEnter={() => preloadRoute('/chat')}
+            onTouchStart={() => preloadRoute('/chat')}
           >
             {/* Mic Icon with rings */}
             <div className="relative mb-6">

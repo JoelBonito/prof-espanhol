@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 import { formatDistanceToNowStrict, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Badge } from '../components/ui/Badge';
@@ -107,7 +107,7 @@ export default function HomeworkPage() {
     setLoading(true);
     try {
       const snap = await getDocs(
-        query(collection(db, 'users', uid, 'homework'), orderBy('createdAt', 'desc')),
+        query(collection(db, 'users', uid, 'homework'), orderBy('createdAt', 'desc'), limit(50)),
       );
       const parsed = snap.docs
         .map((docSnap) => parseHomework(docSnap.data(), docSnap.id))

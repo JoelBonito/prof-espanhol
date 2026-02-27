@@ -1,10 +1,9 @@
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
 } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
+import { getCachedUserDoc } from '../../lib/userCache';
 import { completeLessonModule } from './api/completeLessonModule';
 import type { CompleteLessonModuleResult } from './api/completeLessonModule';
 import type { LessonContent } from './types';
@@ -34,9 +33,8 @@ export async function loadUserLevel(): Promise<string> {
   const uid = auth.currentUser?.uid;
   if (!uid) return 'A1';
 
-  const userRef = doc(db, 'users', uid);
-  const snap = await getDoc(userRef);
-  return (snap.data()?.level as string) ?? 'A1';
+  const data = await getCachedUserDoc();
+  return (data.level as string) ?? 'A1';
 }
 
 export async function loadModuleProgress(

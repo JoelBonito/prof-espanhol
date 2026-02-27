@@ -37,7 +37,17 @@ interface CatalogCacheState {
   selectedModuleId: string | null;
 }
 
-let catalogCache: CatalogCacheState | null = null;
+const CATALOG_KEY = 'espanhol_catalog';
+const LESSON_KEY_PREFIX = 'espanhol_lesson_';
+
+function readSession<T>(key: string): T | null {
+  try { return JSON.parse(sessionStorage.getItem(key) ?? 'null') as T; } catch { return null; }
+}
+function writeSession(key: string, value: unknown): void {
+  try { sessionStorage.setItem(key, JSON.stringify(value)); } catch { /* storage full */ }
+}
+
+let catalogCache: CatalogCacheState | null = readSession<CatalogCacheState>(CATALOG_KEY);
 const lessonCache = new Map<string, LessonContent>();
 
 
@@ -252,6 +262,7 @@ export default function LessonsPage() {
         moduleProgress: progress,
         selectedModuleId: nextSelectedModuleId,
       };
+      writeSession(CATALOG_KEY, catalogCache);
     } catch (err) {
       console.error('loadCatalog error:', err);
       setError('Não foi possível carregar os módulos.');
@@ -264,8 +275,9 @@ export default function LessonsPage() {
 
   const loadLesson = useCallback(
     async (module: LessonModule) => {
-      const cachedLesson = lessonCache.get(module.id);
+      const cachedLesson = lessonCache.get(module.id) ?? readSession<LessonContent>(`${LESSON_KEY_PREFIX}${module.id}`);
       if (cachedLesson) {
+        if (!lessonCache.has(module.id)) lessonCache.set(module.id, cachedLesson);
         setLesson(cachedLesson);
         setLoadingLesson(false);
         resetLessonSession();
@@ -282,6 +294,7 @@ export default function LessonsPage() {
         });
 
         lessonCache.set(module.id, data);
+        writeSession(`${LESSON_KEY_PREFIX}${module.id}`, data);
         setLesson(data);
         resetLessonSession();
       } catch (err) {

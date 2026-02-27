@@ -3,6 +3,10 @@ import { collection, query, where, getDocs, orderBy, limit } from 'firebase/fire
 import { auth, db } from '../../../lib/firebase';
 import type { UserProgress, CEFRLevel } from '../types/progress';
 
+const TTL_MS = 5 * 60 * 1000;
+interface CachedProgressData { data: UserProgress; fetchedAt: number; uid: string }
+let progressCache: CachedProgressData | null = null;
+
 function toIsoDate(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
@@ -32,6 +36,16 @@ export function useProgressData() {
       const user = auth.currentUser;
       if (!user) {
         setError('Usuário não autenticado');
+        setLoading(false);
+        return;
+      }
+
+      if (
+        progressCache &&
+        progressCache.uid === user.uid &&
+        Date.now() - progressCache.fetchedAt < TTL_MS
+      ) {
+        setData(progressCache.data);
         setLoading(false);
         return;
       }
@@ -106,7 +120,7 @@ export function useProgressData() {
             accuracy: 0,
           }));
 
-        setData({
+        const result: UserProgress = {
           grammar: {
             score: grammarScore,
             level,
@@ -127,7 +141,10 @@ export function useProgressData() {
           },
           phonemes,
           weeklyActivity,
-        });
+        };
+
+        progressCache = { data: result, fetchedAt: Date.now(), uid: user.uid };
+        setData(result);
       } catch (err) {
         console.error('Error fetching progress:', err);
         setError('Erro ao carregar dados de progresso');
