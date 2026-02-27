@@ -2,40 +2,42 @@ import { Button } from '../../../components/ui/Button';
 import { Card } from '../../../components/ui/Card';
 import { Icon } from '../../../components/ui/Icon';
 import { ReportFeedbackButton } from '../../feedback/components/ReportFeedbackButton';
-import { sanitizeHtml } from '../../../lib/utils';
+import { HighlightableContent } from './HighlightableContent';
 import type { LessonBlock } from '../types';
 
 interface ReadingStageCardProps {
   blockIndex: number;
   currentBlock: LessonBlock;
-  readingWords: string[];
-  activeWordIndex: number;
-  readingText: string;
   audioUnavailable: boolean;
   selectedModuleId: string | null;
+  speaking: boolean;
+  hasReadingText: boolean;
+  highlightRef: React.RefObject<HTMLDivElement | null>;
   onSpeakBlock: () => void;
+  onStopReading: () => void;
   onStartExercises: () => void;
 }
 
 export function ReadingStageCard({
   blockIndex,
   currentBlock,
-  readingWords,
-  activeWordIndex,
-  readingText,
   audioUnavailable,
   selectedModuleId,
+  speaking,
+  hasReadingText,
+  highlightRef,
   onSpeakBlock,
+  onStopReading,
   onStartExercises,
 }: ReadingStageCardProps) {
   return (
     <Card className="p-5 md:p-6 relative group">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-display text-lg font-semibold text-neutral-900">
+        <h2 className="font-display text-lg font-semibold text-text-primary">
           Bloco {blockIndex + 1}: {currentBlock.title}
         </h2>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-500">{currentBlock.durationMinutes} min</span>
+          <span className="text-xs text-text-muted">{currentBlock.durationMinutes} min</span>
           <ReportFeedbackButton
             screen="Lessons/Reading"
             content={currentBlock.contentHtml}
@@ -45,33 +47,20 @@ export function ReadingStageCard({
         </div>
       </div>
 
-      <div
-        className="prose prose-neutral max-w-none prose-p:font-body prose-li:font-body"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentBlock.contentHtml) }}
+      <HighlightableContent
+        html={currentBlock.contentHtml}
+        containerRef={highlightRef}
+        className="prose prose-invert max-w-none prose-p:font-body prose-li:font-body"
       />
 
-      {readingWords.length > 0 && (
-        <div className="mt-4 rounded-xl border border-neutral-200 bg-white p-4">
-          <p className="font-body text-xs uppercase tracking-wide text-neutral-500 mb-2">
-            Acompanhamento da leitura
-          </p>
-          <p className="font-body text-sm leading-7 text-neutral-700">
-            {readingWords.map((word, index) => (
-              <span
-                key={`${word}-${index}`}
-                className={activeWordIndex === index ? 'px-0.5 rounded bg-primary-100 text-primary-700' : 'px-0.5'}
-              >
-                {word}{' '}
-              </span>
-            ))}
-          </p>
-        </div>
-      )}
-
       <div className="mt-6 flex flex-wrap gap-2">
-        <Button variant="secondary" onClick={onSpeakBlock} disabled={audioUnavailable || !readingText}>
-          <Icon name="volume_up" size={20} />
-          Ouvir bloco
+        <Button
+          variant={speaking ? 'primary' : 'secondary'}
+          onClick={speaking ? onStopReading : onSpeakBlock}
+          disabled={audioUnavailable || !hasReadingText}
+        >
+          <Icon name={speaking ? 'pause' : 'play_arrow'} size={20} />
+          {speaking ? 'Pausar leitura' : 'Iniciar leitura'}
         </Button>
         <Button onClick={onStartExercises}>
           Iniciar exercícios do bloco

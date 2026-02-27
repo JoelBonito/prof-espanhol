@@ -3,13 +3,13 @@ import { cn } from '../../lib/utils';
 
 const variantStyles = {
   primary:
-    'bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-500/50',
+    'bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-primary-600)] text-white shadow-[var(--shadow-glow-orange)] hover:shadow-[var(--shadow-glow-orange),var(--shadow-elevated)] active:scale-95',
   secondary:
-    'bg-white border border-neutral-200 text-neutral-900 hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-primary-500/50',
+    'bg-[var(--color-glass-bg)] backdrop-blur-[20px] border border-[var(--color-border-default)] text-[var(--color-text-primary)] hover:border-[var(--color-primary-500)] hover:shadow-[var(--shadow-glow-subtle)]',
   ghost:
-    'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 focus-visible:ring-2 focus-visible:ring-primary-500/50',
-  destructive:
-    'bg-error text-white hover:bg-red-700 focus-visible:ring-2 focus-visible:ring-error/50',
+    'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-glass-bg)] hover:backdrop-blur-[20px]',
+  outline:
+    'border border-[var(--color-border-default)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-500)] hover:text-white hover:border-[var(--color-primary-500)]',
 } as const;
 
 const sizeStyles = {
@@ -19,17 +19,15 @@ const sizeStyles = {
 } as const;
 
 export interface ButtonProps extends ComponentProps<'button'> {
-  variant?: keyof typeof variantStyles | 'pill';
+  variant?: keyof typeof variantStyles;
   size?: keyof typeof sizeStyles;
   isLoading?: boolean;
-  pillActive?: boolean;
 }
 
 export function Button({
   variant = 'primary',
   size = 'default',
   isLoading = false,
-  pillActive = true,
   className,
   disabled,
   children,
@@ -38,24 +36,15 @@ export function Button({
   const isDisabled = disabled || isLoading;
 
   const base =
-    'inline-flex items-center justify-center gap-2 font-medium transition-all duration-100 select-none min-h-[44px] min-w-[44px]';
-  const radius = variant === 'pill' ? 'rounded-full' : 'rounded-[10px]';
-  const sizing = variant === 'pill' ? 'px-5 py-2 text-sm' : sizeStyles[size];
+    'inline-flex items-center justify-center gap-2 font-medium transition-all duration-[var(--duration-default)] select-none min-h-[44px] min-w-[44px] rounded-[var(--radius-default)]';
 
-  let appearance: string;
-  if (disabled && !isLoading) {
-    appearance = 'bg-neutral-200 text-neutral-400 cursor-not-allowed';
-  } else if (variant === 'pill') {
-    appearance = pillActive
-      ? 'bg-primary-500 text-white'
-      : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50';
-  } else {
-    appearance = `${variantStyles[variant as keyof typeof variantStyles]} active:scale-95 cursor-pointer`;
-  }
+  const appearance = disabled && !isLoading
+    ? 'bg-[var(--color-text-disabled)] text-[var(--color-text-muted)] cursor-not-allowed'
+    : variantStyles[variant];
 
   return (
     <button
-      className={cn(base, radius, sizing, appearance, isLoading && 'opacity-75', className)}
+      className={cn(base, sizeStyles[size], appearance, isLoading && 'opacity-75', className)}
       disabled={isDisabled}
       aria-busy={isLoading || undefined}
       {...props}

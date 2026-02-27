@@ -22,10 +22,10 @@ export function WeeklyEvolutionChart({ data }: WeeklyEvolutionChartProps) {
                                 {day.completed}/{day.scheduled} sessões
                             </div>
 
-                            <div className="w-full bg-neutral-100 rounded-t-sm relative h-full flex items-end overflow-hidden">
+                            <div className="w-full bg-white/5 rounded-t-sm relative h-full flex items-end overflow-hidden">
                                 {/* Scheduled Bar (Background) */}
                                 <div
-                                    className="absolute bottom-0 w-full bg-neutral-200 transition-all duration-500"
+                                    className="absolute bottom-0 w-full bg-white/10 transition-all duration-500"
                                     style={{ height: `${scheduledHeight}px` }}
                                 />
                                 {/* Completed Bar (Foreground) */}
@@ -40,7 +40,7 @@ export function WeeklyEvolutionChart({ data }: WeeklyEvolutionChartProps) {
                                     )}
                                 </div>
                             </div>
-                            <span className="text-[10px] font-bold text-neutral-400 mt-2 uppercase">
+                            <span className="text-[10px] font-bold text-text-muted mt-2 uppercase">
                                 {day.day}
                             </span>
                         </div>

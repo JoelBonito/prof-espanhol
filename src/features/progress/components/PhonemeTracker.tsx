@@ -9,8 +9,8 @@ export function PhonemeTracker({ phonemes }: PhonemeTrackerProps) {
     const pending = phonemes.filter(p => p.status === 'pending');
 
     return (
-        <div className="bg-white p-5 rounded-default border border-neutral-100 shadow-card">
-            <h3 className="font-display text-lg font-semibold text-neutral-900 mb-4">Fonemas</h3>
+        <div className="bg-[var(--color-glass-bg)] p-5 rounded-default border border-[var(--color-border-subtle)] shadow-[var(--shadow-card)]">
+            <h3 className="font-display text-lg font-semibold text-text-primary mb-4">Fonemas</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Melhorados */}
@@ -22,12 +22,12 @@ export function PhonemeTracker({ phonemes }: PhonemeTrackerProps) {
                         {improved.length > 0 ? improved.map(p => (
                             <span
                                 key={p.phoneme}
-                                className="inline-flex items-center justify-center h-10 w-10 rounded bg-white shadow-sm text-lg font-display font-bold text-neutral-900"
+                                className="inline-flex items-center justify-center h-10 w-10 rounded bg-[var(--color-glass-bg)] shadow-[var(--shadow-card)] text-lg font-display font-bold text-text-primary"
                                 title={`${p.accuracy}% de acerto`}
                             >
                                 /{p.phoneme}/
                             </span>
-                        )) : <span className="text-xs text-neutral-400">Nenhum ainda</span>}
+                        )) : <span className="text-xs text-text-muted">Nenhum ainda</span>}
                     </div>
                 </div>
 
@@ -40,12 +40,12 @@ export function PhonemeTracker({ phonemes }: PhonemeTrackerProps) {
                         {pending.length > 0 ? pending.map(p => (
                             <span
                                 key={p.phoneme}
-                                className="inline-flex items-center justify-center h-10 w-10 rounded bg-white shadow-sm text-lg font-display font-bold text-neutral-900"
+                                className="inline-flex items-center justify-center h-10 w-10 rounded bg-[var(--color-glass-bg)] shadow-[var(--shadow-card)] text-lg font-display font-bold text-text-primary"
                                 title={`${p.accuracy}% de acerto`}
                             >
                                 /{p.phoneme}/
                             </span>
-                        )) : <span className="text-xs text-neutral-400">Tudo em dia!</span>}
+                        )) : <span className="text-xs text-text-muted">Tudo em dia!</span>}
                     </div>
                 </div>
             </div>

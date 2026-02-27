@@ -79,11 +79,11 @@ export function ReportFeedbackModal({ open, onClose, context }: ReportFeedbackMo
                     <div className="w-16 h-16 bg-success-light text-success rounded-full flex items-center justify-center mb-4">
                         <Icon name="check_circle" size={32} />
                     </div>
-                    <p className="text-neutral-700">Obrigado pelo report! Vamos revisar o conteúdo para melhorar sua experiência.</p>
+                    <p className="text-text-secondary">Obrigado pelo report! Vamos revisar o conteúdo para melhorar sua experiência.</p>
                 </div>
             ) : (
                 <div className="space-y-6">
-                    <p className="text-sm text-neutral-500">
+                    <p className="text-sm text-text-muted">
                         Encontrou algo estranho na resposta da IA? Selecione o tipo de erro abaixo.
                     </p>
 
@@ -93,8 +93,8 @@ export function ReportFeedbackModal({ open, onClose, context }: ReportFeedbackMo
                                 key={t.id}
                                 onClick={() => setType(t.id)}
                                 className={`flex items-center justify-between p-4 rounded-xl border transition-all text-left ${type === t.id
-                                        ? 'border-primary-500 bg-primary-50 text-primary-900 shadow-sm'
-                                        : 'border-neutral-200 hover:border-neutral-300 text-neutral-600'
+                                        ? 'border-primary-500 bg-primary-500/10 text-primary-500 shadow-sm'
+                                        : 'border-[var(--color-border-default)] hover:border-[var(--color-border-active)] text-text-secondary'
                                     }`}
                             >
                                 <span className="font-medium text-sm">{t.label}</span>
@@ -104,7 +104,7 @@ export function ReportFeedbackModal({ open, onClose, context }: ReportFeedbackMo
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+                        <label className="text-xs font-bold text-text-muted uppercase tracking-wider">
                             Descrição Adicional (Opcional)
                         </label>
                         <Textarea
@@ -116,8 +116,8 @@ export function ReportFeedbackModal({ open, onClose, context }: ReportFeedbackMo
                         />
                     </div>
 
-                    <div className="bg-neutral-50 p-3 rounded-lg border border-neutral-100 italic">
-                        <p className="text-[10px] text-neutral-400">Conteúdo capturado: {context.content.substring(0, 100)}...</p>
+                    <div className="bg-app-bg p-3 rounded-lg border border-[var(--color-border-subtle)] italic">
+                        <p className="text-[10px] text-text-muted">Conteúdo capturado: {context.content.substring(0, 100)}...</p>
                     </div>
                 </div>
             )}

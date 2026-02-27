@@ -10,15 +10,15 @@ export function Textarea({ label, error, className, disabled, id, ...props }: Te
   const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
 
   const state = disabled
-    ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed border-neutral-200'
+    ? 'bg-[var(--color-glass-bg)] text-text-muted cursor-not-allowed border-[var(--color-border-default)]'
     : error
       ? 'border-error focus:border-error focus:ring-error/50'
-      : 'border-neutral-200 hover:border-neutral-300 focus:border-primary-500 focus:ring-primary-500/50';
+      : 'border-[var(--color-border-default)] hover:border-[var(--color-border-active)] focus:border-primary-500 focus:ring-primary-500/50';
 
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
       {label && (
-        <label htmlFor={inputId} className="text-sm font-medium text-neutral-700">
+        <label htmlFor={inputId} className="text-sm font-medium text-text-secondary">
           {label}
         </label>
       )}
@@ -28,7 +28,7 @@ export function Textarea({ label, error, className, disabled, id, ...props }: Te
         aria-invalid={!!error || undefined}
         aria-describedby={error ? `${inputId}-error` : undefined}
         className={cn(
-          'w-full p-4 bg-white border rounded-[10px] text-neutral-900 placeholder:text-neutral-400 min-h-[100px] resize-none transition-colors focus:ring-2 focus:outline-none',
+          'w-full p-4 bg-[var(--color-glass-bg)] border rounded-[10px] text-text-primary placeholder:text-text-muted min-h-[100px] resize-none transition-colors focus:ring-2 focus:outline-none',
           state
         )}
         {...props}

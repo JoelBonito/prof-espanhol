@@ -58,7 +58,14 @@ export function useGeminiLive() {
       },
 
       onTextResponse: (text: string) => {
-        const { cleanText, corrections } = parseCorrectionMarkers(text);
+        // Extract board markers FIRST (before corrections)
+        const { board, cleanText: afterBoard } = parseBoardMarkers(text);
+        if (board) {
+          setBoard(board);
+        }
+
+        // Then extract correction markers from remaining text
+        const { cleanText, corrections } = parseCorrectionMarkers(afterBoard);
         const now = Date.now();
 
         // Add corrections to store
@@ -73,7 +80,7 @@ export function useGeminiLive() {
         }
 
         // Add clean text as tutor message (if any text remains after removing markers)
-        if (cleanText) {
+        if (cleanText && cleanText.trim()) {
           addMsg({
             id: `tutor-${now}`,
             role: 'tutor',
@@ -84,13 +91,32 @@ export function useGeminiLive() {
       },
 
       onTranscription: (text: string) => {
+        // Filter out any BOARD_JSON / CORRECTION_JSON that leaked into transcription
+        const { board: txBoard, cleanText: afterBoard } = parseBoardMarkers(text);
+        if (txBoard) {
+          setBoard(txBoard);
+        }
+        const { cleanText: cleaned, corrections: txCorrections } = parseCorrectionMarkers(afterBoard);
         const now = Date.now();
-        addMsg({
-          id: `tutor-transcript-${now}`,
-          role: 'tutor',
-          text,
-          timestamp: now,
-        });
+
+        for (const c of txCorrections) {
+          addCorrection({
+            phoneme: c.phoneme,
+            expected: c.expected,
+            heard: c.heard,
+            score: c.score,
+            timestamp: now,
+          });
+        }
+
+        if (cleaned && cleaned.trim()) {
+          addMsg({
+            id: `tutor-transcript-${now}`,
+            role: 'tutor',
+            text: cleaned,
+            timestamp: now,
+          });
+        }
       },
 
       onInputTranscription: (text: string) => {
@@ -206,7 +232,7 @@ export function useGeminiLive() {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       });
 
-      const { sessionToken, model, systemPrompt } = res.data;
+      const { sessionToken, model } = res.data;
 
       // Reconnect with new token
       const callbacks = createCallbacks();

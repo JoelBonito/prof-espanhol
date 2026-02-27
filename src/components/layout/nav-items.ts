@@ -5,9 +5,10 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { icon: 'dashboard', label: 'Dashboard', path: '/' },
-  { icon: 'chat', label: 'Chat', path: '/chat' },
-  { icon: 'menu_book', label: 'Lições', path: '/lessons' },
-  { icon: 'calendar_today', label: 'Agenda', path: '/schedule' },
-  { icon: 'insights', label: 'Progresso', path: '/progress' },
+  { icon: 'grid_view', label: 'Dashboard', path: '/' },
+  { icon: 'auto_stories', label: 'Lições', path: '/lessons' },
+  { icon: 'chat_bubble', label: 'Tutor IA', path: '/chat' },
+  { icon: 'analytics', label: 'Progresso', path: '/progress' },
+  { icon: 'calendar_month', label: 'Agenda', path: '/schedule' },
+  { icon: 'person', label: 'Perfil', path: '/profile' },
 ];

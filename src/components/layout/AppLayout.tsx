@@ -8,11 +8,11 @@ export interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-app-bg">
       <Sidebar />
       <BottomNav />
-      <main className="lg:pl-[72px] pb-20 lg:pb-0">
-        <div className="max-w-3xl mx-auto px-4 md:px-6 py-6">{children}</div>
+      <main className="lg:pl-[72px] xl:pl-[320px] pb-20 lg:pb-0 transition-all duration-300">
+        {children}
       </main>
     </div>
   );

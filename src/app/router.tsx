@@ -15,6 +15,7 @@ const SchedulePage = lazy(() => import('../pages/SchedulePage'));
 const ProgressPage = lazy(() => import('../pages/ProgressPage'));
 const ChatPage = lazy(() => import('../pages/ChatPage'));
 const SessionSummaryPage = lazy(() => import('../pages/SessionSummaryPage'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage'));
 
 export const router = createBrowserRouter([
   {
@@ -78,15 +79,25 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/chat',
+    path: '/profile',
     element: (
       <AppLayout>
         <ProtectedRoute>
           <Suspense fallback={<PageLoader />}>
-            <ChatPage />
+            <ProfilePage />
           </Suspense>
         </ProtectedRoute>
       </AppLayout>
+    ),
+  },
+  {
+    path: '/chat',
+    element: (
+      <ProtectedRoute>
+        <Suspense fallback={<PageLoader />}>
+          <ChatPage />
+        </Suspense>
+      </ProtectedRoute>
     ),
   },
   {

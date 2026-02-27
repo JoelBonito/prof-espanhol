@@ -48,13 +48,18 @@ const DAYS: Array<{ key: DayKey; label: string; weekday: number }> = [
   { key: 'sun', label: 'Dom', weekday: 0 },
 ];
 
-const SLOT_MINUTES = 15;
+const SLOT_MINUTES = 30;
+const SLOTS_PER_HOUR = 2;
+const START_HOUR = 8;
+const END_HOUR = 22;
+const START_SLOT = START_HOUR * SLOTS_PER_HOUR;
+const END_SLOT = END_HOUR * SLOTS_PER_HOUR;
 const MIN_BLOCKS = 3;
 const TOLERANCE_MINUTES = 75;
 
 function slotToTime(slotIndex: number): string {
-  const hour = Math.floor(slotIndex / 4);
-  const minutes = (slotIndex % 4) * SLOT_MINUTES;
+  const hour = Math.floor(slotIndex / SLOTS_PER_HOUR);
+  const minutes = (slotIndex % SLOTS_PER_HOUR) * SLOT_MINUTES;
   return `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 }
 
@@ -64,8 +69,8 @@ function timeToSlot(time: string): number | null {
   const hours = Number(match[1]);
   const minutes = Number(match[2]);
   if (hours < 0 || hours > 23) return null;
-  if (![0, 15, 30, 45].includes(minutes)) return null;
-  return hours * 4 + minutes / SLOT_MINUTES;
+  if (![0, 30].includes(minutes)) return null;
+  return hours * SLOTS_PER_HOUR + minutes / SLOT_MINUTES;
 }
 
 function getSlotKey(day: DayKey, slot: number): string {
@@ -415,9 +420,9 @@ export default function SchedulePage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <h1 className="font-display text-3xl font-bold text-neutral-900">Minha Agenda</h1>
+        <h1 className="font-display text-3xl font-bold text-text-primary">Minha Agenda</h1>
         <Card className="p-6">
-          <p className="text-sm text-neutral-500">Carregando agenda semanal...</p>
+          <p className="text-sm text-text-muted">Carregando agenda semanal...</p>
         </Card>
       </div>
     );
@@ -436,18 +441,18 @@ export default function SchedulePage() {
   return (
     <div className="space-y-5" onPointerUp={stopPaint} onPointerLeave={stopPaint}>
       <header className="space-y-2">
-        <h1 className="font-display text-3xl font-bold text-neutral-900">Minha Agenda</h1>
-        <p className="font-body text-neutral-500">
-          Defina blocos fixos de 15 minutos. Minimo de 3 blocos por semana.
+        <h1 className="font-display text-3xl font-bold text-text-primary">Minha Agenda</h1>
+        <p className="font-body text-text-muted">
+          Defina blocos fixos de 30 minutos. Minimo de 3 blocos por semana.
         </p>
       </header>
 
       <Card className="p-5 md:p-6 space-y-4">
-        <div className="rounded-xl border border-neutral-200 p-4 bg-neutral-50">
+        <div className="rounded-xl border border-[var(--color-border-default)] p-4 bg-surface-dark">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="font-body text-sm font-semibold text-neutral-900">Lembretes Push</p>
-              <p className="font-body text-xs text-neutral-600">
+              <p className="font-body text-sm font-semibold text-text-primary">Lembretes Push</p>
+              <p className="font-body text-xs text-text-secondary">
                 Receba notificações 5 minutos antes e no horário exato do bloco.
               </p>
             </div>
@@ -484,7 +489,7 @@ export default function SchedulePage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Badge variant="info">{slotCount} blocos</Badge>
-            <span className="text-sm text-neutral-600">Cada bloco = 15 minutos</span>
+            <span className="text-sm text-text-secondary">Cada bloco = 30 minutos</span>
           </div>
           <div className="w-full sm:w-48">
             <Select
@@ -498,25 +503,26 @@ export default function SchedulePage() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-neutral-200 bg-white overflow-auto">
+        <div className="rounded-xl border border-[var(--color-border-default)] bg-[var(--color-glass-bg)] overflow-auto">
           <div className="min-w-[760px]">
-            <div className="grid grid-cols-[72px_repeat(7,minmax(90px,1fr))] border-b border-neutral-200 bg-neutral-50 sticky top-0 z-10">
-              <div className="text-xs font-semibold text-neutral-500 px-2 py-2">Hora</div>
+            <div className="grid grid-cols-[72px_repeat(7,minmax(90px,1fr))] border-b border-[var(--color-border-default)] bg-surface-dark sticky top-0 z-10">
+              <div className="text-xs font-semibold text-text-muted px-2 py-2">Hora</div>
               {DAYS.map((day) => (
-                <div key={day.key} className="text-xs font-semibold text-neutral-700 px-2 py-2 text-center">
+                <div key={day.key} className="text-xs font-semibold text-text-secondary px-2 py-2 text-center">
                   {day.label}
                 </div>
               ))}
             </div>
 
-            {Array.from({ length: 96 }).map((_, slot) => {
-              const showHourLabel = slot % 4 === 0;
+            {Array.from({ length: END_SLOT - START_SLOT }).map((_, i) => {
+              const slot = START_SLOT + i;
+              const showHourLabel = slot % SLOTS_PER_HOUR === 0;
               return (
                 <div
                   key={slot}
-                  className="grid grid-cols-[72px_repeat(7,minmax(90px,1fr))] border-b border-neutral-100"
+                  className="grid grid-cols-[72px_repeat(7,minmax(90px,1fr))] border-b border-[var(--color-border-subtle)]"
                 >
-                  <div className="text-[11px] text-neutral-500 px-2 py-1.5 border-r border-neutral-100">
+                  <div className="text-[11px] text-text-muted px-2 py-1.5 border-r border-[var(--color-border-subtle)]">
                     {showHourLabel ? slotToTime(slot) : ''}
                   </div>
                   {DAYS.map((day) => {
@@ -531,12 +537,12 @@ export default function SchedulePage() {
                         onPointerDown={() => handlePointerDown(day.key, slot)}
                         onPointerEnter={() => handlePointerEnter(day.key, slot)}
                         className={[
-                          'h-6 border-r border-neutral-100 transition-colors touch-none',
+                          'h-6 border-r border-[var(--color-border-subtle)] transition-colors touch-none',
                           isActive
                             ? type === 'chat'
                               ? 'bg-primary-500/70'
                               : 'bg-success/60'
-                            : 'bg-white hover:bg-neutral-100',
+                            : 'bg-[var(--color-glass-bg)] hover:bg-white/5',
                         ].join(' ')}
                         aria-label={`${day.label} ${slotToTime(slot)} ${isActive ? `selecionado (${type})` : 'vazio'}`}
                       />
@@ -549,26 +555,26 @@ export default function SchedulePage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-xs text-neutral-600">
+          <div className="flex items-center gap-2 text-xs text-text-secondary">
             <span className="inline-block w-3 h-3 rounded bg-success/60" />
             Lição
           </div>
-          <div className="flex items-center gap-2 text-xs text-neutral-600">
+          <div className="flex items-center gap-2 text-xs text-text-secondary">
             <span className="inline-block w-3 h-3 rounded bg-primary-500/70" />
             Chat
           </div>
-          <div className="text-xs text-neutral-500">Toque e arraste para marcar ou remover.</div>
+          <div className="text-xs text-text-muted">Toque e arraste para marcar ou remover.</div>
         </div>
 
         {errorMessage && (
           <Card status="error" className="p-4">
-            <p className="text-sm text-neutral-700">{errorMessage}</p>
+            <p className="text-sm text-text-secondary">{errorMessage}</p>
           </Card>
         )}
 
         {message && (
           <Card status="success" className="p-4">
-            <p className="text-sm text-neutral-700">{message}</p>
+            <p className="text-sm text-text-secondary">{message}</p>
           </Card>
         )}
 

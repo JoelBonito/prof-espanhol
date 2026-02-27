@@ -18,7 +18,7 @@ export function ReportFeedbackButton({ screen, content, sessionId, className }: 
             <button
                 onClick={() => setIsModalOpen(true)}
                 className={cn(
-                    "inline-flex items-center justify-center p-1.5 rounded-lg text-neutral-400 hover:text-warning hover:bg-warning-light transition-all",
+                    "inline-flex items-center justify-center p-1.5 rounded-lg text-text-muted hover:text-warning hover:bg-warning-light transition-all",
                     className
                 )}
                 title="Reportar erro no conteúdo"

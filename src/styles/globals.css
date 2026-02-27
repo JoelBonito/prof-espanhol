@@ -1,64 +1,64 @@
 @import "tailwindcss";
 
-/* === Custom Theme Tokens (Design System v1.0) === */
+/* === Dark Premium Design System v2.0 === */
 @theme {
-  /* Primary — Terracota */
-  --color-primary-50: #FDF1EB;
-  --color-primary-100: #FBDDD0;
-  --color-primary-200: #F5B9A0;
-  --color-primary-400: #E7724B;
-  --color-primary-500: #EC5B13;
-  --color-primary-600: #D14F0F;
-  --color-primary-700: #B5430D;
-  --color-primary-900: #7A2D09;
+  /* Background — Deep Navy */
+  --color-app-bg: #0B101B;
+  --color-surface-dark: #121926;
 
-  /* Semantic */
-  --color-success: #0D9488;
-  --color-success-light: #E8F5E9;
-  --color-warning: #D97706;
-  --color-warning-light: #FEF3C7;
-  --color-error: #DC2626;
-  --color-error-light: #FFEBEE;
-  --color-info: #2563EB;
-  --color-info-light: #EFF6FF;
+  /* Primary — Warm Orange (updated from terracota) */
+  --color-primary-50: #FFF5ED;
+  --color-primary-100: #FFE8D5;
+  --color-primary-200: #FFCFAA;
+  --color-primary-400: #FF9F5A;
+  --color-primary-500: #FF8C42;
+  --color-primary-600: #E67329;
+  --color-primary-700: #C25E1F;
+  --color-primary-900: #7A3A12;
 
-  /* Neutrals — Stone/Warm */
-  --color-neutral-50: #FAFAF8;
-  --color-neutral-100: #F5F1ED;
-  --color-neutral-200: #E5DDDC;
-  --color-neutral-300: #D4CBC5;
-  --color-neutral-400: #A89B92;
-  --color-neutral-500: #896F61;
-  --color-neutral-600: #6B5B50;
-  --color-neutral-700: #4A3F38;
-  --color-neutral-800: #2D2420;
-  --color-neutral-900: #181311;
+  /* Primary Effects */
+  --color-primary-glow: rgba(255, 140, 66, 0.3);
+  --color-card-border: rgba(255, 140, 66, 0.25);
+  --color-glass-bg: rgba(18, 24, 38, 0.6);
 
-  /* Chat — Dark Mode */
-  --color-chat-bg: #1A1A2E;
-  --color-chat-surface: #23233B;
-  --color-chat-bubble-tutor: #1F4A4A;
-  --color-chat-bubble-user: #34344A;
-  --color-chat-text: #E2E8F0;
-  --color-chat-muted: #94A3B8;
+  /* Text — Inverted for dark theme */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-text-disabled: #475569;
+
+  /* Borders — Subtle glass */
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-active: rgba(255, 140, 66, 0.4);
+
+  /* Semantic (adapted for dark) */
+  --color-success: #10B981;
+  --color-success-light: rgba(16, 185, 129, 0.15);
+  --color-warning: #F59E0B;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
+  --color-error: #EF4444;
+  --color-error-light: rgba(239, 68, 68, 0.15);
+  --color-info: #3B82F6;
+  --color-info-light: rgba(59, 130, 246, 0.15);
 
   /* Fonts */
-  --font-display: "Lora", Georgia, serif;
+  --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
   /* Border Radius */
-  --radius-sm: 6px;
-  --radius-default: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 8px;
+  --radius-default: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-elevated: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-modal: 0 10px 25px rgba(0, 0, 0, 0.08);
-  --shadow-flashcard: 0 20px 50px rgba(0, 0, 0, 0.08);
-  --shadow-chat: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* Shadows — Dark theme adapted */
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.7);
+  --shadow-glow-orange: 0 0 15px var(--color-primary-glow);
+  --shadow-glow-subtle: 0 0 8px rgba(255, 140, 66, 0.15);
 
   /* Durations */
   --duration-fast: 100ms;
@@ -72,14 +72,20 @@
 @layer base {
   html {
     font-family: var(--font-body);
-    color: var(--color-neutral-900);
-    background-color: var(--color-neutral-50);
+    color: var(--color-text-primary);
+    background-color: var(--color-app-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  body {
+    background: radial-gradient(circle at top left, #1a2332, #0b101b 60%);
+    min-height: 100vh;
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -88,7 +94,7 @@
     }
   }
 
-  /* Focus ring */
+  /* Focus ring — orange */
   :focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
@@ -100,20 +106,216 @@
     background-color: var(--color-primary-500);
     color: white;
   }
+
+  /* Headings use display font */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+}
+
+/* === Utility Classes === */
+@layer components {
+
+  /* Glass Panel */
+  .glass-panel {
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-xl);
+  }
+
+  /* Premium Card */
+  .premium-card {
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--color-card-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-glow-orange);
+    transition: all var(--duration-default);
+  }
+
+  .premium-card:hover {
+    border-color: var(--color-primary-500);
+    box-shadow: var(--shadow-glow-orange), var(--shadow-elevated);
+  }
+
+  /* Glow Badge */
+  .glow-badge {
+    background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-glow-orange);
+  }
+
+  /* Active Nav Item */
+  .nav-active {
+    background: rgba(255, 140, 66, 0.1);
+    color: var(--color-primary-500);
+    border-left: 3px solid var(--color-primary-500);
+  }
+
+  /* Ambient Light Blob (decorative) */
+  .ambient-light {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%);
+    filter: blur(180px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Chalkboard Effect */
+  .chalkboard {
+    background-color: #0f172a;
+    /* Slate 900 */
+    background-image:
+      radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+    background-size: 24px 24px;
+    position: relative;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+  }
+
+  .chalk-text {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  /* Karaoke Word Highlight */
+  [data-word-index] {
+    border-bottom: 2px solid transparent;
+    border-radius: 2px;
+    padding: 0 1px;
+    transition:
+      background-color 120ms ease,
+      border-bottom-color 120ms ease,
+      color 120ms ease;
+  }
+
+  .word-active {
+    background-color: rgba(255, 140, 66, 0.20);
+    border-bottom-color: var(--color-primary-500);
+  }
+
+  .word-read {
+    color: var(--color-text-secondary);
+  }
 }
 
 /* === Animations === */
 @keyframes waveform {
-  0%, 100% { height: 10%; }
-  50% { height: 100%; }
+
+  0%,
+  100% {
+    height: 10%;
+  }
+
+  50% {
+    height: 100%;
+  }
 }
 
 @keyframes pulse-scale {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 8px var(--color-primary-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 20px var(--color-primary-glow);
+  }
 }
 
 /* === Safe Area (bottom nav on iPadOS) === */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  33% {
+    transform: translate(30px, -50px);
+  }
+
+  66% {
+    transform: translate(-20px, 20px);
+  }
+}
+
+@keyframes float-reverse {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  33% {
+    transform: translate(-40px, 30px);
+  }
+
+  66% {
+    transform: translate(50px, -20px);
+  }
+}
+
+.animate-float {
+  animation: float 15s ease-in-out infinite;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-float-slow {
+  animation: float-reverse 20s ease-in-out infinite;
 }

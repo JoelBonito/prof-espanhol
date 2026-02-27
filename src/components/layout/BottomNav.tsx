@@ -8,7 +8,12 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 flex items-center justify-around h-16 lg:hidden z-30 safe-area-pb"
+      className={cn(
+        'fixed bottom-0 inset-x-0 z-30 lg:hidden',
+        'glass-panel rounded-none border-t border-border-subtle',
+        'flex items-center justify-around h-16',
+        'safe-area-pb'
+      )}
       role="navigation"
       aria-label="Menu principal"
     >
@@ -21,14 +26,25 @@ export function BottomNav() {
             key={item.path}
             to={item.path}
             className={cn(
-              'flex flex-col items-center justify-center gap-0.5 min-w-[44px] min-h-[44px] px-2 py-1 rounded-lg transition-colors',
-              isActive ? 'text-primary-500' : 'text-neutral-400'
+              'flex flex-col items-center justify-center gap-0.5',
+              'min-w-[56px] min-h-[44px] px-2 py-1 rounded-lg',
+              'transition-all',
+              isActive
+                ? 'text-primary-500'
+                : 'text-text-secondary'
             )}
+            style={
+              isActive
+                ? { filter: 'drop-shadow(0 0 8px rgba(255, 140, 66, 0.6))' }
+                : undefined
+            }
             aria-label={item.label}
             aria-current={isActive ? 'page' : undefined}
           >
             <Icon name={item.icon} size={24} fill={isActive} />
-            <span className="text-[10px] font-medium leading-tight">{item.label}</span>
+            <span className="text-[10px] font-medium leading-tight">
+              {item.label}
+            </span>
           </Link>
         );
       })}

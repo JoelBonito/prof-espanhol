@@ -15,16 +15,16 @@ export function AreaScoreCard({ title, data }: AreaScoreCardProps) {
     const trendColors = {
         up: 'text-success bg-success-light',
         down: 'text-error bg-error-light',
-        stable: 'text-neutral-500 bg-neutral-100'
+        stable: 'text-text-muted bg-white/5'
     };
 
     return (
-        <div className="bg-white p-5 rounded-default border border-neutral-100 shadow-card">
+        <div className="bg-[var(--color-glass-bg)] p-5 rounded-default border border-[var(--color-border-subtle)] shadow-[var(--shadow-card)]">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h3 className="text-sm font-medium text-neutral-500">{title}</h3>
+                    <h3 className="text-sm font-medium text-text-muted">{title}</h3>
                     <div className="flex items-baseline gap-2 mt-1">
-                        <span className="font-display text-2xl font-bold text-neutral-900">{data.score}</span>
+                        <span className="font-display text-2xl font-bold text-text-primary">{data.score}</span>
                         <span className="text-sm font-bold text-primary-500">{data.level}</span>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ export function AreaScoreCard({ title, data }: AreaScoreCardProps) {
                 </div>
             </div>
 
-            <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
                 <div
                     className="h-full bg-primary-500 rounded-full transition-all duration-1000"
                     style={{ width: `${data.score}%` }}

@@ -36,7 +36,7 @@ export interface BoardParseResult {
   cleanText: string;
 }
 
-const BOARD_REGEX = /\[BOARD_JSON:\s*(\{[^}]+\})\s*\]/g;
+const BOARD_REGEX = /\[BOARD_JSON:\s*(\{[\s\S]*?\})\s*\]/g;
 
 const validStates = new Set<string>(BOARD_STATES);
 
@@ -50,22 +50,18 @@ function isValidBoardPayload(obj: unknown): obj is Record<string, unknown> {
   return (
     typeof o.lessonTitle === 'string' &&
     typeof o.text === 'string' &&
-    typeof o.state === 'string' &&
-    typeof o.level === 'string' &&
-    typeof o.sectionIndex === 'number' &&
-    typeof o.sectionTotal === 'number'
+    typeof o.state === 'string'
   );
 }
 
 export function parseBoardMarkers(text: string): BoardParseResult {
   let board: BoardData | null = null;
 
+  // Use a temporary list to track markers while cleaning text
   const cleanText = text.replace(BOARD_REGEX, (_, jsonStr: string) => {
-    // Only keep the first valid marker per turn
-    if (board) return '';
-
     try {
-      const obj: unknown = JSON.parse(jsonStr);
+      // Clean up whitespace or potential junk before parsing
+      const obj: unknown = JSON.parse(jsonStr.trim());
       if (!isValidBoardPayload(obj)) return '';
 
       const raw = obj as Record<string, unknown>;
@@ -73,18 +69,21 @@ export function parseBoardMarkers(text: string): BoardParseResult {
         ? (raw.state as BoardState)
         : 'presentation';
 
+      // Update character board with the LATEST valid marker in the string
       board = {
         lessonTitle: String(raw.lessonTitle),
         text: String(raw.text),
         state,
-        level: String(raw.level),
-        sectionIndex: Number(raw.sectionIndex),
-        sectionTotal: Number(raw.sectionTotal),
+        level: String(raw.level ?? 'A1'),
+        sectionIndex: Number(raw.sectionIndex ?? 1),
+        sectionTotal: Number(raw.sectionTotal ?? 1),
       };
-    } catch {
-      // Malformed JSON — skip marker silently
+
+      return ''; // Remove marker from text
+    } catch (e) {
+      console.warn('[board-parser] Failed to parse JSON marker:', jsonStr, e);
+      return ''; // Still remove the malformed marker so it doesn't leak into chat
     }
-    return '';
   }).trim();
 
   return { board, cleanText };

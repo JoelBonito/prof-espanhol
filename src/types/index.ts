@@ -6,6 +6,9 @@ export interface UserProfile {
   uid: string;
   email: string;
   displayName: string;
+  username?: string;
+  phone?: string;
+  bio?: string;
   level: SpanishLevel | null;
   xp: number;
   streak: number;

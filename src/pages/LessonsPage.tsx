@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Icon } from '../components/ui/Icon';
@@ -7,8 +7,9 @@ import { generateLesson } from '../features/lessons/api/generateLesson';
 import { CompletedStageCard } from '../features/lessons/components/CompletedStageCard';
 import { ExerciseStageCard } from '../features/lessons/components/ExerciseStageCard';
 import { LessonSummaryCard } from '../features/lessons/components/LessonSummaryCard';
-import { ModuleListCard } from '../features/lessons/components/ModuleListCard';
+import { ModuleHeader } from '../features/lessons/components/ModuleHeader';
 import { ReadingStageCard } from '../features/lessons/components/ReadingStageCard';
+import { useHighlightSync } from '../features/lessons/hooks/useHighlightSync';
 import { useLessonVoice } from '../features/lessons/hooks/useLessonVoice';
 import { getModulesByLevel, type LessonModule } from '../features/lessons/lib/moduleCatalog';
 import {
@@ -29,11 +30,6 @@ interface ExerciseAttemptState {
   userAnswer?: string;
 }
 
-interface ReadingTimeline {
-  words: string[];
-  starts: number[];
-  text: string;
-}
 
 function normalizeAnswer(value: string): string {
   return value
@@ -108,31 +104,6 @@ function stripHtmlToText(html: string): string {
   return div.textContent?.replace(/\s+/g, ' ').trim() ?? '';
 }
 
-function buildReadingTimeline(text: string): ReadingTimeline {
-  const words = text.split(/\s+/).filter(Boolean);
-  const starts: number[] = [];
-  let cursor = 0;
-
-  for (const word of words) {
-    starts.push(cursor);
-    cursor += word.length + 1;
-  }
-
-  return { words, starts, text };
-}
-
-function getWordIndexByChar(starts: number[], charIndex: number): number {
-  if (starts.length === 0) return -1;
-  if (charIndex <= 0) return 0;
-
-  let found = 0;
-  for (let index = 0; index < starts.length; index += 1) {
-    if (starts[index] <= charIndex) found = index;
-    else break;
-  }
-
-  return found;
-}
 
 function getExerciseHint(exercise: LessonExercise): string {
   if (exercise.type === 'flashcard') {
@@ -166,7 +137,6 @@ export default function LessonsPage() {
     explanation: string;
   } | null>(null);
 
-  const [activeWordIndex, setActiveWordIndex] = useState(-1);
   const [microphoneBlocked, setMicrophoneBlocked] = useState(false);
   const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
   const [unlockMessage, setUnlockMessage] = useState<string | null>(null);
@@ -175,7 +145,6 @@ export default function LessonsPage() {
   const [savingError, setSavingError] = useState<string | null>(null);
 
   const { supported: voiceSupported, speaking, speak, stop } = useLessonVoice();
-  const lastNarratedBlockRef = useRef<string>('');
 
   const currentBlock = lesson?.blocks[blockIndex] ?? null;
   const exercisesForBlock = useMemo(() => {
@@ -185,10 +154,12 @@ export default function LessonsPage() {
 
   const activeExercise = retryExercise ?? exercisesForBlock[exerciseIndex] ?? null;
 
-  const readingTimeline = useMemo(() => {
-    if (!currentBlock) return buildReadingTimeline('');
-    return buildReadingTimeline(stripHtmlToText(currentBlock.contentHtml));
+  const readingText = useMemo(() => {
+    if (!currentBlock) return '';
+    return stripHtmlToText(currentBlock.contentHtml);
   }, [currentBlock]);
+
+  const { containerRef: highlightRef, onBoundary: highlightOnBoundary, reset: resetHighlight } = useHighlightSync(readingText);
 
   const audioUnavailable = !voiceSupported || microphoneBlocked;
 
@@ -211,21 +182,26 @@ export default function LessonsPage() {
   }, [lesson, blockIndex, stage, exercisesForBlock.length, exerciseIndex, feedback]);
 
   const speakText = useCallback(
-    (text: string, withHighlight = false) => {
+    (text: string) => {
       if (!text.trim()) return false;
-
-      const success = speak(text, {
-        onBoundary: withHighlight
-          ? (charIndex) => setActiveWordIndex(getWordIndexByChar(readingTimeline.starts, charIndex))
-          : undefined,
-        onEnd: withHighlight ? () => setActiveWordIndex(-1) : undefined,
-      });
-
-      if (!success) setActiveWordIndex(-1);
-      return success;
+      return speak(text);
     },
-    [readingTimeline.starts, speak],
+    [speak],
   );
+
+  const speakReading = useCallback(() => {
+    if (!readingText.trim()) return;
+    resetHighlight();
+    speak(readingText, {
+      onBoundary: highlightOnBoundary,
+      onEnd: resetHighlight,
+    });
+  }, [readingText, speak, highlightOnBoundary, resetHighlight]);
+
+  const stopReading = useCallback(() => {
+    stop();
+    resetHighlight();
+  }, [stop, resetHighlight]);
 
   const resetLessonSession = useCallback(() => {
     setStage('reading');
@@ -235,10 +211,9 @@ export default function LessonsPage() {
     setAttemptsByExercise({});
     setFeedback(null);
     setSavingError(null);
-    setActiveWordIndex(-1);
-    lastNarratedBlockRef.current = '';
     stop();
-  }, [stop]);
+    resetHighlight();
+  }, [stop, resetHighlight]);
 
   const loadCatalog = useCallback(async () => {
     setLoadingCatalog(true);
@@ -316,15 +291,8 @@ export default function LessonsPage() {
   useEffect(() => {
     if (!currentBlock || stage !== 'reading') {
       stop();
-      setActiveWordIndex(-1);
-      return;
     }
-
-    if (lastNarratedBlockRef.current === currentBlock.id) return;
-
-    const narrated = speakText(readingTimeline.text, true);
-    if (narrated) lastNarratedBlockRef.current = currentBlock.id;
-  }, [currentBlock, stage, readingTimeline.text, speakText, stop]);
+  }, [currentBlock, stage, stop]);
 
   useEffect(() => {
     if (!feedback || feedback.status !== 'incorrect') return;
@@ -409,7 +377,7 @@ export default function LessonsPage() {
       setBlockIndex((prev) => prev + 1);
       setExerciseIndex(0);
       setStage('reading');
-      setActiveWordIndex(-1);
+      resetHighlight();
       return;
     }
 
@@ -502,19 +470,19 @@ export default function LessonsPage() {
 
   if (loadingCatalog) {
     return (
-      <div className="min-h-dvh bg-neutral-50 flex items-center justify-center px-6">
+      <div className="min-h-dvh bg-app-bg flex items-center justify-center px-6">
         <div className="flex flex-col items-center gap-4">
           <div className="w-14 h-14 rounded-full border-4 border-primary-500 border-t-transparent animate-spin" />
-          <p className="font-body text-neutral-600">Carregando trilha de módulos…</p>
+          <p className="font-body text-text-secondary">Carregando trilha de módulos…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-dvh bg-neutral-50 px-4 md:px-6 py-6">
-      <div className="max-w-5xl mx-auto grid gap-4 lg:grid-cols-[320px_1fr]">
-        <ModuleListCard
+    <div className="min-h-dvh bg-app-bg px-4 md:px-6 py-6">
+      <div className="max-w-3xl mx-auto space-y-4">
+        <ModuleHeader
           userLevel={userLevel}
           modules={modules}
           moduleProgress={moduleProgress}
@@ -534,7 +502,7 @@ export default function LessonsPage() {
 
           {error && (
             <Card className="p-6 text-center">
-              <p className="font-body text-neutral-700 mb-4">{error}</p>
+              <p className="font-body text-text-secondary mb-4">{error}</p>
               <Button onClick={() => void loadCatalog()}>
                 <Icon name="refresh" size={20} />
                 Tentar novamente
@@ -545,7 +513,7 @@ export default function LessonsPage() {
           {loadingLesson && (
             <Card className="p-6 flex items-center gap-3">
               <div className="w-5 h-5 rounded-full border-2 border-primary-500 border-t-transparent animate-spin" />
-              <p className="font-body text-neutral-600">Gerando conteúdo do módulo…</p>
+              <p className="font-body text-text-secondary">Gerando conteúdo do módulo…</p>
             </Card>
           )}
 
@@ -562,14 +530,15 @@ export default function LessonsPage() {
                 <ReadingStageCard
                   blockIndex={blockIndex}
                   currentBlock={currentBlock}
-                  readingWords={readingTimeline.words}
-                  activeWordIndex={activeWordIndex}
-                  readingText={readingTimeline.text}
                   audioUnavailable={audioUnavailable}
                   selectedModuleId={selectedModuleId}
-                  onSpeakBlock={() => speakText(readingTimeline.text, true)}
+                  speaking={speaking}
+                  hasReadingText={readingText.length > 0}
+                  highlightRef={highlightRef}
+                  onSpeakBlock={speakReading}
+                  onStopReading={stopReading}
                   onStartExercises={() => {
-                    stop();
+                    stopReading();
                     setStage('exercises');
                     setExerciseIndex(0);
                     setRetryExercise(null);

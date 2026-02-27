@@ -2,7 +2,7 @@ import { cn } from '../../lib/utils';
 
 const colorMap = {
   success: 'bg-success',
-  primary: 'bg-primary-500',
+  primary: 'bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400',
   info: 'bg-info',
   warning: 'bg-warning',
   error: 'bg-error',
@@ -46,7 +46,7 @@ export function ProgressBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={label}
-        className={cn('flex bg-neutral-200 rounded-full overflow-hidden gap-0.5', heightMap.segmented, className)}
+        className={cn('flex bg-white/5 border border-white/5 rounded-full overflow-hidden gap-0.5', heightMap.segmented, className)}
       >
         {segments.map((seg, i) => (
           <div
@@ -66,11 +66,14 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label}
-      className={cn('bg-neutral-200 rounded-full overflow-hidden', heightMap[variant], className)}
+      className={cn('bg-white/5 border border-white/5 rounded-full overflow-hidden', heightMap[variant], className)}
     >
       <div
         className={cn('h-full rounded-full transition-all duration-1000 ease-out', colorMap[color])}
-        style={{ width: `${clamped}%` }}
+        style={{
+          width: `${clamped}%`,
+          boxShadow: color === 'primary' ? '0 0 8px rgba(255, 140, 66, 0.4)' : undefined,
+        }}
       />
     </div>
   );

@@ -28,7 +28,7 @@ export function QuizMultipleChoice({
     return (
       <div className="space-y-4">
         <Badge variant="info">multiple_choice</Badge>
-        <p id={`question-${exercise.id}`} className="font-display text-xl text-neutral-900">{exercise.question}</p>
+        <p id={`question-${exercise.id}`} className="font-display text-xl text-text-primary">{exercise.question}</p>
         <p className="font-body text-sm text-warning">
           Exercício indisponível no momento. Tente outro módulo.
         </p>
@@ -39,7 +39,7 @@ export function QuizMultipleChoice({
   return (
     <div className="space-y-4">
       <Badge variant="info">multiple_choice</Badge>
-      <p id={`question-${exercise.id}`} className="font-display text-xl text-neutral-900">{exercise.question}</p>
+      <p id={`question-${exercise.id}`} className="font-display text-xl text-text-primary">{exercise.question}</p>
 
       <div
         className="space-y-2"
@@ -60,8 +60,8 @@ export function QuizMultipleChoice({
               className={[
                 'w-full text-left rounded-xl border p-4 transition-colors font-body',
                 active
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300',
+                  ? 'border-primary-500 bg-primary-500/10 text-primary-500'
+                  : 'border-[var(--color-border-default)] bg-[var(--color-glass-bg)] text-text-secondary hover:border-[var(--color-border-active)]',
                 disabled ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer',
               ]
                 .filter(Boolean)

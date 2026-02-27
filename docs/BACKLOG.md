@@ -48,7 +48,7 @@
 - [x] Story 7.1: Formalizar contrato de idioma e regras pedagógicas es-PY vs pt-BR `[antigravity]`
 - [x] Story 7.2: Implementar callable assíncrono de avaliação pedagógica (Gemini 3 Flash) `[antigravity]`
 - [x] Story 7.3: Integrar resultados da avaliação na UI do Resumo de Sessão `[antigravity]`
-- [ ] Story 7.4: Validar fluxo adaptativo completo e testes de regressão `[antigravity]`
+- [x] Story 7.4: Validar fluxo adaptativo completo e testes de regressão `[antigravity]`
 
 ---
 

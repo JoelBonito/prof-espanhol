@@ -19,13 +19,13 @@ export function CompletedStageCard({
 }: CompletedStageCardProps) {
   return (
     <Card className="p-5 md:p-6" status={finalScore >= 60 ? 'success' : 'warning'}>
-      <h2 className="font-display text-2xl text-neutral-900 font-bold mb-2">Módulo concluído</h2>
-      <p className="font-body text-neutral-700">Score final: {finalScore}/100</p>
-      <p className="font-body text-neutral-600 text-sm mt-1">
+      <h2 className="font-display text-2xl text-text-primary font-bold mb-2">Módulo concluído</h2>
+      <p className="font-body text-text-secondary">Score final: {finalScore}/100</p>
+      <p className="font-body text-text-secondary text-sm mt-1">
         Exercícios para revisão no Schedule Adapter: {weakCount}
       </p>
 
-      {savingProgress && <p className="font-body text-sm text-neutral-500 mt-3">Salvando progresso…</p>}
+      {savingProgress && <p className="font-body text-sm text-text-muted mt-3">Salvando progresso…</p>}
       {savingError && <p className="font-body text-sm text-error mt-3">{savingError}</p>}
 
       <div className="mt-5 flex flex-wrap gap-2">

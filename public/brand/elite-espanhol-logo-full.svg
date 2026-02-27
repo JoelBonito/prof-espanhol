@@ -1,0 +1,35 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brandStroke" x1="134" y1="56" x2="586" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4C7FB9"/>
+      <stop offset="1" stop-color="#FF7A2E"/>
+    </linearGradient>
+    <linearGradient id="brandFill" x1="240" y1="182" x2="471" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFC254"/>
+      <stop offset="1" stop-color="#FF6D2E"/>
+    </linearGradient>
+    <linearGradient id="wordmark" x1="78" y1="536" x2="617" y2="536" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E5C9A"/>
+      <stop offset="1" stop-color="#F7A743"/>
+    </linearGradient>
+    <linearGradient id="powered" x1="212" y1="635" x2="535" y2="635" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8D98A8"/>
+      <stop offset="1" stop-color="#4D95D8"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M360 36L552 96V294C552 389 474 469 360 514C246 469 168 389 168 294V96L360 36Z" stroke="url(#brandStroke)" stroke-width="18" fill="none"/>
+  <path d="M251 227C251 166 300 117 360 117C420 117 469 166 469 227" stroke="url(#brandFill)" stroke-width="18" stroke-linecap="round"/>
+  <rect x="213" y="205" width="50" height="153" rx="22" fill="url(#brandFill)"/>
+  <rect x="457" y="205" width="50" height="153" rx="22" fill="url(#brandFill)"/>
+  <rect x="333" y="193" width="54" height="74" rx="26" stroke="url(#brandFill)" stroke-width="10"/>
+  <path d="M360 267V293" stroke="url(#brandFill)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M312 326C334 346 386 346 408 326" stroke="url(#brandFill)" stroke-width="10" stroke-linecap="round"/>
+  <rect x="314" y="355" width="92" height="26" rx="13" fill="url(#brandFill)"/>
+  <rect x="297" y="343" width="26" height="50" rx="13" fill="url(#brandFill)"/>
+  <circle cx="360" cy="243" r="83" stroke="url(#brandFill)" stroke-opacity="0.45" stroke-width="6"/>
+  <text x="360" y="266" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="800" fill="url(#brandFill)">i9AI</text>
+
+  <text x="360" y="603" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="84" font-weight="800" fill="url(#wordmark)">Elite Espanhol</text>
+  <text x="360" y="669" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="600" fill="url(#powered)">Powered by Inove AI</text>
+</svg>

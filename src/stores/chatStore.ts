@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { BoardData } from '../features/chat/lib/boardParser';
+import type { LessonPhase, Correction } from '../features/chat/types/lesson';
 
 export type ChatStatus =
   | 'idle'
@@ -49,6 +50,11 @@ interface ChatState {
   // Virtual board
   board: BoardData | null;
 
+  // Lesson state (new structured lesson flow)
+  lessonPhase: LessonPhase;
+  lessonTranscript: string;
+  pronunciationCorrections: Correction[];
+
   // Media
   isMuted: boolean;
   isRecording: boolean;
@@ -68,6 +74,10 @@ interface ChatState {
   setRecording: (recording: boolean) => void;
   setBoardFromMarker: (data: BoardData) => void;
   clearBoard: () => void;
+  setLessonPhase: (phase: LessonPhase) => void;
+  setLessonTranscript: (transcript: string) => void;
+  addPronunciationCorrection: (correction: Correction) => void;
+  clearPronunciationCorrections: () => void;
   endSession: () => void;
   reset: () => void;
 }
@@ -86,6 +96,10 @@ export const useChatStore = create<ChatState>()((set, get) => ({
   phonemeAttempts: {},
   board: null,
 
+  lessonPhase: 'loading',
+  lessonTranscript: '',
+  pronunciationCorrections: [],
+
   isMuted: false,
   isRecording: false,
 
@@ -103,6 +117,9 @@ export const useChatStore = create<ChatState>()((set, get) => ({
       corrections: [],
       phonemeAttempts: {},
       board: null,
+      lessonPhase: 'loading',
+      lessonTranscript: '',
+      pronunciationCorrections: [],
       dailySessionCount: s.dailySessionCount + 1,
     })),
 
@@ -138,6 +155,17 @@ export const useChatStore = create<ChatState>()((set, get) => ({
 
   clearBoard: () => set({ board: null }),
 
+  setLessonPhase: (phase) => set({ lessonPhase: phase }),
+
+  setLessonTranscript: (transcript) => set({ lessonTranscript: transcript }),
+
+  addPronunciationCorrection: (correction) =>
+    set((s) => ({
+      pronunciationCorrections: [...s.pronunciationCorrections, correction],
+    })),
+
+  clearPronunciationCorrections: () => set({ pronunciationCorrections: [] }),
+
   endSession: () =>
     set({
       status: 'ended',
@@ -156,6 +184,9 @@ export const useChatStore = create<ChatState>()((set, get) => ({
       corrections: [],
       phonemeAttempts: {},
       board: null,
+      lessonPhase: 'loading',
+      lessonTranscript: '',
+      pronunciationCorrections: [],
       isMuted: false,
       isRecording: false,
     }),

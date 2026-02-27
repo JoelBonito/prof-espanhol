@@ -51,11 +51,11 @@ export function ExerciseStageCard({
   return (
     <Card className="p-5 md:p-6 relative group">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-display text-lg font-semibold text-neutral-900">
+        <h2 className="font-display text-lg font-semibold text-text-primary">
           Exercício {exerciseIndex + 1} de {exercisesForBlockLength}
         </h2>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-500">Bloco {blockIndex + 1}</span>
+          <span className="text-xs text-text-muted">Bloco {blockIndex + 1}</span>
           <ReportFeedbackButton
             screen="Lessons/Exercise"
             content={`Question: ${activeExercise.question}, Answer: ${activeExercise.answer}`}
@@ -67,7 +67,7 @@ export function ExerciseStageCard({
 
       {audioUnavailable && (
         <div className="mb-4 rounded-xl border border-warning/30 bg-warning-light p-3">
-          <p className="font-body text-sm text-neutral-700">
+          <p className="font-body text-sm text-text-secondary">
             Áudio indisponível. Alternativa textual ativada automaticamente.
           </p>
         </div>
@@ -96,8 +96,8 @@ export function ExerciseStageCard({
           aria-live="polite"
           aria-atomic="true"
         >
-          <p className="font-body text-sm font-semibold text-neutral-900">{feedback.message}</p>
-          <p className="font-body text-sm text-neutral-700 mt-1">{feedback.explanation}</p>
+          <p className="font-body text-sm font-semibold text-text-primary">{feedback.message}</p>
+          <p className="font-body text-sm text-text-secondary mt-1">{feedback.explanation}</p>
 
           <div className="flex flex-wrap gap-2 mt-3">
             <Button variant="secondary" onClick={onSpeakFeedback} disabled={audioUnavailable}>

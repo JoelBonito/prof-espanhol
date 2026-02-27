@@ -65,8 +65,8 @@ export function FlashCard({ exercise, disabled = false, onEvaluate }: FlashCardP
               .filter(Boolean)
               .join(' ')}
           >
-            <div className="absolute inset-0 rounded-2xl border border-neutral-200 bg-white shadow-flashcard p-6 flex items-center justify-center [backface-visibility:hidden]">
-              <p className="font-display text-xl text-neutral-900 text-center leading-relaxed">
+            <div className="absolute inset-0 rounded-2xl border border-[var(--color-border-default)] bg-[var(--color-glass-bg)] shadow-flashcard p-6 flex items-center justify-center [backface-visibility:hidden]">
+              <p className="font-display text-xl text-text-primary text-center leading-relaxed">
                 {exercise.question}
               </p>
             </div>
@@ -75,8 +75,8 @@ export function FlashCard({ exercise, disabled = false, onEvaluate }: FlashCardP
               <p className="font-body text-sm text-success font-semibold uppercase tracking-wide mb-2">
                 Resposta
               </p>
-              <p className="font-display text-xl text-neutral-900 leading-relaxed">{exercise.answer}</p>
-              <p className="font-body text-sm text-neutral-600 mt-4">{exercise.explanation}</p>
+              <p className="font-display text-xl text-text-primary leading-relaxed">{exercise.answer}</p>
+              <p className="font-body text-sm text-text-secondary mt-4">{exercise.explanation}</p>
             </div>
           </div>
         </button>
