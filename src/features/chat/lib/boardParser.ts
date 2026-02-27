@@ -69,7 +69,9 @@ export function parseBoardMarkers(text: string): BoardParseResult {
         ? (raw.state as BoardState)
         : 'presentation';
 
-      // Update character board with the LATEST valid marker in the string
+      // Keep only the first valid marker; subsequent ones are stripped from text
+      if (board !== null) return '';
+
       board = {
         lessonTitle: String(raw.lessonTitle),
         text: String(raw.text),

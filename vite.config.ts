@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import path from 'node:path';
 
 export default defineConfig({
   plugins: [
@@ -75,5 +76,15 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
+    alias: [
+      {
+        find: 'firebase-functions/v2/https',
+        replacement: path.resolve('./src/test-mocks/firebase-functions-v2-https.ts'),
+      },
+      {
+        find: 'firebase-admin/firestore',
+        replacement: path.resolve('./src/test-mocks/firebase-admin-firestore.ts'),
+      },
+    ],
   },
 });
