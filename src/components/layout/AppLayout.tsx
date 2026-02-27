@@ -11,9 +11,12 @@ export function AppLayout({ children }: AppLayoutProps) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    if ('requestIdleCallback' in window && 'cancelIdleCallback' in window) {
-      const idleId = window.requestIdleCallback(() => preloadMainRoutes());
-      return () => window.cancelIdleCallback(idleId);
+    const requestIdle = window.requestIdleCallback?.bind(window);
+    const cancelIdle = window.cancelIdleCallback?.bind(window);
+
+    if (requestIdle && cancelIdle) {
+      const idleId = requestIdle(() => preloadMainRoutes());
+      return () => cancelIdle(idleId);
     }
 
     const timeoutId = window.setTimeout(() => preloadMainRoutes(), 120);

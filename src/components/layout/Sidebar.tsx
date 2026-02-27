@@ -4,6 +4,7 @@ import { cn } from '../../lib/utils';
 import { Icon } from '../ui/Icon';
 import { NAV_ITEMS } from './nav-items';
 import { UserCard } from './UserCard';
+import { preloadRoute } from '../../app/routePreload';
 
 export function Sidebar() {
   const { pathname } = useLocation();
@@ -96,6 +97,9 @@ export function Sidebar() {
             <Link
               key={item.path}
               to={item.path}
+              onMouseEnter={() => preloadRoute(item.path)}
+              onFocus={() => preloadRoute(item.path)}
+              onTouchStart={() => preloadRoute(item.path)}
               className={cn(
                 'flex items-center gap-3 px-3 py-3 rounded-xl transition-all',
                 'min-h-[48px]',

@@ -3,19 +3,20 @@ import { lazy, Suspense } from 'react';
 import { PageLoader } from '../components/ui/PageLoader';
 import { AppLayout } from '../components/layout/AppLayout';
 import { ProtectedRoute } from '../components/ProtectedRoute';
+import { routeImporters } from './routePreload';
 
-const HomePage = lazy(() => import('../pages/HomePage'));
+const HomePage = lazy(routeImporters['/']);
 const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
 const DeviceTest = lazy(() => import('../pages/DeviceTest'));
 const OnboardingPage = lazy(() => import('../pages/OnboardingPage'));
 const DiagnosticPage = lazy(() => import('../pages/DiagnosticPage'));
-const LessonsPage = lazy(() => import('../pages/LessonsPage'));
-const HomeworkPage = lazy(() => import('../pages/HomeworkPage'));
-const SchedulePage = lazy(() => import('../pages/SchedulePage'));
-const ProgressPage = lazy(() => import('../pages/ProgressPage'));
-const ChatPage = lazy(() => import('../pages/ChatPage'));
+const LessonsPage = lazy(routeImporters['/lessons']);
+const HomeworkPage = lazy(routeImporters['/homework']);
+const SchedulePage = lazy(routeImporters['/schedule']);
+const ProgressPage = lazy(routeImporters['/progress']);
+const ChatPage = lazy(routeImporters['/chat']);
 const SessionSummaryPage = lazy(() => import('../pages/SessionSummaryPage'));
-const ProfilePage = lazy(() => import('../pages/ProfilePage'));
+const ProfilePage = lazy(routeImporters['/profile']);
 
 export const router = createBrowserRouter([
   {

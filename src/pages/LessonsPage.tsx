@@ -30,6 +30,16 @@ interface ExerciseAttemptState {
   userAnswer?: string;
 }
 
+interface CatalogCacheState {
+  userLevel: string;
+  modules: LessonModule[];
+  moduleProgress: Record<string, ModuleProgressState>;
+  selectedModuleId: string | null;
+}
+
+let catalogCache: CatalogCacheState | null = null;
+const lessonCache = new Map<string, LessonContent>();
+
 
 function normalizeAnswer(value: string): string {
   return value
@@ -116,13 +126,15 @@ function getExerciseHint(exercise: LessonExercise): string {
 }
 
 export default function LessonsPage() {
-  const [userLevel, setUserLevel] = useState('A1');
-  const [modules, setModules] = useState<LessonModule[]>([]);
-  const [moduleProgress, setModuleProgress] = useState<Record<string, ModuleProgressState>>({});
-  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
+  const [userLevel, setUserLevel] = useState(catalogCache?.userLevel ?? 'A1');
+  const [modules, setModules] = useState<LessonModule[]>(catalogCache?.modules ?? []);
+  const [moduleProgress, setModuleProgress] = useState<Record<string, ModuleProgressState>>(catalogCache?.moduleProgress ?? {});
+  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(catalogCache?.selectedModuleId ?? null);
 
-  const [lesson, setLesson] = useState<LessonContent | null>(null);
-  const [loadingCatalog, setLoadingCatalog] = useState(true);
+  const [lesson, setLesson] = useState<LessonContent | null>(
+    catalogCache?.selectedModuleId ? lessonCache.get(catalogCache.selectedModuleId) ?? null : null,
+  );
+  const [loadingCatalog, setLoadingCatalog] = useState(!catalogCache);
   const [loadingLesson, setLoadingLesson] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -215,8 +227,10 @@ export default function LessonsPage() {
     resetHighlight();
   }, [stop, resetHighlight]);
 
-  const loadCatalog = useCallback(async () => {
-    setLoadingCatalog(true);
+  const loadCatalog = useCallback(async (showLoader = true) => {
+    if (showLoader) {
+      setLoadingCatalog(true);
+    }
     setError(null);
 
     try {
@@ -229,17 +243,35 @@ export default function LessonsPage() {
       setModuleProgress(progress);
 
       const firstAvailable = levelModules.find((module) => progress[module.id]?.unlocked) ?? levelModules[0] ?? null;
-      setSelectedModuleId(firstAvailable?.id ?? null);
+      const nextSelectedModuleId = firstAvailable?.id ?? null;
+      setSelectedModuleId((prev) => prev ?? nextSelectedModuleId);
+
+      catalogCache = {
+        userLevel: level,
+        modules: levelModules,
+        moduleProgress: progress,
+        selectedModuleId: nextSelectedModuleId,
+      };
     } catch (err) {
       console.error('loadCatalog error:', err);
       setError('Não foi possível carregar os módulos.');
     } finally {
-      setLoadingCatalog(false);
+      if (showLoader) {
+        setLoadingCatalog(false);
+      }
     }
   }, []);
 
   const loadLesson = useCallback(
     async (module: LessonModule) => {
+      const cachedLesson = lessonCache.get(module.id);
+      if (cachedLesson) {
+        setLesson(cachedLesson);
+        setLoadingLesson(false);
+        resetLessonSession();
+        return;
+      }
+
       setLoadingLesson(true);
       setError(null);
 
@@ -249,6 +281,7 @@ export default function LessonsPage() {
           topic: module.topic,
         });
 
+        lessonCache.set(module.id, data);
         setLesson(data);
         resetLessonSession();
       } catch (err) {
@@ -262,7 +295,7 @@ export default function LessonsPage() {
   );
 
   useEffect(() => {
-    void loadCatalog();
+    void loadCatalog(!catalogCache);
   }, [loadCatalog]);
 
   useEffect(() => {
@@ -311,6 +344,12 @@ export default function LessonsPage() {
     setBlockedMessage(null);
     setUnlockMessage(null);
     setSelectedModuleId(module.id);
+    if (catalogCache) {
+      catalogCache = {
+        ...catalogCache,
+        selectedModuleId: module.id,
+      };
+    }
   }
 
   function getCurrentExerciseKey(): string {
@@ -470,10 +509,11 @@ export default function LessonsPage() {
 
   if (loadingCatalog) {
     return (
-      <div className="min-h-dvh bg-app-bg flex items-center justify-center px-6">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-14 h-14 rounded-full border-4 border-primary-500 border-t-transparent animate-spin" />
-          <p className="font-body text-text-secondary">Carregando trilha de módulos…</p>
+      <div className="min-h-dvh bg-app-bg px-4 md:px-6 py-6">
+        <div className="max-w-3xl mx-auto space-y-4 animate-pulse">
+          <div className="h-20 rounded-2xl bg-white/5 border border-white/10" />
+          <div className="h-28 rounded-2xl bg-white/5 border border-white/10" />
+          <div className="h-96 rounded-2xl bg-white/5 border border-white/10" />
         </div>
       </div>
     );
