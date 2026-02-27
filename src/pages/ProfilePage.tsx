@@ -108,9 +108,9 @@ export default function ProfilePage() {
     const initial = displayName.charAt(0).toUpperCase();
 
     return (
-        <div className="min-h-[calc(100vh-64px)] lg:min-h-screen pb-24 md:pb-8">
+        <div className="min-h-[calc(100vh-64px)] xl:min-h-screen pb-24 md:pb-8">
             {/* MOBILE VIEW */}
-            <div className="lg:hidden flex flex-col px-5 pt-8 space-y-8">
+            <div className="xl:hidden flex flex-col px-5 pt-8 space-y-8">
                 {/* Header Mobile */}
                 <header className="flex items-center justify-between">
                     <button onClick={() => navigate(-1)} className="text-white hover:text-primary-400 transition-colors">
@@ -242,7 +242,7 @@ export default function ProfilePage() {
             </div>
 
             {/* DESKTOP VIEW */}
-            <div className="hidden lg:flex flex-col max-w-[1200px] mx-auto pt-8 px-8 xl:px-12">
+            <div className="hidden xl:flex flex-col max-w-[1200px] mx-auto pt-8 px-8 2xl:px-12">
                 {/* Header Desktop */}
                 <header className="flex items-center justify-between mb-10">
                     <div className="flex items-center gap-4">

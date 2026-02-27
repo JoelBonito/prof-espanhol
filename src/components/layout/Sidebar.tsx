@@ -15,7 +15,7 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'hidden lg:flex fixed left-0 top-0 bottom-0 z-30',
+        'hidden xl:flex fixed left-0 top-0 bottom-0 z-30',
         'glass-panel rounded-none border-r border-border-subtle',
         'flex-col',
         collapsedClass,

@@ -292,13 +292,13 @@ export function ChatContainer() {
         />
 
         {/* Main: flex-row on desktop */}
-        <main className="flex-1 flex flex-col lg:flex-row overflow-hidden pt-[68px]">
+        <main className="flex-1 flex flex-col xl:flex-row overflow-hidden pt-[68px]">
 
           {/* === LEFT: Board area (mobile: full, desktop: 70%) === */}
-          <section className="flex-1 lg:flex-[7] relative flex flex-col overflow-hidden">
+          <section className="flex-1 xl:flex-[7] relative flex flex-col overflow-hidden">
 
             {/* Central content area */}
-            <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-3 overflow-y-auto">
+            <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 xl:px-8 py-3 overflow-y-auto">
               {board ? (
                 <VirtualBoard board={board} />
               ) : (
@@ -353,7 +353,7 @@ export function ChatContainer() {
 
             {/* Tutor PiP — floating top-right on mobile (Stitch style) */}
             {isActive && (
-              <div className="absolute top-2 right-3 lg:hidden z-20 w-28 h-20 rounded-2xl overflow-hidden border border-white/20 bg-black/60"
+              <div className="absolute top-2 right-3 xl:hidden z-20 w-28 h-20 rounded-2xl overflow-hidden border border-white/20 bg-black/60"
                 style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}
               >
                 <TutorAvatar isSpeaking={!isMuted} className="w-full h-full" />
@@ -366,7 +366,7 @@ export function ChatContainer() {
 
             {/* User Video PiP — below tutor on mobile */}
             {isActive && (
-              <div className="absolute top-24 right-3 lg:hidden z-20">
+              <div className="absolute top-24 right-3 xl:hidden z-20">
                 <UserVideoPreview
                   stream={media.stream}
                   hasVideo={media.hasVideo}
@@ -384,7 +384,7 @@ export function ChatContainer() {
           </section>
 
           {/* === RIGHT: Sidebar (desktop only, 30%) === */}
-          <aside className="hidden lg:flex lg:flex-[3] lg:max-w-[380px] flex-col bg-surface-dark/30 border-l border-white/5 overflow-hidden">
+          <aside className="hidden xl:flex xl:flex-[3] xl:max-w-[380px] flex-col bg-surface-dark/30 border-l border-white/5 overflow-hidden">
             {/* Tutor + User video */}
             <div className="p-4 space-y-3">
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black/40">

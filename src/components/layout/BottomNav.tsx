@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router';
 import { cn } from '../../lib/utils';
 import { Icon } from '../ui/Icon';
 import { NAV_ITEMS } from './nav-items';
+import { preloadRoute } from '../../app/routePreload';
 
 export function BottomNav() {
   const { pathname } = useLocation();
@@ -9,7 +10,7 @@ export function BottomNav() {
   return (
     <nav
       className={cn(
-        'fixed bottom-0 inset-x-0 z-30 lg:hidden',
+        'fixed bottom-0 inset-x-0 z-30 xl:hidden',
         'glass-panel rounded-none border-t border-border-subtle',
         'flex items-center justify-around h-16',
         'safe-area-pb'
@@ -25,6 +26,9 @@ export function BottomNav() {
           <Link
             key={item.path}
             to={item.path}
+            onMouseEnter={() => preloadRoute(item.path)}
+            onFocus={() => preloadRoute(item.path)}
+            onTouchStart={() => preloadRoute(item.path)}
             className={cn(
               'flex flex-col items-center justify-center gap-0.5',
               'min-w-[56px] min-h-[44px] px-2 py-1 rounded-lg',
