@@ -79,6 +79,15 @@ export function useProgressData() {
         const latest = diagSnap.docs[0]?.data() ?? null;
         const previous = diagSnap.docs[1]?.data() ?? null;
 
+        const grammarScore: number = latest?.grammarScore ?? 0;
+        const listeningScore: number = latest?.listeningScore ?? 0;
+        const pronunciationScore: number = latest?.pronunciationScore ?? 0;
+        const level = (latest?.levelAssigned ?? 'A1') as CEFRLevel;
+
+        const prevGrammar: number = previous?.grammarScore ?? grammarScore;
+        const prevListening: number = previous?.listeningScore ?? listeningScore;
+        const prevPronunciation: number = previous?.pronunciationScore ?? pronunciationScore;
+
         const DAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         const weekMap: Record<string, { completed: number; scheduled: number }> = {};
         for (const logDoc of logsSnap.docs) {
