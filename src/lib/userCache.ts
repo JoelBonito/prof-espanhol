@@ -10,10 +10,16 @@ export async function getCachedUserDoc(): Promise<Record<string, unknown>> {
 
   if (cachedUid === uid && cachedData !== null) return cachedData;
 
-  const snap = await getDoc(doc(db, 'users', uid));
-  cachedUid = uid;
-  cachedData = snap.data() ?? {};
-  return cachedData;
+  try {
+    const snap = await getDoc(doc(db, 'users', uid));
+    cachedUid = uid;
+    cachedData = snap.data() ?? {};
+    return cachedData;
+  } catch (error) {
+    console.warn('Failed to fetch user doc (might be offline):', error);
+    // Return empty object or previous cache if available
+    return cachedData ?? {};
+  }
 }
 
 export function invalidateUserDocCache(): void {

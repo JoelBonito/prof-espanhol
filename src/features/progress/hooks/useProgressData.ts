@@ -51,41 +51,33 @@ export function useProgressData() {
       }
 
       try {
-        // Latest 2 completed diagnostics from the correct subcollection
+        // Parallelize Firestore queries to reduce 'waterfall' loading time
         const diagRef = collection(db, 'users', user.uid, 'diagnostics');
-        const diagSnap = await getDocs(
-          query(
-            diagRef,
-            where('status', '==', 'completed'),
-            orderBy('completedAt', 'desc'),
-            limit(2),
-          ),
-        );
-
-        const latest = diagSnap.docs[0]?.data() ?? null;
-        const previous = diagSnap.docs[1]?.data() ?? null;
-
-        const grammarScore: number = latest?.grammarScore ?? 0;
-        const listeningScore: number = latest?.listeningScore ?? 0;
-        const pronunciationScore: number = latest?.pronunciationScore ?? 0;
-        const level = (latest?.levelAssigned ?? 'A1') as CEFRLevel;
-
-        const prevGrammar: number = previous?.grammarScore ?? grammarScore;
-        const prevListening: number = previous?.listeningScore ?? listeningScore;
-        const prevPronunciation: number = previous?.pronunciationScore ?? pronunciationScore;
-
-        // Weekly activity — query scheduleLogs for current Mon–Sun window
+        
         const monday = getMondayOfWeek(new Date());
         const nextMonday = new Date(monday);
         nextMonday.setDate(monday.getDate() + 7);
 
-        const logsSnap = await getDocs(
-          query(
-            collection(db, 'users', user.uid, 'scheduleLogs'),
-            where('scheduledDate', '>=', toIsoDate(monday)),
-            where('scheduledDate', '<', toIsoDate(nextMonday)),
+        const [diagSnap, logsSnap] = await Promise.all([
+          getDocs(
+            query(
+              diagRef,
+              where('status', '==', 'completed'),
+              orderBy('completedAt', 'desc'),
+              limit(2),
+            )
           ),
-        );
+          getDocs(
+            query(
+              collection(db, 'users', user.uid, 'scheduleLogs'),
+              where('scheduledDate', '>=', toIsoDate(monday)),
+              where('scheduledDate', '<', toIsoDate(nextMonday)),
+            )
+          )
+        ]);
+
+        const latest = diagSnap.docs[0]?.data() ?? null;
+        const previous = diagSnap.docs[1]?.data() ?? null;
 
         const DAY_NAMES = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         const weekMap: Record<string, { completed: number; scheduled: number }> = {};
