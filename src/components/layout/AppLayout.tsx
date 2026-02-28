@@ -19,7 +19,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       return () => cancelIdle(idleId);
     }
 
-    const timeoutId = window.setTimeout(() => preloadMainRoutes(), 120);
+    const timeoutId = window.setTimeout(() => preloadMainRoutes(), 2000);
     return () => window.clearTimeout(timeoutId);
   }, []);
 

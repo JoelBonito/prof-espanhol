@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
-import { auth, db } from '../../../lib/firebase';
+import { db } from '../../../lib/firebase';
+import { useAuth } from '../../../app/providers/AuthProvider';
 import type { UserProgress, CEFRLevel } from '../types/progress';
 
 const TTL_MS = 5 * 60 * 1000;
@@ -27,13 +28,15 @@ function trend(current: number, previous: number): 'up' | 'down' | 'stable' {
 }
 
 export function useProgressData() {
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<UserProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (authLoading) return;
+
     async function fetchData() {
-      const user = auth.currentUser;
       if (!user) {
         setError('Usuário não autenticado');
         setLoading(false);
@@ -155,7 +158,7 @@ export function useProgressData() {
     }
 
     fetchData();
-  }, []);
+  }, [user, authLoading]);
 
   return { data, loading, error };
 }

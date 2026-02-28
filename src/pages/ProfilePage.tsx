@@ -3,11 +3,13 @@ import { signOut } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router';
 import { auth, db } from '../lib/firebase';
+import { useAuth } from '../app/providers/AuthProvider';
 import type { UserProfile, SpanishLevel } from '../types';
 import { Icon } from '../components/ui/Icon';
 
 export default function ProfilePage() {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -23,7 +25,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         async function loadProfile() {
-            const uid = auth.currentUser?.uid;
+            const uid = user?.uid;
             if (!uid) {
                 setLoading(false);
                 return;
@@ -50,8 +52,8 @@ export default function ProfilePage() {
             }
         }
 
-        loadProfile();
-    }, []);
+        void loadProfile();
+    }, [user]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;

@@ -10,34 +10,32 @@ import { AreaScoreCard } from '../features/progress/components/AreaScoreCard';
 import { PhonemeTracker } from '../features/progress/components/PhonemeTracker';
 import { AdaptationTimeline } from '../features/progress/components/AdaptationTimeline';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { useAuth } from '../app/providers/AuthProvider';
+import { getCachedUserDoc } from '../lib/userCache';
 import type { AdapterHistoryEntry } from '../features/progress/types/adaptation';
 
 export default function ProgressPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { data, loading, error } = useProgressData();
   const [adaptationEntries, setAdaptationEntries] = useState<AdapterHistoryEntry[]>([]);
   const isMon = isMonday(new Date());
 
-  // Adaptation History - separate fetch to keep existing logic but integrated
   useEffect(() => {
+    if (!user) return;
     async function loadAdaptation() {
-      const uid = auth.currentUser?.uid;
-      if (!uid) return;
       try {
-        const userRef = doc(db, 'users', uid);
-        const snapshot = await getDoc(userRef);
-        const rawHistory = snapshot.data()?.adapterHistory;
+        const docData = await getCachedUserDoc();
+        const rawHistory = docData.adapterHistory;
         if (Array.isArray(rawHistory)) {
-          setAdaptationEntries(rawHistory.slice(0, 10)); // Top 10 latest
+          setAdaptationEntries((rawHistory as AdapterHistoryEntry[]).slice(0, 10));
         }
       } catch (err) {
         console.error('Failed to load adaptation history:', err);
       }
     }
-    loadAdaptation();
-  }, []);
+    void loadAdaptation();
+  }, [user]);
 
   if (loading) {
     return (
