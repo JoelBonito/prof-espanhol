@@ -4,6 +4,8 @@ import { Icon } from '../ui/Icon';
 import { NAV_ITEMS } from './nav-items';
 import { preloadRoute } from '../../app/routePreload';
 
+const activeNavStyle = { filter: 'drop-shadow(0 0 8px rgba(255, 140, 66, 0.6))' } as const;
+
 export function BottomNav() {
   const { pathname } = useLocation();
 
@@ -37,11 +39,7 @@ export function BottomNav() {
                 ? 'text-primary-500'
                 : 'text-text-secondary'
             )}
-            style={
-              isActive
-                ? { filter: 'drop-shadow(0 0 8px rgba(255, 140, 66, 0.6))' }
-                : undefined
-            }
+            style={isActive ? activeNavStyle : undefined}
             aria-label={item.label}
             aria-current={isActive ? 'page' : undefined}
           >

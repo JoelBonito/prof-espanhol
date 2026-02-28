@@ -53,6 +53,9 @@ export default function LoginPage() {
             <img
               src="/brand/elite-espanhol-logo-full.svg"
               alt="Elite Español"
+              width={320}
+              height={160}
+              fetchPriority="high"
               className="h-[100px] md:h-[160px] w-auto object-contain drop-shadow-[0_0_32px_rgba(255,138,66,0.3)] transition-transform duration-700 hover:scale-105"
             />
           </div>

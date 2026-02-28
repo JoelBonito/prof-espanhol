@@ -164,6 +164,13 @@ service cloud.firestore {
         allow delete: if false;
       }
 
+      // --- PUSH SUBSCRIPTIONS ---
+      match /pushSubscriptions/{docId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
       // --- REPORTS (immutable once created) ---
       match /reports/{docId} {
         allow read: if isOwner(userId);

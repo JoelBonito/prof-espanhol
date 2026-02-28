@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react';
+import { useMemo, type ComponentProps } from 'react';
 import { cn } from '../../lib/utils';
 
 export interface IconProps extends ComponentProps<'span'> {
@@ -17,14 +17,19 @@ export function Icon({
   style,
   ...props
 }: IconProps) {
+  const computedStyle = useMemo(
+    () => ({
+      fontSize: size,
+      fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' 0, 'opsz' ${size}`,
+      ...style,
+    }),
+    [size, fill, weight, style],
+  );
+
   return (
     <span
       className={cn('material-symbols-outlined select-none leading-none', className)}
-      style={{
-        fontSize: size,
-        fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' 0, 'opsz' ${size}`,
-        ...style,
-      }}
+      style={computedStyle}
       aria-hidden="true"
       {...props}
     >

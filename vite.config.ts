@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.svg', 'icons/*.png'],
+      includeAssets: ['favicon.svg', 'icons/*.png', 'robots.txt'],
       manifest: {
         name: 'Espanhol — Tutor AI',
         short_name: 'Espanhol',
@@ -42,7 +42,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com/,
@@ -66,7 +66,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          'firebase-auth': ['firebase/app', 'firebase/auth'],
+          'firebase-firestore': ['firebase/firestore'],
+          genai: ['@google/genai'],
           vendor: ['react', 'react-dom', 'react-router', 'zustand'],
         },
       },

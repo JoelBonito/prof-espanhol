@@ -8,6 +8,8 @@
 import { useChatStore } from '../../../stores/chatStore';
 import { CorrectionCard } from './CorrectionCard';
 
+const subtitleShadow = { boxShadow: '0 -10px 30px rgba(0,0,0,0.3)' } as const;
+
 export function SubtitleBar() {
   const messages = useChatStore((s) => s.messages);
   const lastTutorMsg = [...messages].reverse().find((m) => m.role === 'tutor');
@@ -20,7 +22,7 @@ export function SubtitleBar() {
     return (
       <div
         className="shrink-0 px-4 sm:px-6 lg:px-10 py-4 bg-app-bg/80 backdrop-blur-2xl border-t border-white/5 safe-area-pb"
-        style={{ boxShadow: '0 -10px 30px rgba(0,0,0,0.3)' }}
+        style={subtitleShadow}
       >
         <CorrectionCard correction={lastCorrection} compact />
       </div>
@@ -30,7 +32,7 @@ export function SubtitleBar() {
   return (
     <div
       className="shrink-0 px-4 sm:px-6 lg:px-10 py-4 lg:py-5 bg-app-bg/80 backdrop-blur-2xl border-t border-white/5 safe-area-pb"
-      style={{ boxShadow: '0 -10px 30px rgba(0,0,0,0.3)' }}
+      style={subtitleShadow}
     >
       {lastTutorMsg ? (
         <div className="flex items-start gap-3">

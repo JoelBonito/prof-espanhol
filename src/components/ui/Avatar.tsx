@@ -6,6 +6,8 @@ const sizeStyles = {
   lg: 'w-16 h-16 text-lg',
 } as const;
 
+const sizePx = { sm: 32, default: 48, lg: 64 } as const;
+
 export interface AvatarProps {
   src?: string;
   alt?: string;
@@ -26,6 +28,8 @@ export function Avatar({ src, alt, name, size = 'default', className }: AvatarPr
       <img
         src={src}
         alt={alt || name || 'Avatar'}
+        width={sizePx[size]}
+        height={sizePx[size]}
         className={cn('rounded-full object-cover', sizeStyles[size], className)}
       />
     );

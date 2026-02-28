@@ -38,6 +38,8 @@ export function Sidebar() {
               <img
                 src="/brand/elite-espanhol-logo-mark.svg"
                 alt="Elite Español"
+                width={48}
+                height={48}
                 className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,138,66,0.15)]"
               />
             </div>
@@ -47,6 +49,8 @@ export function Sidebar() {
               <img
                 src="/brand/elite-espanhol-logo-full.svg"
                 alt="Elite Español"
+                width={240}
+                height={120}
                 className="h-[120px] w-auto object-contain drop-shadow-[0_0_24px_rgba(255,138,66,0.15)]"
               />
             </div>
@@ -59,6 +63,8 @@ export function Sidebar() {
               <img
                 src="/brand/elite-espanhol-logo-mark.svg"
                 alt="Elite Español"
+                width={48}
+                height={48}
                 className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,138,66,0.15)]"
               />
             </div>

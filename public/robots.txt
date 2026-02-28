@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prof-espanhol.inoveai.app.br/sitemap.xml
